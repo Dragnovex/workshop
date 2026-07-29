@@ -1,0 +1,872 @@
+{
+  "app": {
+    "name": "ورشة النعماني",
+    "shortName": "النعماني",
+    "company": "شركة سليمان أحمد خميس النعماني للتجارة",
+    "tagline": "نظام إدارة الورشة المتكامل"
+  },
+  "common": {
+    "search": "بحث",
+    "searchPlaceholder": "ابحث عن أمر تشغيل، عميل، مركبة، قطعة…",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "add": "إضافة",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "loading": "جارٍ التحميل…",
+    "noResults": "لا توجد نتائج",
+    "viewAll": "عرض الكل",
+    "more": "المزيد",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "thisWeek": "هذا الأسبوع",
+    "thisMonth": "هذا الشهر",
+    "currency": "ر.س",
+    "notifications": "الإشعارات",
+    "profile": "الملف الشخصي",
+    "account": "الحساب",
+    "signOut": "تسجيل الخروج",
+    "help": "المساعدة",
+    "comingSoon": "قيد الإنشاء",
+    "comingSoonBody": "هذه الوحدة مجدولة في مرحلة لاحقة. الهيكل والتنقّل جاهزان لها."
+  },
+  "nav": {
+    "groups": {
+      "operations": "التشغيل",
+      "customers": "العملاء",
+      "supply": "التوريد",
+      "finance": "المالية",
+      "company": "الشركة"
+    },
+    "dashboard": "لوحة التحكم",
+    "workOrders": "أوامر التشغيل",
+    "appointments": "المواعيد",
+    "estimates": "التقديرات",
+    "customers": "العملاء",
+    "vehicles": "المركبات",
+    "inventory": "المخزون",
+    "purchasing": "المشتريات",
+    "invoices": "الفواتير",
+    "accounting": "المحاسبة",
+    "employees": "الموظفون",
+    "marketing": "التسويق",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "collapse": "طيّ القائمة",
+    "expand": "توسيع القائمة",
+    "toggleSidebar": "إظهار أو إخفاء القائمة الجانبية"
+  },
+  "theme": {
+    "toggle": "تبديل السمة",
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "locale": {
+    "switch": "تغيير اللغة",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "command": {
+    "title": "لوحة الأوامر",
+    "placeholder": "اكتب أمرًا أو ابحث…",
+    "empty": "لا توجد نتائج مطابقة.",
+    "groups": {
+      "navigation": "التنقّل",
+      "actions": "إجراءات سريعة",
+      "preferences": "التفضيلات"
+    },
+    "hint": "للفتح"
+  },
+  "quickActions": {
+    "label": "إجراء سريع",
+    "newWorkOrder": "أمر تشغيل جديد",
+    "newCustomer": "عميل جديد",
+    "newAppointment": "موعد جديد",
+    "newInvoice": "فاتورة جديدة",
+    "receiveVehicle": "استلام مركبة"
+  },
+  "auth": {
+    "brandPanel": {
+      "heading": "إدارة الورشة، بوضوح.",
+      "body": "أوامر التشغيل والمخزون والفوترة والفنيّون في نظام واحد سريع.",
+      "stat1": "متوسط زمن الإنجاز",
+      "stat2": "أوامر مفتوحة",
+      "stat3": "نسبة الالتزام"
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بياناتك للوصول إلى نظام الورشة",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "name@company.sa",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "remember": "تذكّرني على هذا الجهاز",
+      "forgot": "نسيت كلمة المرور؟",
+      "submit": "دخول",
+      "submitting": "جارٍ التحقق…",
+      "notReady": "المصادقة تُفعَّل في المرحلة الثانية. الواجهة جاهزة والتوصيل لاحقًا.",
+      "errorInvalid": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "errorLocked": "تم قفل الحساب مؤقتًا بعد محاولات متعددة. حاول بعد ١٥ دقيقة."
+    },
+    "forgot": {
+      "title": "استعادة كلمة المرور",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين",
+      "submit": "إرسال الرابط",
+      "submitting": "جارٍ الإرسال…",
+      "sentTitle": "تحقّق من بريدك",
+      "sentBody": "إن كان البريد مسجّلًا لدينا فسيصلك رابط إعادة التعيين خلال دقائق.",
+      "backToLogin": "العودة لتسجيل الدخول"
+    },
+    "reset": {
+      "title": "تعيين كلمة مرور جديدة",
+      "subtitle": "اختر كلمة مرور قوية لحسابك",
+      "password": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "submit": "حفظ كلمة المرور",
+      "submitting": "جارٍ الحفظ…",
+      "strength": {
+        "label": "قوة كلمة المرور",
+        "weak": "ضعيفة",
+        "fair": "مقبولة",
+        "good": "جيدة",
+        "strong": "قوية"
+      }
+    },
+    "validation": {
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "صيغة البريد الإلكتروني غير صحيحة",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMin": "كلمة المرور ٨ أحرف على الأقل",
+      "passwordMismatch": "كلمتا المرور غير متطابقتين"
+    }
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "نظرة شاملة على حركة الورشة اليوم",
+    "greeting": "صباح الخير",
+    "kpi": {
+      "openWorkOrders": "أوامر تشغيل مفتوحة",
+      "vehiclesInWorkshop": "مركبات داخل الورشة",
+      "todayRevenue": "إيراد اليوم",
+      "pendingApprovals": "بانتظار موافقة العميل",
+      "avgTurnaround": "متوسط زمن الإنجاز",
+      "partsBelowMin": "أصناف تحت الحد الأدنى",
+      "vsLastWeek": "مقارنة بالأسبوع الماضي",
+      "hours": "ساعة",
+      "items": "صنف"
+    },
+    "statusBoard": {
+      "title": "مسار أوامر التشغيل",
+      "subtitle": "توزيع الأوامر النشطة على المراحل"
+    },
+    "status": {
+      "reception": "استقبال",
+      "inspection": "فحص",
+      "awaitingApproval": "بانتظار الموافقة",
+      "inProgress": "تحت التنفيذ",
+      "awaitingParts": "بانتظار قطعة",
+      "readyForDelivery": "جاهز للتسليم",
+      "delivered": "مُسلَّم"
+    },
+    "revenue": {
+      "title": "الإيرادات",
+      "subtitle": "آخر ٧ أيام",
+      "labor": "أجور عمل",
+      "parts": "قطع غيار"
+    },
+    "recentOrders": {
+      "title": "أحدث أوامر التشغيل",
+      "subtitle": "آخر الحركات على الأوامر النشطة",
+      "columns": {
+        "number": "رقم الأمر",
+        "customer": "العميل",
+        "vehicle": "المركبة",
+        "plate": "اللوحة",
+        "status": "الحالة",
+        "technician": "الفني",
+        "total": "الإجمالي",
+        "updated": "آخر تحديث"
+      }
+    },
+    "technicians": {
+      "title": "حِمل الفنيّين",
+      "subtitle": "الأوامر المسندة اليوم",
+      "capacity": "الطاقة"
+    },
+    "bays": {
+      "title": "إشغال المرافع",
+      "free": "متاح",
+      "busy": "مشغول",
+      "maintenance": "صيانة"
+    }
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية"
+  },
+  "errors": {
+    "notFoundTitle": "الصفحة غير موجودة",
+    "notFoundBody": "الرابط الذي فتحته غير صحيح أو أن الصفحة نُقلت.",
+    "backHome": "العودة للوحة التحكم"
+  },
+  "workOrders": {
+    "title": "أوامر التشغيل",
+    "subtitle": "متابعة أوامر الورشة من الاستقبال حتى التسليم",
+    "new": "أمر تشغيل جديد",
+    "newDisabled": "إنشاء أوامر التشغيل سيُفعّل في مرحلة النماذج والتعديلات.",
+    "searchPlaceholder": "ابحث برقم الأمر أو العميل أو المركبة أو اللوحة…",
+    "filterAll": "كل الحالات",
+    "openOrder": "فتح الأمر {number}",
+    "stats": {
+      "open": "أوامر مفتوحة",
+      "awaitingApproval": "بانتظار الموافقة",
+      "inProgress": "تحت التنفيذ",
+      "readyForDelivery": "جاهزة للتسليم"
+    },
+    "columns": {
+      "number": "رقم الأمر",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "status": "الحالة",
+      "technician": "الفني",
+      "total": "الإجمالي",
+      "received": "تاريخ الاستقبال"
+    },
+    "status": {
+      "reception": "استقبال",
+      "inspection": "فحص",
+      "awaitingApproval": "بانتظار الموافقة",
+      "inProgress": "تحت التنفيذ",
+      "awaitingParts": "بانتظار قطعة",
+      "readyForDelivery": "جاهز للتسليم",
+      "delivered": "مُسلَّم"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "normal": "عادية",
+      "high": "مرتفعة",
+      "urgent": "عاجلة"
+    },
+    "detail": {
+      "back": "العودة للأوامر",
+      "lifecycle": "دورة حياة الأمر",
+      "summary": "ملخص الأمر",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "vin": "رقم الهيكل",
+      "mileage": "العداد عند الاستقبال",
+      "kilometers": "كم",
+      "technician": "الفني المسؤول",
+      "bayValue": "رافعة {number}",
+      "receivedAt": "وقت الاستقبال",
+      "estimatedDelivery": "التسليم المتوقع",
+      "notFoundTitle": "أمر التشغيل غير موجود",
+      "tabs": {
+        "overview": "نظرة عامة",
+        "items": "بنود العمل",
+        "parts": "القطع",
+        "history": "السجل"
+      },
+      "complaint": "شكوى العميل",
+      "diagnosis": "تشخيص الفني",
+      "laborTotal": "إجمالي الأجور",
+      "partsTotal": "إجمالي القطع",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "hours": "ساعة",
+      "done": "مكتمل",
+      "pending": "متبقٍّ",
+      "partStatus": {
+        "installed": "مركّبة",
+        "ordered": "مطلوبة",
+        "available": "متاحة"
+      },
+      "lifecycleState": {
+        "completed": "مكتملة",
+        "current": "الحالة الحالية",
+        "upcoming": "قادمة"
+      }
+    },
+    "relatedEmpty": "لا توجد أوامر تشغيل",
+    "relatedEmptyDescription": "لم تُسجّل أوامر تشغيل مرتبطة."
+  },
+  "appointments": {
+    "title": "المواعيد",
+    "subtitle": "جدولة مواعيد العملاء ومتابعة حالتها حتى الوصول.",
+    "searchLabel": "البحث في المواعيد",
+    "searchPlaceholder": "ابحث بالخدمة أو العميل أو اللوحة…",
+    "dateFilterLabel": "فلتر التاريخ",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "openAppointment": "فتح موعد {name}",
+    "dateFilter": {
+      "all": "كل المواعيد",
+      "today": "اليوم",
+      "upcoming": "القادمة",
+      "past": "السابقة"
+    },
+    "stats": {
+      "total": "إجمالي المواعيد",
+      "today": "مواعيد اليوم",
+      "requested": "بانتظار التأكيد",
+      "confirmed": "مؤكَّدة"
+    },
+    "columns": {
+      "dateTime": "الموعد",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "service": "الخدمة",
+      "status": "الحالة"
+    },
+    "status": {
+      "requested": "مطلوب",
+      "confirmed": "مؤكَّد",
+      "checkedIn": "وصل الموقع",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "noShow": "لم يحضر"
+    },
+    "customerKind": {
+      "individual": "فرد",
+      "company": "شركة"
+    },
+    "detail": {
+      "back": "العودة للمواعيد",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "summary": "ملخّص الموعد",
+      "scheduledAt": "وقت الموعد",
+      "duration": "المدة المتوقعة",
+      "durationValue": "{minutes} دقيقة",
+      "service": "الخدمة",
+      "linkedWorkOrder": "أمر التشغيل المرتبط",
+      "notes": "ملاحظات",
+      "notFoundTitle": "الموعد غير موجود"
+    }
+  },
+  "estimates": {
+    "title": "التقديرات",
+    "subtitle": "عروض أسعار للعملاء قبل تحويلها لأوامر تشغيل.",
+    "searchLabel": "البحث في التقديرات",
+    "searchPlaceholder": "ابحث برقم التقدير أو العميل أو اللوحة…",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "openEstimate": "فتح التقدير {number}",
+    "stats": {
+      "total": "إجمالي التقديرات",
+      "sent": "مُرسلة",
+      "approved": "معتمدة",
+      "approvedValue": "قيمة المعتمد"
+    },
+    "columns": {
+      "number": "رقم التقدير",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "total": "الإجمالي",
+      "validUntil": "صالح حتى",
+      "status": "الحالة"
+    },
+    "status": {
+      "draft": "مسودة",
+      "sent": "مُرسل",
+      "approved": "معتمد",
+      "rejected": "مرفوض",
+      "expired": "منتهي"
+    },
+    "customerKind": {
+      "individual": "فرد",
+      "company": "شركة"
+    },
+    "detail": {
+      "back": "العودة للتقديرات",
+      "subtitle": "أُنشئ في {date}",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "items": "البنود",
+      "columns": {
+        "description": "الوصف",
+        "qty": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "lineTotal": "الإجمالي"
+      },
+      "total": "الإجمالي",
+      "linkedWorkOrder": "أمر التشغيل المرتبط",
+      "notes": "ملاحظات",
+      "notFoundTitle": "التقدير غير موجود"
+    }
+  },
+  "customers": {
+    "title": "العملاء",
+    "subtitle": "سجل موحّد للعملاء ومركباتهم وأوامر التشغيل المرتبطة.",
+    "searchLabel": "البحث في العملاء",
+    "searchPlaceholder": "ابحث باسم العميل…",
+    "kindFilterLabel": "تصفية العملاء حسب النوع",
+    "openCustomer": "فتح العميل {name}",
+    "neverVisited": "لا توجد زيارات",
+    "kind": {
+      "all": "كل العملاء",
+      "individual": "فرد",
+      "company": "شركة"
+    },
+    "stats": {
+      "total": "إجمالي العملاء",
+      "individuals": "الأفراد",
+      "companies": "الشركات",
+      "openOrders": "أوامر مفتوحة"
+    },
+    "columns": {
+      "customer": "العميل",
+      "kind": "النوع",
+      "vehicles": "المركبات",
+      "orders": "الأوامر",
+      "openOrders": "المفتوحة",
+      "lastVisit": "آخر زيارة"
+    },
+    "detail": {
+      "subtitle": "ملف تشغيلي للعميل",
+      "back": "العودة للعملاء",
+      "notFoundTitle": "العميل غير موجود",
+      "stats": {
+        "vehicles": "المركبات",
+        "orders": "أوامر التشغيل",
+        "openOrders": "أوامر مفتوحة",
+        "lastVisit": "آخر زيارة"
+      },
+      "vehicles": "مركبات العميل",
+      "workOrders": "أوامر التشغيل",
+      "noVehicles": "لا توجد مركبات",
+      "noVehiclesDescription": "لم تُربط أي مركبة بهذا العميل.",
+      "vehicleColumns": {
+        "vehicle": "المركبة",
+        "plate": "اللوحة",
+        "vin": "رقم الهيكل",
+        "orders": "الأوامر"
+      },
+      "openVehicle": "فتح المركبة {name}",
+      "notAvailable": "غير متوفر"
+    }
+  },
+  "inventory": {
+    "title": "المخزون",
+    "subtitle": "متابعة قطع الغيار والكميات المتوفرة ومستويات إعادة الطلب.",
+    "searchLabel": "البحث في المخزون",
+    "searchPlaceholder": "ابحث برمز القطعة أو الاسم…",
+    "categoryFilterLabel": "فلتر الفئة",
+    "stockFilterLabel": "فلتر المخزون",
+    "filterAll": "كل الفئات",
+    "openPart": "فتح القطعة {name}",
+    "lowStock": "مخزون منخفض",
+    "stockFilter": {
+      "all": "كل القطع",
+      "low": "منخفضة",
+      "ok": "متوفرة"
+    },
+    "stats": {
+      "total": "إجمالي الأصناف",
+      "lowStock": "أصناف منخفضة",
+      "value": "قيمة المخزون"
+    },
+    "columns": {
+      "sku": "الرمز",
+      "name": "الاسم",
+      "category": "الفئة",
+      "qty": "الكمية",
+      "unitPrice": "سعر الوحدة",
+      "location": "الموقع"
+    },
+    "category": {
+      "brakes": "فرامل",
+      "engine": "محرك",
+      "electrical": "كهرباء",
+      "fluids": "سوائل",
+      "filters": "فلاتر",
+      "tires": "إطارات",
+      "bodyParts": "قطع هيكل"
+    },
+    "detail": {
+      "back": "العودة للمخزون",
+      "notFoundTitle": "القطعة غير موجودة",
+      "partData": "بيانات القطعة",
+      "stats": {
+        "qtyOnHand": "الكمية المتوفرة",
+        "reorderLevel": "مستوى إعادة الطلب",
+        "totalValue": "القيمة الإجمالية"
+      }
+    }
+  },
+  "purchasing": {
+    "title": "المشتريات",
+    "subtitle": "أوامر الشراء من الموردين ومتابعة استلامها.",
+    "searchLabel": "البحث في المشتريات",
+    "searchPlaceholder": "ابحث برقم الأمر أو المورد…",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "openOrder": "فتح أمر الشراء {number}",
+    "stats": {
+      "total": "إجمالي الأوامر",
+      "ordered": "مُرسلة للمورد",
+      "partiallyReceived": "استلام جزئي",
+      "pendingValue": "قيمة المعلّق"
+    },
+    "columns": {
+      "number": "رقم الأمر",
+      "supplier": "المورد",
+      "total": "الإجمالي",
+      "expected": "الوصول المتوقع",
+      "status": "الحالة"
+    },
+    "status": {
+      "draft": "مسودة",
+      "ordered": "مُرسل",
+      "partiallyReceived": "استلام جزئي",
+      "received": "مُستلم",
+      "cancelled": "ملغى"
+    },
+    "detail": {
+      "back": "العودة للمشتريات",
+      "notFoundTitle": "أمر الشراء غير موجود",
+      "summary": "ملخّص الأمر",
+      "orderedAt": "تاريخ الطلب",
+      "items": "البنود",
+      "columns": {
+        "description": "الوصف",
+        "sku": "الرمز",
+        "qty": "الكمية",
+        "unitCost": "تكلفة الوحدة",
+        "lineTotal": "الإجمالي"
+      },
+      "total": "الإجمالي",
+      "notes": "ملاحظات"
+    }
+  },
+  "vehicles": {
+    "title": "المركبات",
+    "subtitle": "سجل المركبات ومالكيها وتاريخ الخدمة المرتبط.",
+    "searchLabel": "البحث في المركبات",
+    "searchPlaceholder": "ابحث بالمركبة أو اللوحة أو المالك…",
+    "serviceFilterLabel": "تصفية المركبات حسب حالة الخدمة",
+    "serviceFilter": {
+      "all": "كل المركبات",
+      "active": "في الورشة",
+      "inactive": "بلا أمر مفتوح"
+    },
+    "openVehicle": "فتح المركبة {name}",
+    "noActiveOrder": "لا يوجد أمر مفتوح",
+    "notAvailable": "غير متوفر",
+    "kilometers": "كم",
+    "neverVisited": "لا توجد زيارات",
+    "stats": {
+      "total": "إجمالي المركبات",
+      "active": "في الورشة",
+      "withVin": "مع رقم هيكل",
+      "customers": "المالكون"
+    },
+    "columns": {
+      "vehicle": "المركبة",
+      "plate": "اللوحة",
+      "customer": "المالك",
+      "service": "حالة الخدمة",
+      "orders": "الأوامر",
+      "mileage": "آخر عداد",
+      "lastVisit": "آخر زيارة"
+    },
+    "detail": {
+      "back": "العودة للمركبات",
+      "notFoundTitle": "المركبة غير موجودة",
+      "stats": {
+        "orders": "أوامر التشغيل",
+        "lastMileage": "آخر عداد",
+        "lastVisit": "آخر زيارة"
+      },
+      "vehicleData": "بيانات المركبة",
+      "make": "الصانع",
+      "model": "الطراز",
+      "year": "سنة الصنع",
+      "plate": "اللوحة",
+      "vin": "رقم الهيكل",
+      "owner": "المالك",
+      "workOrders": "سجل أوامر التشغيل"
+    },
+    "customerKind": {
+      "individual": "عميل فرد",
+      "company": "عميل شركة"
+    }
+  },
+  "invoices": {
+    "title": "الفواتير",
+    "subtitle": "فواتير العملاء المرتبطة بأوامر التشغيل ومتابعة السداد.",
+    "searchLabel": "البحث في الفواتير",
+    "searchPlaceholder": "ابحث برقم الفاتورة أو العميل أو اللوحة…",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "openInvoice": "فتح الفاتورة {number}",
+    "stats": {
+      "total": "إجمالي الفواتير",
+      "overdue": "متأخرة السداد",
+      "paid": "مسدَّدة",
+      "outstandingValue": "المبلغ المستحق"
+    },
+    "columns": {
+      "number": "رقم الفاتورة",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "total": "الإجمالي",
+      "dueAt": "تاريخ الاستحقاق",
+      "status": "الحالة"
+    },
+    "status": {
+      "unpaid": "غير مسدَّدة",
+      "partiallyPaid": "سداد جزئي",
+      "paid": "مسدَّدة",
+      "overdue": "متأخرة",
+      "cancelled": "ملغاة"
+    },
+    "customerKind": {
+      "individual": "فرد",
+      "company": "شركة"
+    },
+    "detail": {
+      "back": "العودة للفواتير",
+      "subtitle": "أُصدرت في {date}",
+      "notFoundTitle": "الفاتورة غير موجودة",
+      "customer": "العميل",
+      "vehicle": "المركبة",
+      "items": "البنود",
+      "columns": {
+        "description": "الوصف",
+        "qty": "الكمية",
+        "unitPrice": "سعر الوحدة",
+        "lineTotal": "الإجمالي"
+      },
+      "subtotal": "الإجمالي قبل الضريبة",
+      "vat": "ضريبة القيمة المضافة ({rate}٪)",
+      "total": "الإجمالي شامل الضريبة",
+      "balanceDue": "المتبقي",
+      "linkedWorkOrder": "أمر التشغيل المرتبط"
+    }
+  },
+  "accounting": {
+    "title": "المحاسبة",
+    "subtitle": "قيود اليومية المرتبطة بالفواتير وأوامر الشراء.",
+    "searchLabel": "البحث في القيود",
+    "searchPlaceholder": "ابحث بالمرجع أو الحساب…",
+    "typeFilterLabel": "فلتر النوع",
+    "categoryFilterLabel": "فلتر التصنيف",
+    "filterAll": "الكل",
+    "filterAllCategories": "كل التصنيفات",
+    "openTransaction": "فتح القيد {reference}",
+    "stats": {
+      "totalCredit": "إجمالي الدائن",
+      "totalDebit": "إجمالي المدين",
+      "net": "صافي الحركة"
+    },
+    "columns": {
+      "reference": "المرجع",
+      "account": "الحساب",
+      "category": "التصنيف",
+      "date": "التاريخ",
+      "amount": "المبلغ"
+    },
+    "type": {
+      "debit": "مدين",
+      "credit": "دائن"
+    },
+    "category": {
+      "serviceRevenue": "إيرادات خدمات",
+      "partsRevenue": "إيرادات قطع",
+      "partsCost": "تكلفة قطع",
+      "payroll": "رواتب",
+      "rent": "إيجار",
+      "utilities": "مرافق",
+      "other": "أخرى"
+    },
+    "detail": {
+      "back": "العودة للمحاسبة",
+      "notFoundTitle": "القيد غير موجود",
+      "summary": "ملخّص القيد",
+      "linkedInvoice": "الفاتورة المرتبطة",
+      "linkedPurchaseOrder": "أمر الشراء المرتبط",
+      "notes": "ملاحظات"
+    }
+  },
+  "employees": {
+    "title": "الموظفون",
+    "subtitle": "سجل موظفي الورشة وأقسامهم وحالتهم الوظيفية.",
+    "searchLabel": "البحث في الموظفين",
+    "searchPlaceholder": "ابحث بالاسم أو المسمى أو الجوال…",
+    "departmentFilterLabel": "فلتر القسم",
+    "filterAll": "كل الأقسام",
+    "openEmployee": "فتح ملف {name}",
+    "stats": {
+      "total": "إجمالي الموظفين",
+      "active": "نشطون",
+      "technicians": "الفنيون"
+    },
+    "columns": {
+      "name": "الاسم",
+      "role": "المسمى الوظيفي",
+      "department": "القسم",
+      "phone": "الجوال",
+      "hireDate": "تاريخ التعيين",
+      "status": "الحالة"
+    },
+    "department": {
+      "technicians": "الفنيون",
+      "serviceAdvisors": "مستشارو الخدمة",
+      "sales": "المبيعات",
+      "admin": "الإدارة",
+      "management": "الإدارة العليا"
+    },
+    "status": {
+      "active": "نشط",
+      "onLeave": "في إجازة",
+      "inactive": "غير نشط"
+    },
+    "detail": {
+      "back": "العودة للموظفين",
+      "notFoundTitle": "الموظف غير موجود",
+      "profile": "الملف الشخصي",
+      "contact": "بيانات التواصل",
+      "phone": "الجوال",
+      "email": "البريد الإلكتروني",
+      "hireDate": "تاريخ التعيين"
+    }
+  },
+  "marketing": {
+    "title": "التسويق",
+    "subtitle": "حملات تسويقية لجذب العملاء وإعادة تنشيطهم.",
+    "searchLabel": "البحث في الحملات",
+    "searchPlaceholder": "ابحث باسم الحملة…",
+    "channelFilterLabel": "فلتر القناة",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "filterAllChannels": "كل القنوات",
+    "openCampaign": "فتح حملة {name}",
+    "stats": {
+      "active": "حملات نشطة",
+      "totalBudget": "إجمالي الميزانية",
+      "totalReach": "إجمالي الوصول"
+    },
+    "columns": {
+      "name": "اسم الحملة",
+      "channel": "القناة",
+      "budget": "الميزانية",
+      "dates": "المدة",
+      "status": "الحالة"
+    },
+    "channel": {
+      "sms": "رسائل نصية",
+      "email": "بريد إلكتروني",
+      "social": "تواصل اجتماعي",
+      "print": "مطبوعات"
+    },
+    "status": {
+      "draft": "مسودة",
+      "scheduled": "مجدولة",
+      "active": "نشطة",
+      "completed": "منتهية",
+      "paused": "متوقفة"
+    },
+    "detail": {
+      "back": "العودة للتسويق",
+      "notFoundTitle": "الحملة غير موجودة",
+      "summary": "ملخّص الحملة",
+      "reach": "الوصول",
+      "targetSegment": "الشريحة المستهدفة",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "notes": "ملاحظات"
+    }
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "تقارير جاهزة عن التشغيل والمالية والمخزون والعملاء.",
+    "searchLabel": "البحث في التقارير",
+    "searchPlaceholder": "ابحث باسم التقرير…",
+    "categoryFilterLabel": "فلتر الفئة",
+    "filterAll": "كل الفئات",
+    "openReport": "فتح تقرير {name}",
+    "stats": {
+      "total": "إجمالي التقارير"
+    },
+    "columns": {
+      "name": "اسم التقرير",
+      "category": "الفئة",
+      "frequency": "التكرار",
+      "lastGenerated": "آخر توليد"
+    },
+    "category": {
+      "operations": "التشغيل",
+      "finance": "المالية",
+      "inventory": "المخزون",
+      "customers": "العملاء"
+    },
+    "frequency": {
+      "daily": "يومي",
+      "weekly": "أسبوعي",
+      "monthly": "شهري",
+      "onDemand": "عند الطلب"
+    },
+    "detail": {
+      "back": "العودة للتقارير",
+      "notFoundTitle": "التقرير غير موجود",
+      "summary": "ملخّص التقرير"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "بيانات الورشة والمستخدمين والتفضيلات — للعرض فقط في هذه المرحلة.",
+    "readOnlyNotice": "هذه الصفحة للقراءة فقط. التعديل والحفظ سيُفعَّلان في مرحلة لاحقة.",
+    "profile": {
+      "title": "بيانات الورشة",
+      "subtitle": "المعلومات الأساسية للمنشأة",
+      "name": "اسم الورشة",
+      "companyName": "الاسم التجاري",
+      "taxNumber": "الرقم الضريبي",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "address": "العنوان",
+      "workingHours": "ساعات العمل"
+    },
+    "preferences": {
+      "title": "التفضيلات",
+      "subtitle": "الإعدادات الافتراضية للنظام",
+      "defaultLocale": "اللغة الافتراضية",
+      "currency": "العملة",
+      "timeZone": "المنطقة الزمنية",
+      "dateFormat": "تنسيق التاريخ",
+      "weekStart": "بداية الأسبوع",
+      "locale": {
+        "ar": "العربية",
+        "en": "الإنجليزية"
+      }
+    },
+    "notifications": {
+      "title": "الإشعارات",
+      "subtitle": "قنوات الإشعارات المفعّلة حاليًا"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "subtitle": "حسابات الدخول للنظام",
+      "neverLoggedIn": "لم يسجّل الدخول",
+      "columns": {
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "role": "الصلاحية",
+        "lastLogin": "آخر تسجيل دخول"
+      },
+      "role": {
+        "admin": "مدير النظام",
+        "manager": "مدير الورشة",
+        "advisor": "مستشار خدمة",
+        "accountant": "محاسب"
+      }
+    }
+  }
+}

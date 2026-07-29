@@ -1,0 +1,872 @@
+{
+  "app": {
+    "name": "Al-Namani Workshop",
+    "shortName": "Al-Namani",
+    "company": "Sulaiman Ahmed Khamis Al-Namani Trading Company",
+    "tagline": "Integrated Workshop Management System"
+  },
+  "common": {
+    "search": "Search",
+    "searchPlaceholder": "Search work orders, customers, vehicles, parts…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading…",
+    "noResults": "No results",
+    "viewAll": "View all",
+    "more": "More",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "currency": "SAR",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "account": "Account",
+    "signOut": "Sign out",
+    "help": "Help",
+    "comingSoon": "Under construction",
+    "comingSoonBody": "This module is scheduled for a later phase. The shell and navigation are ready for it."
+  },
+  "nav": {
+    "groups": {
+      "operations": "Operations",
+      "customers": "Customers",
+      "supply": "Supply",
+      "finance": "Finance",
+      "company": "Company"
+    },
+    "dashboard": "Dashboard",
+    "workOrders": "Work Orders",
+    "appointments": "Appointments",
+    "estimates": "Estimates",
+    "customers": "Customers",
+    "vehicles": "Vehicles",
+    "inventory": "Inventory",
+    "purchasing": "Purchasing",
+    "invoices": "Invoices",
+    "accounting": "Accounting",
+    "employees": "Employees",
+    "marketing": "Marketing",
+    "reports": "Reports",
+    "settings": "Settings",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "toggleSidebar": "Toggle sidebar"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "locale": {
+    "switch": "Change language",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "command": {
+    "title": "Command palette",
+    "placeholder": "Type a command or search…",
+    "empty": "No matching results.",
+    "groups": {
+      "navigation": "Navigation",
+      "actions": "Quick actions",
+      "preferences": "Preferences"
+    },
+    "hint": "to open"
+  },
+  "quickActions": {
+    "label": "Quick action",
+    "newWorkOrder": "New work order",
+    "newCustomer": "New customer",
+    "newAppointment": "New appointment",
+    "newInvoice": "New invoice",
+    "receiveVehicle": "Receive vehicle"
+  },
+  "auth": {
+    "brandPanel": {
+      "heading": "Run the workshop, clearly.",
+      "body": "Work orders, inventory, invoicing and technicians in one fast system.",
+      "stat1": "Avg. turnaround",
+      "stat2": "Open orders",
+      "stat3": "On-time rate"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Enter your credentials to access the workshop system",
+      "email": "Email",
+      "emailPlaceholder": "name@company.sa",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "remember": "Remember me on this device",
+      "forgot": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Verifying…",
+      "notReady": "Authentication is wired in Phase 2. The interface is ready; the provider comes later.",
+      "errorInvalid": "Incorrect email or password.",
+      "errorLocked": "Account temporarily locked after multiple attempts. Try again in 15 minutes."
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "submit": "Send link",
+      "submitting": "Sending…",
+      "sentTitle": "Check your inbox",
+      "sentBody": "If that email is registered, a reset link will arrive within a few minutes.",
+      "backToLogin": "Back to sign in"
+    },
+    "reset": {
+      "title": "Set a new password",
+      "subtitle": "Choose a strong password for your account",
+      "password": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Save password",
+      "submitting": "Saving…",
+      "strength": {
+        "label": "Password strength",
+        "weak": "Weak",
+        "fair": "Fair",
+        "good": "Good",
+        "strong": "Strong"
+      }
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "A complete view of today's workshop activity",
+    "greeting": "Good morning",
+    "kpi": {
+      "openWorkOrders": "Open work orders",
+      "vehiclesInWorkshop": "Vehicles in workshop",
+      "todayRevenue": "Today's revenue",
+      "pendingApprovals": "Awaiting customer approval",
+      "avgTurnaround": "Avg. turnaround",
+      "partsBelowMin": "Items below minimum",
+      "vsLastWeek": "vs. last week",
+      "hours": "h",
+      "items": "items"
+    },
+    "statusBoard": {
+      "title": "Work order pipeline",
+      "subtitle": "Active orders distributed across stages"
+    },
+    "status": {
+      "reception": "Reception",
+      "inspection": "Inspection",
+      "awaitingApproval": "Awaiting approval",
+      "inProgress": "In progress",
+      "awaitingParts": "Awaiting parts",
+      "readyForDelivery": "Ready for delivery",
+      "delivered": "Delivered"
+    },
+    "revenue": {
+      "title": "Revenue",
+      "subtitle": "Last 7 days",
+      "labor": "Labor",
+      "parts": "Parts"
+    },
+    "recentOrders": {
+      "title": "Recent work orders",
+      "subtitle": "Latest movement on active orders",
+      "columns": {
+        "number": "Order",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "plate": "Plate",
+        "status": "Status",
+        "technician": "Technician",
+        "total": "Total",
+        "updated": "Updated"
+      }
+    },
+    "technicians": {
+      "title": "Technician load",
+      "subtitle": "Orders assigned today",
+      "capacity": "Capacity"
+    },
+    "bays": {
+      "title": "Bay occupancy",
+      "free": "Free",
+      "busy": "Busy",
+      "maintenance": "Maintenance"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The link you opened is invalid or the page has moved.",
+    "backHome": "Back to dashboard"
+  },
+  "workOrders": {
+    "title": "Work orders",
+    "subtitle": "Track workshop orders from reception through delivery",
+    "new": "New work order",
+    "newDisabled": "Work order creation will be enabled with the forms and mutations phase.",
+    "searchPlaceholder": "Search by order, customer, vehicle or plate…",
+    "filterAll": "All statuses",
+    "openOrder": "Open order {number}",
+    "stats": {
+      "open": "Open orders",
+      "awaitingApproval": "Awaiting approval",
+      "inProgress": "In progress",
+      "readyForDelivery": "Ready for delivery"
+    },
+    "columns": {
+      "number": "Order",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "status": "Status",
+      "technician": "Technician",
+      "total": "Total",
+      "received": "Received"
+    },
+    "status": {
+      "reception": "Reception",
+      "inspection": "Inspection",
+      "awaitingApproval": "Awaiting approval",
+      "inProgress": "In progress",
+      "awaitingParts": "Awaiting parts",
+      "readyForDelivery": "Ready for delivery",
+      "delivered": "Delivered"
+    },
+    "priority": {
+      "low": "Low",
+      "normal": "Normal",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "detail": {
+      "back": "Back to orders",
+      "lifecycle": "Order lifecycle",
+      "summary": "Order summary",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "vin": "VIN",
+      "mileage": "Mileage at reception",
+      "kilometers": "km",
+      "technician": "Assigned technician",
+      "bayValue": "Bay {number}",
+      "receivedAt": "Received at",
+      "estimatedDelivery": "Estimated delivery",
+      "notFoundTitle": "Work order not found",
+      "tabs": {
+        "overview": "Overview",
+        "items": "Work items",
+        "parts": "Parts",
+        "history": "History"
+      },
+      "complaint": "Customer complaint",
+      "diagnosis": "Technician diagnosis",
+      "laborTotal": "Labor total",
+      "partsTotal": "Parts total",
+      "discount": "Discount",
+      "total": "Total",
+      "hours": "hr",
+      "done": "Done",
+      "pending": "Pending",
+      "partStatus": {
+        "installed": "Installed",
+        "ordered": "Ordered",
+        "available": "Available"
+      },
+      "lifecycleState": {
+        "completed": "Completed",
+        "current": "Current status",
+        "upcoming": "Upcoming"
+      }
+    },
+    "relatedEmpty": "No work orders",
+    "relatedEmptyDescription": "No related work orders have been recorded."
+  },
+  "appointments": {
+    "title": "Appointments",
+    "subtitle": "Schedule customer appointments and track status through arrival.",
+    "searchLabel": "Search appointments",
+    "searchPlaceholder": "Search by service, customer, or plate…",
+    "dateFilterLabel": "Date filter",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "openAppointment": "Open {name}'s appointment",
+    "dateFilter": {
+      "all": "All appointments",
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "past": "Past"
+    },
+    "stats": {
+      "total": "Total appointments",
+      "today": "Today's appointments",
+      "requested": "Awaiting confirmation",
+      "confirmed": "Confirmed"
+    },
+    "columns": {
+      "dateTime": "Appointment",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "service": "Service",
+      "status": "Status"
+    },
+    "status": {
+      "requested": "Requested",
+      "confirmed": "Confirmed",
+      "checkedIn": "Checked in",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "noShow": "No-show"
+    },
+    "customerKind": {
+      "individual": "Individual",
+      "company": "Company"
+    },
+    "detail": {
+      "back": "Back to appointments",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "summary": "Appointment summary",
+      "scheduledAt": "Scheduled time",
+      "duration": "Expected duration",
+      "durationValue": "{minutes} min",
+      "service": "Service",
+      "linkedWorkOrder": "Linked work order",
+      "notes": "Notes",
+      "notFoundTitle": "Appointment not found"
+    }
+  },
+  "estimates": {
+    "title": "Estimates",
+    "subtitle": "Customer quotes before conversion into work orders.",
+    "searchLabel": "Search estimates",
+    "searchPlaceholder": "Search by estimate number, customer, or plate…",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "openEstimate": "Open estimate {number}",
+    "stats": {
+      "total": "Total estimates",
+      "sent": "Sent",
+      "approved": "Approved",
+      "approvedValue": "Approved value"
+    },
+    "columns": {
+      "number": "Estimate #",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "total": "Total",
+      "validUntil": "Valid until",
+      "status": "Status"
+    },
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "expired": "Expired"
+    },
+    "customerKind": {
+      "individual": "Individual",
+      "company": "Company"
+    },
+    "detail": {
+      "back": "Back to estimates",
+      "subtitle": "Created on {date}",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "items": "Line items",
+      "columns": {
+        "description": "Description",
+        "qty": "Qty",
+        "unitPrice": "Unit price",
+        "lineTotal": "Total"
+      },
+      "total": "Total",
+      "linkedWorkOrder": "Linked work order",
+      "notes": "Notes",
+      "notFoundTitle": "Estimate not found"
+    }
+  },
+  "customers": {
+    "title": "Customers",
+    "subtitle": "A unified record of customers, their vehicles, and related work orders.",
+    "searchLabel": "Search customers",
+    "searchPlaceholder": "Search by customer name?",
+    "kindFilterLabel": "Filter customers by type",
+    "openCustomer": "Open customer {name}",
+    "neverVisited": "No visits",
+    "kind": {
+      "all": "All customers",
+      "individual": "Individual",
+      "company": "Company"
+    },
+    "stats": {
+      "total": "Total customers",
+      "individuals": "Individuals",
+      "companies": "Companies",
+      "openOrders": "Open orders"
+    },
+    "columns": {
+      "customer": "Customer",
+      "kind": "Type",
+      "vehicles": "Vehicles",
+      "orders": "Orders",
+      "openOrders": "Open",
+      "lastVisit": "Last visit"
+    },
+    "detail": {
+      "subtitle": "Customer operations profile",
+      "back": "Back to customers",
+      "notFoundTitle": "Customer not found",
+      "stats": {
+        "vehicles": "Vehicles",
+        "orders": "Work orders",
+        "openOrders": "Open orders",
+        "lastVisit": "Last visit"
+      },
+      "vehicles": "Customer vehicles",
+      "workOrders": "Work orders",
+      "noVehicles": "No vehicles",
+      "noVehiclesDescription": "No vehicle is linked to this customer.",
+      "vehicleColumns": {
+        "vehicle": "Vehicle",
+        "plate": "Plate",
+        "vin": "VIN",
+        "orders": "Orders"
+      },
+      "openVehicle": "Open vehicle {name}",
+      "notAvailable": "Not available"
+    }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "subtitle": "Track spare parts, quantities on hand, and reorder levels.",
+    "searchLabel": "Search inventory",
+    "searchPlaceholder": "Search by SKU or name…",
+    "categoryFilterLabel": "Category filter",
+    "stockFilterLabel": "Stock filter",
+    "filterAll": "All categories",
+    "openPart": "Open part {name}",
+    "lowStock": "Low stock",
+    "stockFilter": {
+      "all": "All parts",
+      "low": "Low",
+      "ok": "In stock"
+    },
+    "stats": {
+      "total": "Total items",
+      "lowStock": "Low stock items",
+      "value": "Inventory value"
+    },
+    "columns": {
+      "sku": "SKU",
+      "name": "Name",
+      "category": "Category",
+      "qty": "Qty",
+      "unitPrice": "Unit price",
+      "location": "Location"
+    },
+    "category": {
+      "brakes": "Brakes",
+      "engine": "Engine",
+      "electrical": "Electrical",
+      "fluids": "Fluids",
+      "filters": "Filters",
+      "tires": "Tires",
+      "bodyParts": "Body parts"
+    },
+    "detail": {
+      "back": "Back to inventory",
+      "notFoundTitle": "Part not found",
+      "partData": "Part data",
+      "stats": {
+        "qtyOnHand": "Qty on hand",
+        "reorderLevel": "Reorder level",
+        "totalValue": "Total value"
+      }
+    }
+  },
+  "purchasing": {
+    "title": "Purchasing",
+    "subtitle": "Purchase orders to suppliers and their receiving status.",
+    "searchLabel": "Search purchase orders",
+    "searchPlaceholder": "Search by order number or supplier…",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "openOrder": "Open purchase order {number}",
+    "stats": {
+      "total": "Total orders",
+      "ordered": "Sent to supplier",
+      "partiallyReceived": "Partially received",
+      "pendingValue": "Pending value"
+    },
+    "columns": {
+      "number": "Order #",
+      "supplier": "Supplier",
+      "total": "Total",
+      "expected": "Expected",
+      "status": "Status"
+    },
+    "status": {
+      "draft": "Draft",
+      "ordered": "Ordered",
+      "partiallyReceived": "Partially received",
+      "received": "Received",
+      "cancelled": "Cancelled"
+    },
+    "detail": {
+      "back": "Back to purchasing",
+      "notFoundTitle": "Purchase order not found",
+      "summary": "Order summary",
+      "orderedAt": "Order date",
+      "items": "Line items",
+      "columns": {
+        "description": "Description",
+        "sku": "SKU",
+        "qty": "Qty",
+        "unitCost": "Unit cost",
+        "lineTotal": "Total"
+      },
+      "total": "Total",
+      "notes": "Notes"
+    }
+  },
+  "vehicles": {
+    "title": "Vehicles",
+    "subtitle": "Vehicle records, owners, and related service history.",
+    "searchLabel": "Search vehicles",
+    "searchPlaceholder": "Search vehicle, plate, or owner?",
+    "serviceFilterLabel": "Filter vehicles by service status",
+    "serviceFilter": {
+      "all": "All vehicles",
+      "active": "In workshop",
+      "inactive": "No open order"
+    },
+    "openVehicle": "Open vehicle {name}",
+    "noActiveOrder": "No open order",
+    "notAvailable": "Not available",
+    "kilometers": "km",
+    "neverVisited": "No visits",
+    "stats": {
+      "total": "Total vehicles",
+      "active": "In workshop",
+      "withVin": "With VIN",
+      "customers": "Owners"
+    },
+    "columns": {
+      "vehicle": "Vehicle",
+      "plate": "Plate",
+      "customer": "Owner",
+      "service": "Service status",
+      "orders": "Orders",
+      "mileage": "Last mileage",
+      "lastVisit": "Last visit"
+    },
+    "detail": {
+      "back": "Back to vehicles",
+      "notFoundTitle": "Vehicle not found",
+      "stats": {
+        "orders": "Work orders",
+        "lastMileage": "Last mileage",
+        "lastVisit": "Last visit"
+      },
+      "vehicleData": "Vehicle data",
+      "make": "Make",
+      "model": "Model",
+      "year": "Model year",
+      "plate": "Plate",
+      "vin": "VIN",
+      "owner": "Owner",
+      "workOrders": "Work order history"
+    },
+    "customerKind": {
+      "individual": "Individual customer",
+      "company": "Company customer"
+    }
+  },
+  "invoices": {
+    "title": "Invoices",
+    "subtitle": "Customer invoices linked to work orders and payment status.",
+    "searchLabel": "Search invoices",
+    "searchPlaceholder": "Search by invoice number, customer, or plate…",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "openInvoice": "Open invoice {number}",
+    "stats": {
+      "total": "Total invoices",
+      "overdue": "Overdue",
+      "paid": "Paid",
+      "outstandingValue": "Outstanding value"
+    },
+    "columns": {
+      "number": "Invoice #",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "total": "Total",
+      "dueAt": "Due date",
+      "status": "Status"
+    },
+    "status": {
+      "unpaid": "Unpaid",
+      "partiallyPaid": "Partially paid",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled"
+    },
+    "customerKind": {
+      "individual": "Individual",
+      "company": "Company"
+    },
+    "detail": {
+      "back": "Back to invoices",
+      "subtitle": "Issued on {date}",
+      "notFoundTitle": "Invoice not found",
+      "customer": "Customer",
+      "vehicle": "Vehicle",
+      "items": "Line items",
+      "columns": {
+        "description": "Description",
+        "qty": "Qty",
+        "unitPrice": "Unit price",
+        "lineTotal": "Total"
+      },
+      "subtotal": "Subtotal",
+      "vat": "VAT ({rate}%)",
+      "total": "Total incl. VAT",
+      "balanceDue": "Balance due",
+      "linkedWorkOrder": "Linked work order"
+    }
+  },
+  "accounting": {
+    "title": "Accounting",
+    "subtitle": "Ledger entries linked to invoices and purchase orders.",
+    "searchLabel": "Search ledger entries",
+    "searchPlaceholder": "Search by reference or account…",
+    "typeFilterLabel": "Type filter",
+    "categoryFilterLabel": "Category filter",
+    "filterAll": "All",
+    "filterAllCategories": "All categories",
+    "openTransaction": "Open entry {reference}",
+    "stats": {
+      "totalCredit": "Total credit",
+      "totalDebit": "Total debit",
+      "net": "Net movement"
+    },
+    "columns": {
+      "reference": "Reference",
+      "account": "Account",
+      "category": "Category",
+      "date": "Date",
+      "amount": "Amount"
+    },
+    "type": {
+      "debit": "Debit",
+      "credit": "Credit"
+    },
+    "category": {
+      "serviceRevenue": "Service revenue",
+      "partsRevenue": "Parts revenue",
+      "partsCost": "Parts cost",
+      "payroll": "Payroll",
+      "rent": "Rent",
+      "utilities": "Utilities",
+      "other": "Other"
+    },
+    "detail": {
+      "back": "Back to accounting",
+      "notFoundTitle": "Entry not found",
+      "summary": "Entry summary",
+      "linkedInvoice": "Linked invoice",
+      "linkedPurchaseOrder": "Linked purchase order",
+      "notes": "Notes"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "subtitle": "Workshop staff records, departments, and employment status.",
+    "searchLabel": "Search employees",
+    "searchPlaceholder": "Search by name, role, or phone…",
+    "departmentFilterLabel": "Department filter",
+    "filterAll": "All departments",
+    "openEmployee": "Open {name}'s profile",
+    "stats": {
+      "total": "Total employees",
+      "active": "Active",
+      "technicians": "Technicians"
+    },
+    "columns": {
+      "name": "Name",
+      "role": "Role",
+      "department": "Department",
+      "phone": "Phone",
+      "hireDate": "Hire date",
+      "status": "Status"
+    },
+    "department": {
+      "technicians": "Technicians",
+      "serviceAdvisors": "Service advisors",
+      "sales": "Sales",
+      "admin": "Admin",
+      "management": "Management"
+    },
+    "status": {
+      "active": "Active",
+      "onLeave": "On leave",
+      "inactive": "Inactive"
+    },
+    "detail": {
+      "back": "Back to employees",
+      "notFoundTitle": "Employee not found",
+      "profile": "Profile",
+      "contact": "Contact details",
+      "phone": "Phone",
+      "email": "Email",
+      "hireDate": "Hire date"
+    }
+  },
+  "marketing": {
+    "title": "Marketing",
+    "subtitle": "Campaigns to attract and re-engage customers.",
+    "searchLabel": "Search campaigns",
+    "searchPlaceholder": "Search by campaign name…",
+    "channelFilterLabel": "Channel filter",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "filterAllChannels": "All channels",
+    "openCampaign": "Open campaign {name}",
+    "stats": {
+      "active": "Active campaigns",
+      "totalBudget": "Total budget",
+      "totalReach": "Total reach"
+    },
+    "columns": {
+      "name": "Campaign name",
+      "channel": "Channel",
+      "budget": "Budget",
+      "dates": "Duration",
+      "status": "Status"
+    },
+    "channel": {
+      "sms": "SMS",
+      "email": "Email",
+      "social": "Social",
+      "print": "Print"
+    },
+    "status": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "active": "Active",
+      "completed": "Completed",
+      "paused": "Paused"
+    },
+    "detail": {
+      "back": "Back to marketing",
+      "notFoundTitle": "Campaign not found",
+      "summary": "Campaign summary",
+      "reach": "Reach",
+      "targetSegment": "Target segment",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "notes": "Notes"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Ready-made reports for operations, finance, inventory, and customers.",
+    "searchLabel": "Search reports",
+    "searchPlaceholder": "Search by report name…",
+    "categoryFilterLabel": "Category filter",
+    "filterAll": "All categories",
+    "openReport": "Open report {name}",
+    "stats": {
+      "total": "Total reports"
+    },
+    "columns": {
+      "name": "Report name",
+      "category": "Category",
+      "frequency": "Frequency",
+      "lastGenerated": "Last generated"
+    },
+    "category": {
+      "operations": "Operations",
+      "finance": "Finance",
+      "inventory": "Inventory",
+      "customers": "Customers"
+    },
+    "frequency": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "onDemand": "On demand"
+    },
+    "detail": {
+      "back": "Back to reports",
+      "notFoundTitle": "Report not found",
+      "summary": "Report summary"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Workshop profile, users, and preferences — read-only at this stage.",
+    "readOnlyNotice": "This page is read-only. Editing and saving will be enabled in a later phase.",
+    "profile": {
+      "title": "Workshop profile",
+      "subtitle": "Core business information",
+      "name": "Workshop name",
+      "companyName": "Legal company name",
+      "taxNumber": "Tax number",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "workingHours": "Working hours"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "subtitle": "System default settings",
+      "defaultLocale": "Default language",
+      "currency": "Currency",
+      "timeZone": "Time zone",
+      "dateFormat": "Date format",
+      "weekStart": "Week start",
+      "locale": {
+        "ar": "Arabic",
+        "en": "English"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "subtitle": "Currently enabled notification channels"
+    },
+    "users": {
+      "title": "Users",
+      "subtitle": "System login accounts",
+      "neverLoggedIn": "Never logged in",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "lastLogin": "Last login"
+      },
+      "role": {
+        "admin": "System admin",
+        "manager": "Workshop manager",
+        "advisor": "Service advisor",
+        "accountant": "Accountant"
+      }
+    }
+  }
+}

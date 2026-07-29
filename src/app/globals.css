@@ -1,0 +1,477 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   ورشة النعماني — نظام التصميم
+   شركة سليمان أحمد خميس النعماني للتجارة
+
+   ثلاث طبقات:
+     1) Primitive  — سلالم ألوان خام، لا تُستخدم مباشرة في المكوّنات.
+     2) Semantic   — معنى لا لون (primary / danger / border …)، وهي ما تستخدمه الواجهة.
+     3) Component  — توكنز خاصة بمكوّن (sidebar / chart …).
+
+   الهوية: الأحمر #D61F26 لون تمييز فقط (Accent) — لا يُفرَط في استخدامه.
+   الأساس رمادي محايد + أبيض (فاتح) أو أسود (داكن).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1) Primitive — سلالم الألوان
+   -------------------------------------------------------------------------- */
+:root {
+  /* الأحمر — لون الهوية الأساسي. #D61F26 = oklch(0.5622 0.2136 26.35) */
+  --red-50: oklch(0.971 0.016 26.35);
+  --red-100: oklch(0.936 0.037 26.35);
+  --red-200: oklch(0.885 0.07 26.35);
+  --red-300: oklch(0.808 0.114 26.35);
+  --red-400: oklch(0.7 0.176 26.35);
+  --red-500: oklch(0.5622 0.2136 26.35); /* #D61F26 — العلامة */
+  --red-600: oklch(0.505 0.196 26.35);
+  --red-700: oklch(0.437 0.168 26.35);
+  --red-800: oklch(0.376 0.14 26.35);
+  --red-900: oklch(0.325 0.116 26.35);
+  --red-950: oklch(0.212 0.078 26.35);
+
+  /* الرمادي — محايد تمامًا (C=0) ليبرز الأحمر ولا يتلوّث */
+  --gray-0: oklch(1 0 0); /* أبيض */
+  --gray-25: oklch(0.993 0 0);
+  --gray-50: oklch(0.985 0 0);
+  --gray-100: oklch(0.967 0 0);
+  --gray-200: oklch(0.925 0 0);
+  --gray-300: oklch(0.869 0 0);
+  --gray-400: oklch(0.708 0 0);
+  --gray-500: oklch(0.556 0 0);
+  --gray-600: oklch(0.439 0 0);
+  --gray-700: oklch(0.371 0 0);
+  --gray-800: oklch(0.269 0 0);
+  --gray-850: oklch(0.2393 0 0); /* #1F1F1F — الثانوي */
+  --gray-900: oklch(0.205 0 0);
+  --gray-925: oklch(0.1875 0 0);
+  --gray-950: oklch(0.145 0 0);
+  --gray-1000: oklch(0.105 0 0); /* أسود */
+
+  /* ألوان الحالة — مخفّضة التشبّع عمدًا كي يبقى الأحمر وحده هو الصوت العالي */
+  --green-500: oklch(0.62 0.13 155);
+  --green-600: oklch(0.55 0.12 155);
+  --green-300: oklch(0.8 0.09 155);
+  --amber-500: oklch(0.75 0.14 75);
+  --amber-600: oklch(0.68 0.14 75);
+  --amber-300: oklch(0.87 0.09 75);
+  --orange-500: oklch(0.68 0.15 45);
+  --orange-600: oklch(0.61 0.15 45);
+  --orange-300: oklch(0.83 0.1 45);
+  --blue-500: oklch(0.6 0.12 240);
+  --blue-600: oklch(0.53 0.12 240);
+  --blue-300: oklch(0.79 0.08 240);
+}
+
+/* --------------------------------------------------------------------------
+   2) Semantic — السمة الفاتحة (أبيض + أحمر + رمادي)
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* الأسطح والنص */
+  --background: var(--gray-0);
+  --foreground: var(--gray-850);
+  --card: var(--gray-0);
+  --card-foreground: var(--gray-850);
+  --popover: var(--gray-0);
+  --popover-foreground: var(--gray-850);
+  --surface-subtle: var(--gray-50);
+  --surface-sunken: var(--gray-100);
+
+  /* الأساسي — الأحمر، للأفعال الرئيسية فقط */
+  --primary: var(--red-500);
+  --primary-foreground: var(--gray-0);
+  --primary-hover: var(--red-600);
+  --primary-active: var(--red-700);
+  --primary-subtle: var(--red-50);
+  --primary-subtle-foreground: var(--red-700);
+  --primary-text: var(--red-600);
+  --primary-border: var(--red-200);
+
+  /* الثانوي — رمادي محايد */
+  --secondary: var(--gray-100);
+  --secondary-foreground: var(--gray-850);
+  --muted: var(--gray-100);
+  --muted-foreground: var(--gray-500);
+  --accent: var(--gray-100);
+  --accent-foreground: var(--gray-850);
+
+  /* دلالات الحالة */
+  --success: var(--green-600);
+  --success-foreground: var(--gray-0);
+  --success-subtle: oklch(0.96 0.03 155);
+  --success-text: var(--green-600);
+  --warning: var(--amber-600);
+  --warning-foreground: var(--gray-1000);
+  --warning-subtle: oklch(0.97 0.04 75);
+  --warning-text: var(--amber-600);
+  --info: var(--blue-600);
+  --info-foreground: var(--gray-0);
+  --info-subtle: oklch(0.96 0.025 240);
+  --info-text: var(--blue-600);
+  --danger: var(--red-500);
+  --danger-foreground: var(--gray-0);
+  --danger-subtle: var(--red-50);
+  --danger-text: var(--red-600);
+  --destructive: var(--red-500);
+
+  /* الحدود والتركيز */
+  --border: var(--gray-200);
+  --border-strong: var(--gray-300);
+  --input: var(--gray-200);
+  --ring: var(--red-500);
+
+  /* حالات أمر التشغيل — الأحمر محجوز لِـ"تحت التنفيذ" وحده */
+  --status-reception: var(--gray-500);
+  --status-reception-subtle: var(--gray-100);
+  --status-inspection: var(--blue-600);
+  --status-inspection-subtle: oklch(0.96 0.025 240);
+  --status-awaiting-approval: var(--amber-600);
+  --status-awaiting-approval-subtle: oklch(0.97 0.04 75);
+  --status-in-progress: var(--red-500);
+  --status-in-progress-subtle: var(--red-50);
+  --status-awaiting-parts: var(--orange-600);
+  --status-awaiting-parts-subtle: oklch(0.96 0.035 45);
+  --status-ready: var(--green-600);
+  --status-ready-subtle: oklch(0.96 0.03 155);
+  --status-delivered: var(--gray-400);
+  --status-delivered-subtle: var(--gray-100);
+
+  /* الرسوم البيانية */
+  --chart-1: var(--red-500);
+  --chart-2: var(--gray-500);
+  --chart-3: var(--gray-300);
+  --chart-4: var(--gray-700);
+  --chart-5: var(--red-300);
+
+  /* الشريط الجانبي */
+  --sidebar: var(--gray-50);
+  --sidebar-foreground: var(--gray-850);
+  --sidebar-primary: var(--red-500);
+  --sidebar-primary-foreground: var(--gray-0);
+  --sidebar-accent: var(--gray-0);
+  --sidebar-accent-foreground: var(--gray-850);
+  --sidebar-border: var(--gray-200);
+  --sidebar-ring: var(--red-500);
+
+  /* الارتفاع — ظلال هادئة، لا "بطاقات عائمة" */
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.06), 0 1px 2px -1px oklch(0 0 0 / 0.04);
+  --shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.08), 0 2px 4px -2px oklch(0 0 0 / 0.04);
+  --shadow-lg: 0 12px 32px -8px oklch(0 0 0 / 0.12), 0 4px 8px -4px oklch(0 0 0 / 0.06);
+
+  /* الاستدارة والمسافات */
+  --radius: 0.625rem;
+  --space-page: 1.5rem;
+  --space-section: 1.5rem;
+  --space-card: 1.25rem;
+
+  /* الحركة */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+}
+
+/* --------------------------------------------------------------------------
+   2) Semantic — السمة الداكنة (أسود + أحمر + رمادي)
+   نفس التخطيط تمامًا. الألوان فقط هي التي تتغيّر.
+   -------------------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
+  --background: var(--gray-1000);
+  --foreground: var(--gray-50);
+  --card: var(--gray-925);
+  --card-foreground: var(--gray-50);
+  --popover: var(--gray-900);
+  --popover-foreground: var(--gray-50);
+  --surface-subtle: var(--gray-950);
+  --surface-sunken: var(--gray-1000);
+
+  --primary: oklch(0.582 0.216 26.35);
+  --primary-foreground: var(--gray-0);
+  --primary-hover: oklch(0.63 0.212 26.35);
+  --primary-active: oklch(0.52 0.2 26.35);
+  --primary-subtle: oklch(0.28 0.09 26.35);
+  --primary-subtle-foreground: oklch(0.85 0.09 26.35);
+  --primary-text: oklch(0.72 0.17 26.35);
+  --primary-border: oklch(0.38 0.13 26.35);
+
+  --secondary: var(--gray-850);
+  --secondary-foreground: var(--gray-50);
+  --muted: var(--gray-900);
+  --muted-foreground: var(--gray-400);
+  --accent: var(--gray-850);
+  --accent-foreground: var(--gray-50);
+
+  --success: var(--green-500);
+  --success-foreground: var(--gray-1000);
+  --success-subtle: oklch(0.28 0.06 155);
+  --success-text: oklch(0.78 0.12 155);
+  --warning: var(--amber-500);
+  --warning-foreground: var(--gray-1000);
+  --warning-subtle: oklch(0.3 0.07 75);
+  --warning-text: oklch(0.84 0.12 75);
+  --info: var(--blue-500);
+  --info-foreground: var(--gray-1000);
+  --info-subtle: oklch(0.28 0.06 240);
+  --info-text: oklch(0.76 0.11 240);
+  --danger: oklch(0.582 0.216 26.35);
+  --danger-foreground: var(--gray-0);
+  --danger-subtle: oklch(0.28 0.09 26.35);
+  --danger-text: oklch(0.72 0.17 26.35);
+  --destructive: oklch(0.582 0.216 26.35);
+
+  --border: oklch(1 0 0 / 0.09);
+  --border-strong: oklch(1 0 0 / 0.16);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.65 0.19 26.35);
+
+  --status-reception: var(--gray-400);
+  --status-reception-subtle: oklch(1 0 0 / 0.06);
+  --status-inspection: oklch(0.72 0.11 240);
+  --status-inspection-subtle: oklch(0.3 0.06 240);
+  --status-awaiting-approval: oklch(0.82 0.13 75);
+  --status-awaiting-approval-subtle: oklch(0.32 0.07 75);
+  --status-in-progress: oklch(0.68 0.2 26.35);
+  --status-in-progress-subtle: oklch(0.3 0.1 26.35);
+  --status-awaiting-parts: oklch(0.75 0.14 45);
+  --status-awaiting-parts-subtle: oklch(0.31 0.08 45);
+  --status-ready: oklch(0.75 0.13 155);
+  --status-ready-subtle: oklch(0.29 0.07 155);
+  --status-delivered: var(--gray-500);
+  --status-delivered-subtle: oklch(1 0 0 / 0.05);
+
+  --chart-1: oklch(0.62 0.21 26.35);
+  --chart-2: var(--gray-400);
+  --chart-3: var(--gray-700);
+  --chart-4: var(--gray-300);
+  --chart-5: oklch(0.42 0.15 26.35);
+
+  --sidebar: var(--gray-950);
+  --sidebar-foreground: var(--gray-50);
+  --sidebar-primary: oklch(0.582 0.216 26.35);
+  --sidebar-primary-foreground: var(--gray-0);
+  --sidebar-accent: oklch(1 0 0 / 0.06);
+  --sidebar-accent-foreground: var(--gray-50);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+  --sidebar-ring: oklch(0.65 0.19 26.35);
+
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.5), 0 1px 2px -1px oklch(0 0 0 / 0.4);
+  --shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.55), 0 2px 4px -2px oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 12px 32px -8px oklch(0 0 0 / 0.7), 0 4px 8px -4px oklch(0 0 0 / 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   3) ربط التوكنز بـ Tailwind
+   -------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-foreground: var(--primary-subtle-foreground);
+  --color-primary-text: var(--primary-text);
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-text: var(--success-text);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-text: var(--warning-text);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-text: var(--info-text);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-text: var(--danger-text);
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-status-reception: var(--status-reception);
+  --color-status-reception-subtle: var(--status-reception-subtle);
+  --color-status-inspection: var(--status-inspection);
+  --color-status-inspection-subtle: var(--status-inspection-subtle);
+  --color-status-awaiting-approval: var(--status-awaiting-approval);
+  --color-status-awaiting-approval-subtle: var(--status-awaiting-approval-subtle);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-in-progress-subtle: var(--status-in-progress-subtle);
+  --color-status-awaiting-parts: var(--status-awaiting-parts);
+  --color-status-awaiting-parts-subtle: var(--status-awaiting-parts-subtle);
+  --color-status-ready: var(--status-ready);
+  --color-status-ready-subtle: var(--status-ready-subtle);
+  --color-status-delivered: var(--status-delivered);
+  --color-status-delivered-subtle: var(--status-delivered-subtle);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* الخطوط */
+  --font-sans: var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* السلّم الطباعي — مضبوط لكثافة بيانات ERP */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.125rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.375rem;
+  --text-md: 0.9375rem;
+  --text-md--line-height: 1.5rem;
+  --text-lg: 1.0625rem;
+  --text-lg--line-height: 1.625rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.95rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+
+  /* الاستدارة */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+
+  /* الظلال */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+/* --------------------------------------------------------------------------
+   4) الأساس
+   -------------------------------------------------------------------------- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground text-base;
+    font-feature-settings: "cv05" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* الأرقام في جداول ERP يجب أن تصطف عموديًا دائمًا */
+  table,
+  [data-numeric],
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* الأرقام واللوحات والمعرّفات تبقى LTR داخل نص عربي */
+  [dir="rtl"] [data-ltr],
+  [data-ltr] {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading font-semibold tracking-tight;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--primary-subtle);
+    color: var(--primary-subtle-foreground);
+  }
+
+  /* شريط تمرير رفيع يليق بواجهة كثيفة */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5) أدوات مساعدة
+   -------------------------------------------------------------------------- */
+@utility surface-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* شبكة نقطية خفيفة لخلفيات صفحات المصادقة */
+@utility bg-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    var(--border-strong) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+}
