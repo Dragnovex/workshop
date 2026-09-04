@@ -77,9 +77,29 @@ export function ResetPasswordForm() {
       return;
     }
 
-    // ينشئ العميل جلسة الاسترداد من access_token الموجود في رابط البريد،
-    // ثم يحدّث كلمة المرور على حساب المستخدم نفسه.
     const supabase = createBrowserClient(url, anonKey);
+
+    // روابط الاسترداد قد تصل بصيغة implicit داخل # أو PKCE عبر ?code.
+    // لا نعتمد على التهيئة التلقائية: قد تكون ما زالت تعمل لحظة النقر على حفظ.
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const code = new URLSearchParams(window.location.search).get("code");
+    const accessToken = hash.get("access_token");
+    const refreshToken = hash.get("refresh_token");
+
+    const sessionResult = code
+      ? await supabase.auth.exchangeCodeForSession(code)
+      : accessToken && refreshToken
+        ? await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          })
+        : await supabase.auth.getSession();
+
+    if (sessionResult.error || !("data" in sessionResult && sessionResult.data.session)) {
+      setSubmitError(t("errorExpired"));
+      return;
+    }
+
     const { error } = await supabase.auth.updateUser({ password: values.password });
     if (error) {
       setSubmitError(t("errorExpired"));
