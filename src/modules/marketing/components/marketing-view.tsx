@@ -5,7 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/patterns/page-header";
+import { SortableTableHead, nextSortState, type SortDirection } from "@/components/patterns/sortable-table-head";
 import { StatCard } from "@/components/patterns/stat-card";
+import { TablePagination } from "@/components/patterns/table-pagination";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -30,6 +32,9 @@ import { campaignChannels, campaignStatuses, type Campaign, type CampaignChannel
 
 type ChannelFilter = "all" | CampaignChannel;
 type StatusFilter = "all" | CampaignStatus;
+type SortKey = "name" | "budget" | "startDate";
+
+const PAGE_SIZE = 10;
 
 export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
   const t = useTranslations("marketing");
@@ -39,6 +44,9 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
   const [search, setSearch] = useState("");
   const [channelFilter, setChannelFilter] = useState<ChannelFilter>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+  const [page, setPage] = useState(1);
 
   const activeCount = campaigns.filter((campaign) => campaign.status === "active").length;
   const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
@@ -57,6 +65,34 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
     });
   }, [campaigns, channelFilter, search, statusFilter]);
 
+  const sorted = useMemo(() => {
+    if (!sortKey || !sortDirection) return filtered;
+    const factor = sortDirection === "asc" ? 1 : -1;
+    return [...filtered].sort((a, b) => {
+      switch (sortKey) {
+        case "name":
+          return factor * a.name[lang].localeCompare(b.name[lang]);
+        case "budget":
+          return factor * (a.budget - b.budget);
+        case "startDate":
+          return factor * (Date.parse(a.startDate) - Date.parse(b.startDate));
+        default:
+          return 0;
+      }
+    });
+  }, [filtered, lang, sortDirection, sortKey]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const paged = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  function handleSort(key: SortKey) {
+    const next = nextSortState(sortKey, sortDirection, key);
+    setSortKey(next.key);
+    setSortDirection(next.direction);
+    setPage(1);
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
       <PageHeader title={t("title")} description={t("subtitle")} />
@@ -74,12 +110,21 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
           <Input
             id="campaign-search"
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setPage(1);
+            }}
             placeholder={t("searchPlaceholder")}
             className="ps-9"
           />
         </div>
-        <Select value={channelFilter} onValueChange={(value) => setChannelFilter(value as ChannelFilter)}>
+        <Select
+          value={channelFilter}
+          onValueChange={(value) => {
+            setChannelFilter(value as ChannelFilter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger aria-label={t("channelFilterLabel")} className="w-full sm:w-44">
             <SelectValue />
           </SelectTrigger>
@@ -92,7 +137,13 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
             ))}
           </SelectContent>
         </Select>
-        <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+        <Select
+          value={statusFilter}
+          onValueChange={(value) => {
+            setStatusFilter(value as StatusFilter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger aria-label={t("statusFilterLabel")} className="w-full sm:w-44">
             <SelectValue />
           </SelectTrigger>
@@ -112,22 +163,22 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="ps-4 text-xs whitespace-nowrap">{t("columns.name")}</TableHead>
+                <SortableTableHead label={t("columns.name")} sortKey="name" activeKey={sortKey} direction={sortDirection} onSort={handleSort} className="ps-4" />
                 <TableHead className="text-xs whitespace-nowrap">{t("columns.channel")}</TableHead>
-                <TableHead className="text-end text-xs whitespace-nowrap">{t("columns.budget")}</TableHead>
-                <TableHead className="text-xs whitespace-nowrap">{t("columns.dates")}</TableHead>
+                <SortableTableHead label={t("columns.budget")} sortKey="budget" activeKey={sortKey} direction={sortDirection} onSort={handleSort} align="end" />
+                <SortableTableHead label={t("columns.dates")} sortKey="startDate" activeKey={sortKey} direction={sortDirection} onSort={handleSort} />
                 <TableHead className="pe-4 text-end text-xs whitespace-nowrap">{t("columns.status")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 ? (
+              {paged.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="py-12 text-center text-sm text-muted-foreground">
                     {tCommon("noResults")}
                   </TableCell>
                 </TableRow>
               ) : (
-                filtered.map((campaign) => (
+                paged.map((campaign) => (
                   <TableRow key={campaign.id} className="relative cursor-pointer">
                     <TableCell className="ps-4">
                       <Link
@@ -152,6 +203,7 @@ export function MarketingView({ campaigns }: { campaigns: Campaign[] }) {
             </TableBody>
           </Table>
         </div>
+        <TablePagination page={currentPage} pageCount={pageCount} totalItems={sorted.length} pageSize={PAGE_SIZE} onPageChange={setPage} />
       </div>
     </div>
   );

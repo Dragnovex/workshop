@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 
-import { customers } from "@/modules/customers/data";
+import { repositories } from "@/server/repositories";
+
 import { WorkOrderDetailView } from "@/modules/work-orders/components/work-order-detail-view";
-import { workOrders } from "@/modules/work-orders/data";
-import { createWorkOrderReadModels } from "@/modules/work-orders/read-models";
-import { vehicles } from "@/modules/vehicles/data";
+import { getWorkOrderRelations } from "@/modules/work-orders/read-models";
+
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
@@ -15,26 +15,34 @@ type PageProps = {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "workOrders" });
-  const order = workOrders.find((item) => item.id === id);
+  const { id } = await params;
+  const order = await repositories.workOrders.findById(id);
 
-  return { title: order?.number ?? t("detail.notFoundTitle") };
+  // قد يكون الأمر محفوظًا في localStorage فقط — العنوان الحقيقي "غير
+  // موجود" يُقرَّر على العميل بعد الدمج، فلا نستبقه هنا.
+  return { title: order?.number ?? id };
 }
 
 export default async function WorkOrderDetailPage({ params }: PageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+  const workOrders = await repositories.workOrders.findAll();
 
-  const model = createWorkOrderReadModels(
-    workOrders,
-    customers,
-    vehicles,
-  ).find(({ order }) => order.id === id);
+  // العلاقات تُحسب فقط لأوامر البذرة — الأوامر الجديدة بلا ارتباطات.
+  const seedOrder = await repositories.workOrders.findById(id);
+  const relations = seedOrder
+    ? getWorkOrderRelations(seedOrder.id)
+    : { appointmentId: undefined, estimateId: undefined, invoiceId: undefined };
 
-  if (!model) {
-    notFound();
-  }
-
-  return <WorkOrderDetailView model={model} />;
+  return (
+    <WorkOrderDetailView
+      id={id}
+      initialOrders={workOrders}
+      customers={customers}
+      vehicles={vehicles}
+      initialRelations={relations}
+    />
+  );
 }

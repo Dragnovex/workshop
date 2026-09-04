@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+
+import { repositories } from "@/server/repositories";
 
 import { CustomerDetailView } from "@/modules/customers/components/customer-detail-view";
-import { customers } from "@/modules/customers/data";
-import { createCustomerReadModels } from "@/modules/customers/read-models";
-import { workOrders } from "@/modules/work-orders/data";
-import { createWorkOrderReadModels } from "@/modules/work-orders/read-models";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
@@ -15,10 +13,11 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "customers" });
-  const customer = customers.find((item) => item.id === id);
+  const customer = await repositories.customers.findById(id);
+  // قد يكون العميل محفوظًا في localStorage فقط — العنوان الحقيقي "غير
+  // موجود" يُقرَّر على العميل بعد الدمج، فلا نستبقه هنا.
   return {
-    title: customer?.displayName[locale === "en" ? "en" : "ar"] ?? t("detail.notFoundTitle"),
+    title: customer?.displayName[locale === "en" ? "en" : "ar"] ?? id,
   };
 }
 
@@ -26,11 +25,19 @@ export default async function CustomerDetailPage({ params }: PageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const joinedOrders = createWorkOrderReadModels(workOrders, customers, vehicles);
-  const model = createCustomerReadModels(customers, vehicles, joinedOrders).find(
-    ({ customer }) => customer.id === id,
-  );
+  // عملاء الواجهة (من /customers/new) يعيشون في localStorage فقط ولا يراهم
+  // الخادم. نمرّر بذرة الخادم كما هي؛ الدمج مع التخزين المحلي وحالة
+  // "غير موجود" الحقيقية تتم على العميل (نفس نمط أوامر التشغيل والفواتير).
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+  const workOrders = await repositories.workOrders.findAll();
 
-  if (!model) notFound();
-  return <CustomerDetailView model={model} />;
+  return (
+    <CustomerDetailView
+      id={id}
+      initialCustomers={customers}
+      vehicles={vehicles}
+      workOrders={workOrders}
+    />
+  );
 }

@@ -1,29 +1,33 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+
+import { repositories } from "@/server/repositories";
 
 import { PurchaseOrderDetailView } from "@/modules/purchasing/components/purchase-order-detail-view";
-import { purchaseOrders } from "@/modules/purchasing/data";
+
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "purchasing" });
-  const order = purchaseOrders.find((item) => item.id === id);
-  return {
-    title: order?.number ?? t("detail.notFoundTitle"),
-  };
+  const { id } = await params;
+  const order = await repositories.purchasing.findById(id);
+  // الفاتورة قد تكون محفوظة في localStorage فقط (غير مرئية هنا) — نعرض
+  // المعرّف كعنوان احتياطي بدل ادّعاء أنها غير موجودة.
+  return { title: order?.number ?? id };
 }
 
 export default async function PurchaseOrderDetailPage({ params }: PageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const order = purchaseOrders.find((item) => item.id === id);
+  // بذرة الخادم فقط؛ الدمج مع التخزين المحلي وقرار «غير موجود» على العميل.
+  const orders = await repositories.purchasing.findAll();
+  const suppliers = await repositories.suppliers.findAll();
 
-  if (!order) notFound();
-  return <PurchaseOrderDetailView order={order} />;
+  return (
+    <PurchaseOrderDetailView id={id} seedOrders={orders} suppliers={suppliers} />
+  );
 }

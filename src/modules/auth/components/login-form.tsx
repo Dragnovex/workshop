@@ -1,11 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Info, Loader2 } from "lucide-react";
+import { AlertCircle, Info, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { useRouter } from "@/i18n/navigation";
+import { signInAction } from "@/modules/auth/actions";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,6 +23,9 @@ export function LoginForm() {
   const t = useTranslations("auth.login");
   const tv = useTranslations("auth.validation");
   const [notice, setNotice] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const schema = React.useMemo(
     () =>
@@ -45,13 +52,37 @@ export function LoginForm() {
   });
 
   /**
-   * المرحلة الأولى: لا مزوّد مصادقة ولا جلسة.
-   * هذه الدالة هي بالضبط موضع استدعاء signIn من Auth.js في المرحلة الثانية.
+   * تسجيل الدخول عبر Server Action.
+   *
+   * كلمة المرور لا تُخزَّن في أي حالة ولا تُرسل لأي مكان غير الخادم،
+   * والخادم يمرّرها إلى Supabase مباشرة.
    */
-  async function onSubmit() {
+  async function onSubmit(values: z.infer<typeof schema>) {
     setNotice(false);
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    setNotice(true);
+    setError(null);
+
+    const result = await signInAction(values.email, values.password);
+
+    if (result.ok) {
+      // وجهة أصلية محفوظة من الحارس في proxy.ts، وإلا لوحة التحكم.
+      const next = searchParams.get("next");
+      router.replace(next && next.startsWith("/") ? next : "/");
+      router.refresh();
+      return;
+    }
+
+    // المصادقة غير مُهيّأة (وضع البذرة): نعرض الإشعار التوضيحي نفسه
+    // بدل رسالة خطأ تُوهم أن البيانات خاطئة.
+    if (result.reason === "notConfigured") {
+      setNotice(true);
+      return;
+    }
+
+    setError(
+      result.reason === "noProfile"
+        ? t("errorNoProfile")
+        : t("errorInvalid"),
+    );
   }
 
   return (
@@ -125,6 +156,16 @@ export function LoginForm() {
           )}
         </Button>
       </form>
+
+      {error ? (
+        <div
+          role="alert"
+          className="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5"
+        >
+          <AlertCircle className="mt-px size-4 shrink-0 text-destructive" />
+          <p className="text-xs leading-5 text-destructive">{error}</p>
+        </div>
+      ) : null}
 
       {notice ? (
         <div

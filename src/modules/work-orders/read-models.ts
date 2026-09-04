@@ -1,4 +1,7 @@
 import type { Customer, Vehicle } from "@/lib/domain/contracts";
+import { appointments } from "@/modules/appointments/data";
+import { estimates } from "@/modules/estimates/data";
+import { invoices } from "@/modules/invoices/data";
 import type { WorkOrder } from "./types";
 
 export type WorkOrderReadModel = {
@@ -6,6 +9,21 @@ export type WorkOrderReadModel = {
   customer: Customer;
   vehicle: Vehicle;
 };
+
+export type WorkOrderRelations = {
+  appointmentId?: string;
+  estimateId?: string;
+  invoiceId?: string;
+};
+
+/** يبحث عن الموعد/التقدير/الفاتورة المرتبطة بأمر التشغيل — لتفادي روابط ناقصة في صفحة التفاصيل. */
+export function getWorkOrderRelations(orderId: string): WorkOrderRelations {
+  return {
+    appointmentId: appointments.find((appointment) => appointment.linkedWorkOrderId === orderId)?.id,
+    estimateId: estimates.find((estimate) => estimate.linkedWorkOrderId === orderId)?.id,
+    invoiceId: invoices.find((invoice) => invoice.linkedWorkOrderId === orderId)?.id,
+  };
+}
 
 export type WorkOrderTotals = {
   labor: number;

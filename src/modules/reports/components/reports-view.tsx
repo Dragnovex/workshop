@@ -5,7 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/patterns/page-header";
+import { SortableTableHead, nextSortState, type SortDirection } from "@/components/patterns/sortable-table-head";
 import { StatCard } from "@/components/patterns/stat-card";
+import { TablePagination } from "@/components/patterns/table-pagination";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -28,6 +30,9 @@ import { formatDateTime, formatNumber } from "@/lib/format";
 import { reportCategories, type Report, type ReportCategory } from "../types";
 
 type CategoryFilter = "all" | ReportCategory;
+type SortKey = "name" | "lastGenerated";
+
+const PAGE_SIZE = 10;
 
 export function ReportsView({ reports }: { reports: Report[] }) {
   const t = useTranslations("reports");
@@ -36,6 +41,9 @@ export function ReportsView({ reports }: { reports: Report[] }) {
   const lang = locale === "en" ? "en" : "ar";
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -48,6 +56,32 @@ export function ReportsView({ reports }: { reports: Report[] }) {
       );
     });
   }, [categoryFilter, reports, search]);
+
+  const sorted = useMemo(() => {
+    if (!sortKey || !sortDirection) return filtered;
+    const factor = sortDirection === "asc" ? 1 : -1;
+    return [...filtered].sort((a, b) => {
+      switch (sortKey) {
+        case "name":
+          return factor * a.name[lang].localeCompare(b.name[lang]);
+        case "lastGenerated":
+          return factor * (Date.parse(a.lastGeneratedAt) - Date.parse(b.lastGeneratedAt));
+        default:
+          return 0;
+      }
+    });
+  }, [filtered, lang, sortDirection, sortKey]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const paged = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  function handleSort(key: SortKey) {
+    const next = nextSortState(sortKey, sortDirection, key);
+    setSortKey(next.key);
+    setSortDirection(next.direction);
+    setPage(1);
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
@@ -72,12 +106,21 @@ export function ReportsView({ reports }: { reports: Report[] }) {
           <Input
             id="report-search"
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setPage(1);
+            }}
             placeholder={t("searchPlaceholder")}
             className="ps-9"
           />
         </div>
-        <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as CategoryFilter)}>
+        <Select
+          value={categoryFilter}
+          onValueChange={(value) => {
+            setCategoryFilter(value as CategoryFilter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger aria-label={t("categoryFilterLabel")} className="w-full sm:w-52">
             <SelectValue />
           </SelectTrigger>
@@ -97,21 +140,21 @@ export function ReportsView({ reports }: { reports: Report[] }) {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="ps-4 text-xs whitespace-nowrap">{t("columns.name")}</TableHead>
+                <SortableTableHead label={t("columns.name")} sortKey="name" activeKey={sortKey} direction={sortDirection} onSort={handleSort} className="ps-4" />
                 <TableHead className="text-xs whitespace-nowrap">{t("columns.category")}</TableHead>
                 <TableHead className="text-xs whitespace-nowrap">{t("columns.frequency")}</TableHead>
-                <TableHead className="pe-4 text-end text-xs whitespace-nowrap">{t("columns.lastGenerated")}</TableHead>
+                <SortableTableHead label={t("columns.lastGenerated")} sortKey="lastGenerated" activeKey={sortKey} direction={sortDirection} onSort={handleSort} align="end" className="pe-4" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 ? (
+              {paged.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={4} className="py-12 text-center text-sm text-muted-foreground">
                     {tCommon("noResults")}
                   </TableCell>
                 </TableRow>
               ) : (
-                filtered.map((report) => (
+                paged.map((report) => (
                   <TableRow key={report.id} className="relative cursor-pointer">
                     <TableCell className="ps-4">
                       <Link
@@ -133,6 +176,7 @@ export function ReportsView({ reports }: { reports: Report[] }) {
             </TableBody>
           </Table>
         </div>
+        <TablePagination page={currentPage} pageCount={pageCount} totalItems={sorted.length} pageSize={PAGE_SIZE} onPageChange={setPage} />
       </div>
     </div>
   );

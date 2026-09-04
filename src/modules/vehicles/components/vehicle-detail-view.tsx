@@ -14,6 +14,7 @@ import { formatDate, formatNumber } from "@/lib/format";
 import { RelatedWorkOrdersTable } from "@/modules/work-orders/components/related-work-orders-table";
 import { getVehicleDisplayName } from "../display";
 import type { VehicleReadModel } from "../read-models";
+import { vehicleStatusChip } from "../status-styles";
 import { VehicleImage } from "./vehicle-image";
 
 export function VehicleDetailView({ model }: { model: VehicleReadModel }) {
@@ -34,6 +35,9 @@ export function VehicleDetailView({ model }: { model: VehicleReadModel }) {
             ) : (
               <Badge variant="secondary">{t("noActiveOrder")}</Badge>
             )}
+            <Badge variant="secondary" className={vehicleStatusChip[vehicle.status]}>
+              {t(`status.${vehicle.status}`)}
+            </Badge>
           </span>
         }
         description={<span data-ltr>{vehicle.plate}</span>}
@@ -75,6 +79,13 @@ export function VehicleDetailView({ model }: { model: VehicleReadModel }) {
             <DetailRow label={t("detail.year")} value={String(vehicle.year)} numeric />
             <DetailRow label={t("detail.plate")} value={vehicle.plate} ltr />
             <DetailRow label={t("detail.vin")} value={vehicle.vin ?? t("notAvailable")} ltr={vehicle.vin !== undefined} />
+            <DetailRow label={t("detail.color")} value={vehicle.color ? vehicle.color[lang] : t("notAvailable")} />
+            <DetailRow label={t("detail.fuelType")} value={vehicle.fuelType ? t(`fuelType.${vehicle.fuelType}`) : t("notAvailable")} />
+            <DetailRow
+              label={t("detail.mileage")}
+              value={vehicle.mileage === undefined ? t("notAvailable") : `${formatNumber(vehicle.mileage, locale)} ${t("kilometers")}`}
+              numeric
+            />
           </dl>
         </SectionCard>
 

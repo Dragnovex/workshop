@@ -2,6 +2,9 @@ import Link from "next/link";
 
 import "./globals.css";
 
+// ديناميكي — صفحة الخطأ لا تُولَّد ثابتًا (يتجنب سباق Next.js #95545).
+export const dynamic = "force-dynamic";
+
 /**
  * 404 خارج نطاق أي لغة (مسار لا يحمل بادئة لغة صالحة).
  * يبني <html> بنفسه لأن التخطيط الجذري يمرّر فقط.

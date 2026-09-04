@@ -32,7 +32,33 @@
     "signOut": "تسجيل الخروج",
     "help": "المساعدة",
     "comingSoon": "قيد الإنشاء",
-    "comingSoonBody": "هذه الوحدة مجدولة في مرحلة لاحقة. الهيكل والتنقّل جاهزان لها."
+    "comingSoonBody": "هذه الوحدة مجدولة في مرحلة لاحقة. الهيكل والتنقّل جاهزان لها.",
+    "paginationSummary": "{start}–{end} من {total}",
+    "previousPage": "الصفحة السابقة",
+    "nextPage": "الصفحة التالية",
+    "storageSaveFailed": "تعذّر حفظ التغييرات على هذا الجهاز — المساحة ممتلئة أو التخزين محجوب. حاول مرة أخرى أو استخدم متصفحًا آخر.",
+    "actions": "إجراءات",
+    "rowActions": "إجراءات السجل",
+    "deleteConfirmTitle": "تأكيد الحذف",
+    "deleteConfirmBody": "سيُحذف «{name}» نهائيًا من هذا الجهاز. لا يمكن التراجع.",
+    "deleted": "حُذف السجل",
+    "saved": "حُفظت التغييرات",
+    "print": "طباعة",
+    "exportPdf": "تصدير PDF",
+    "exportCsv": "تصدير CSV",
+    "sendWhatsapp": "إرسال واتساب",
+    "documentActions": "إجراءات المستند",
+    "noPhone": "لا يوجد رقم جوال مسجّل",
+    "from": "من تاريخ",
+    "to": "إلى تاريخ",
+    "clearFilters": "مسح الفلاتر",
+    "total": "الإجمالي",
+    "count": "العدد",
+    "new": "جديد",
+    "required": "هذا الحقل مطلوب",
+    "exportPdfHint": "اختر «حفظ بصيغة PDF» في وجهة الطباعة لحفظ المستند ملفًا.",
+    "invalidNumber": "قيمة رقمية غير صالحة",
+    "createdSuccess": "أُضيف السجل"
   },
   "nav": {
     "groups": {
@@ -45,20 +71,23 @@
     "dashboard": "لوحة التحكم",
     "workOrders": "أوامر التشغيل",
     "appointments": "المواعيد",
-    "estimates": "التقديرات",
+    "estimates": "التسعير",
     "customers": "العملاء",
     "vehicles": "المركبات",
     "inventory": "المخزون",
     "purchasing": "المشتريات",
     "invoices": "الفواتير",
     "accounting": "المحاسبة",
+    "dailyClosing": "تقفيل اليومية",
     "employees": "الموظفون",
     "marketing": "التسويق",
     "reports": "التقارير",
     "settings": "الإعدادات",
     "collapse": "طيّ القائمة",
     "expand": "توسيع القائمة",
-    "toggleSidebar": "إظهار أو إخفاء القائمة الجانبية"
+    "toggleSidebar": "إظهار أو إخفاء القائمة الجانبية",
+    "suppliers": "الموردون",
+    "returns": "المردود"
   },
   "theme": {
     "toggle": "تبديل السمة",
@@ -111,9 +140,10 @@
       "forgot": "نسيت كلمة المرور؟",
       "submit": "دخول",
       "submitting": "جارٍ التحقق…",
-      "notReady": "المصادقة تُفعَّل في المرحلة الثانية. الواجهة جاهزة والتوصيل لاحقًا.",
+      "notReady": "المصادقة مبنيّة لكنها غير مُهيَّأة: النظام يعمل حاليًا على بيانات تجريبية محلية. اضبط Supabase وDATA_SOURCE لتفعيل الدخول.",
       "errorInvalid": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-      "errorLocked": "تم قفل الحساب مؤقتًا بعد محاولات متعددة. حاول بعد ١٥ دقيقة."
+      "errorLocked": "تم قفل الحساب مؤقتًا بعد محاولات متعددة. حاول بعد ١٥ دقيقة.",
+      "errorNoProfile": "حسابك غير مُفعَّل في النظام. راجع مدير الورشة."
     },
     "forgot": {
       "title": "استعادة كلمة المرور",
@@ -179,7 +209,9 @@
       "title": "الإيرادات",
       "subtitle": "آخر ٧ أيام",
       "labor": "أجور عمل",
-      "parts": "قطع غيار"
+      "parts": "قطع غيار",
+      "expand": "توسيع",
+      "collapse": "طيّ"
     },
     "recentOrders": {
       "title": "أحدث أوامر التشغيل",
@@ -213,7 +245,17 @@
   "errors": {
     "notFoundTitle": "الصفحة غير موجودة",
     "notFoundBody": "الرابط الذي فتحته غير صحيح أو أن الصفحة نُقلت.",
-    "backHome": "العودة للوحة التحكم"
+    "backHome": "العودة للوحة التحكم",
+    "errorTitle": "حدث خطأ غير متوقّع",
+    "errorBody": "تعذّر عرض هذه الصفحة. حاول مرة أخرى، وإذا تكرّرت المشكلة تواصل مع الدعم الفني.",
+    "tryAgain": "حاول مرة أخرى",
+    "action": {
+      "UNAUTHENTICATED": "انتهت الجلسة — سجّل الدخول من جديد",
+      "FORBIDDEN": "لا تملك صلاحية هذا الإجراء",
+      "NOT_FOUND": "السجل لم يعد موجودًا — قد يكون حُذف من جهاز آخر",
+      "INVALID_INPUT": "بيانات غير صالحة — راجع الحقول",
+      "STORAGE_FAILED": "تعذّر حفظ التغييرات على الخادم. حاول مرة أخرى."
+    }
   },
   "workOrders": {
     "title": "أوامر التشغيل",
@@ -223,6 +265,44 @@
     "searchPlaceholder": "ابحث برقم الأمر أو العميل أو المركبة أو اللوحة…",
     "filterAll": "كل الحالات",
     "openOrder": "فتح الأمر {number}",
+    "create": {
+      "description": "أمر بسيط: العميل، المركبة، الشكوى — والباقي يأتي لاحقًا.",
+      "customer": "العميل",
+      "customerPlaceholder": "اختر العميل",
+      "vehicle": "المركبة",
+      "vehiclePlaceholder": "اختر مركبة",
+      "noVehicles": "لا توجد مركبات لهذا العميل",
+      "complaint": "الشكوى",
+      "request": "المطلوب (إصلاح أو قطعة)",
+      "requestPlaceholder": "مثال: تغيير مساعدين أمامي + فحص كمبيوتر",
+      "requiredRequest": "اكتب المطلوب",
+      "complaintPlaceholder": "مثال: تفتفة في المحرك واهتزاز عند الوقوف",
+      "priority": "الأولوية",
+      "submit": "حفظ الأمر",
+      "saving": "جارٍ الحفظ...",
+      "created": "تم إنشاء أمر التشغيل",
+      "requiredCustomer": "اختر العميل",
+      "requiredVehicle": "اختر المركبة",
+      "requiredComplaint": "اكتب الشكوى أو المطلوب",
+      "newCustomer": "عميل جديد",
+      "quickCustomerTitle": "عميل جديد سريع",
+      "quickCustomerDescription": "أنشئ عميلًا ومركبته بسرعة دون مغادرة هذه الشاشة.",
+      "quickCustomerName": "اسم العميل",
+      "quickCustomerNamePlaceholder": "مثال: محمد العتيبي",
+      "quickCustomerPhone": "رقم الجوال",
+      "quickVehicleType": "نوع السيارة",
+      "quickVehicleTypePlaceholder": "مثال: تويوتا كامري",
+      "quickVehiclePlate": "رقم اللوحة",
+      "quickCustomerSave": "حفظ وإضافة للأمر",
+      "quickCustomerRequiredName": "اكتب اسم العميل",
+      "quickCustomerRequiredVehicleType": "اكتب نوع السيارة",
+      "quickCustomerRequiredPlate": "اكتب رقم اللوحة",
+      "quickCustomerCreated": "تم إنشاء العميل والمركبة"
+    },
+    "advance": {
+      "next": "نقل إلى: {status}",
+      "to": "نُقل الأمر إلى: {status}"
+    },
     "stats": {
       "open": "أوامر مفتوحة",
       "awaitingApproval": "بانتظار الموافقة",
@@ -255,6 +335,16 @@
     },
     "detail": {
       "back": "العودة للأوامر",
+      "print": "طباعة",
+      "quickActions": "إجراءات سريعة",
+      "callCustomer": "اتصال بالعميل",
+      "viewCustomer": "عرض ملف العميل",
+      "viewVehicle": "عرض ملف المركبة",
+      "relations": "روابط ذات صلة",
+      "relationAppointment": "الموعد المرتبط",
+      "relationEstimate": "التقدير المرتبط",
+      "relationInvoice": "الفاتورة المرتبطة",
+      "noRelations": "لا توجد مواعيد أو تقديرات أو فواتير مرتبطة بهذا الأمر",
       "lifecycle": "دورة حياة الأمر",
       "summary": "ملخص الأمر",
       "customer": "العميل",
@@ -294,7 +384,12 @@
       }
     },
     "relatedEmpty": "لا توجد أوامر تشغيل",
-    "relatedEmptyDescription": "لم تُسجّل أوامر تشغيل مرتبطة."
+    "relatedEmptyDescription": "لم تُسجّل أوامر تشغيل مرتبطة.",
+    "edit": {
+      "title": "تعديل أمر التشغيل",
+      "description": "تغيير الحالة أو الفني أو الشكوى والمطلوب. تغيير الحالة يُسجَّل في الخط الزمني.",
+      "mileage": "العداد عند الاستلام"
+    }
   },
   "appointments": {
     "title": "المواعيد",
@@ -348,11 +443,38 @@
       "linkedWorkOrder": "أمر التشغيل المرتبط",
       "notes": "ملاحظات",
       "notFoundTitle": "الموعد غير موجود"
+    },
+    "new": {
+      "title": "موعد جديد",
+      "subtitle": "احجز موعدًا لعميل — يُحفظ محليًا على هذا الجهاز.",
+      "basicInfo": "تفاصيل الموعد",
+      "customer": "العميل",
+      "selectCustomer": "اختر العميل…",
+      "vehicle": "المركبة",
+      "selectVehicle": "اختر المركبة…",
+      "serviceAr": "نوع الخدمة (عربي)",
+      "serviceEn": "نوع الخدمة (إنجليزي)",
+      "dateTime": "التاريخ والوقت",
+      "durationMinutes": "المدة (دقيقة)",
+      "save": "حفظ الموعد",
+      "saved": "تم حفظ الموعد ✅",
+      "requiredCustomer": "اختر العميل والمركبة",
+      "requiredService": "نوع الخدمة مطلوب",
+      "requiredDate": "حدد التاريخ والوقت",
+      "requiredVehicle": "اختر المركبة",
+      "invalidDate": "تاريخ أو وقت غير صالح",
+      "invalidDuration": "المدة يجب أن تكون رقمًا صحيحًا أكبر من صفر"
+    },
+    "edit": {
+      "title": "تعديل الموعد",
+      "description": "تغيير بيانات الموعد أو حالته.",
+      "duration": "المدة (دقيقة)",
+      "notes": "ملاحظات"
     }
   },
   "estimates": {
-    "title": "التقديرات",
-    "subtitle": "عروض أسعار للعملاء قبل تحويلها لأوامر تشغيل.",
+    "title": "التسعير",
+    "subtitle": "عروض الأسعار المقدَّمة للعملاء ومتابعة الموافقة عليها.",
     "searchLabel": "البحث في التقديرات",
     "searchPlaceholder": "ابحث برقم التقدير أو العميل أو اللوحة…",
     "statusFilterLabel": "فلتر الحالة",
@@ -398,7 +520,24 @@
       "total": "الإجمالي",
       "linkedWorkOrder": "أمر التشغيل المرتبط",
       "notes": "ملاحظات",
-      "notFoundTitle": "التقدير غير موجود"
+      "notFoundTitle": "التقدير غير موجود",
+      "whatsappMessage": "عرض سعر رقم {number} من ورشة النعماني. الإجمالي التقديري {total} {currency}. للاستفسار تفضّل بالتواصل معنا."
+    },
+    "newQuote": "عرض سعر جديد",
+    "editQuote": "تعديل عرض السعر",
+    "form": {
+      "description": "عرض سعر تقديري للعميل. المرجع يُخصَّص مرة واحدة ولا يتغيّر بالتعديل.",
+      "customerPlaceholder": "اختر العميل",
+      "vehiclePlaceholder": "اختر المركبة",
+      "noVehicles": "لا مركبات مسجّلة لهذا العميل",
+      "requiredCustomer": "اختيار العميل إلزامي",
+      "requiredVehicle": "اختيار المركبة إلزامي",
+      "requiredLine": "أضف بندًا واحدًا على الأقل بوصف",
+      "invalidValidUntil": "تاريخ الصلاحية غير صالح",
+      "invalidQty": "كمية غير صالحة في أحد البنود",
+      "invalidPrice": "سعر غير صالح في أحد البنود",
+      "addLine": "إضافة بند",
+      "removeLine": "حذف البند"
     }
   },
   "customers": {
@@ -449,7 +588,53 @@
         "orders": "الأوامر"
       },
       "openVehicle": "فتح المركبة {name}",
-      "notAvailable": "غير متوفر"
+      "notAvailable": "غير متوفر",
+      "billing": {
+        "title": "بيانات الفوترة",
+        "contactTitle": "بيانات الاتصال",
+        "legalTitle": "البيانات القانونية",
+        "noLegalData": "لا توجد بيانات قانونية مسجّلة لهذا العميل",
+        "legalName": "الاسم القانوني",
+        "phone": "الجوال",
+        "email": "البريد الإلكتروني",
+        "vatNumber": "الرقم الضريبي",
+        "commercialRegistration": "السجل التجاري",
+        "address": "العنوان"
+      }
+    },
+    "new": {
+      "title": "عميل جديد",
+      "subtitle": "أضف عميلًا جديدًا — يُحفظ محليًا على هذا الجهاز.",
+      "basicInfo": "البيانات الأساسية",
+      "kind": "نوع العميل",
+      "nameAr": "الاسم (عربي)",
+      "nameEn": "الاسم (إنجليزي)",
+      "phone": "رقم الجوال",
+      "email": "البريد الإلكتروني (اختياري)",
+      "save": "حفظ العميل",
+      "saved": "تم حفظ العميل ✅",
+      "nameRequired": "الاسم مطلوب",
+      "phoneInvalid": "رقم جوال سعودي غير صالح — الصيغة 05xxxxxxxx أو ‎+9665xxxxxxxx",
+      "emailInvalid": "صيغة البريد الإلكتروني غير صحيحة",
+      "kindInstitution": "مؤسسة",
+      "legalInfo": "البيانات القانونية",
+      "legalName": "الاسم القانوني الكامل",
+      "vatNumber": "الرقم الضريبي",
+      "vatRequired": "الرقم الضريبي إلزامي للشركات والمؤسسات",
+      "vatInvalid": "الرقم الضريبي ١٥ رقمًا يبدأ وينتهي بالرقم ٣",
+      "crNumber": "السجل التجاري (اختياري)",
+      "crInvalid": "السجل التجاري ١٠ أرقام",
+      "nationalAddress": "العنوان الوطني (اختياري)",
+      "buildingNo": "رقم المبنى",
+      "street": "الشارع",
+      "district": "الحي",
+      "city": "المدينة",
+      "postalCode": "الرمز البريدي",
+      "whatsapp": "مراسلة عبر واتساب"
+    },
+    "edit": {
+      "title": "تعديل بيانات العميل",
+      "description": "تغيير بيانات العميل المسجّلة. الرقم الضريبي يبقى إلزاميًا للشركات والمؤسسات."
     }
   },
   "inventory": {
@@ -498,6 +683,14 @@
         "reorderLevel": "مستوى إعادة الطلب",
         "totalValue": "القيمة الإجمالية"
       }
+    },
+    "newPart": "قطعة جديدة",
+    "editPart": "تعديل القطعة",
+    "form": {
+      "description": "بيانات القطعة كما تظهر في المخزون وفي بنود أوامر التشغيل.",
+      "nameAr": "الاسم بالعربي",
+      "nameEn": "الاسم بالإنجليزي",
+      "reorderLevel": "حد إعادة الطلب"
     }
   },
   "purchasing": {
@@ -519,7 +712,10 @@
       "supplier": "المورد",
       "total": "الإجمالي",
       "expected": "الوصول المتوقع",
-      "status": "الحالة"
+      "status": "الحالة",
+      "invoiceNumber": "رقم فاتورة المورّد",
+      "invoiceDate": "تاريخ الفاتورة",
+      "reference": "المرجع"
     },
     "status": {
       "draft": "مسودة",
@@ -530,7 +726,7 @@
     },
     "detail": {
       "back": "العودة للمشتريات",
-      "notFoundTitle": "أمر الشراء غير موجود",
+      "notFoundTitle": "فاتورة الشراء غير موجودة",
       "summary": "ملخّص الأمر",
       "orderedAt": "تاريخ الطلب",
       "items": "البنود",
@@ -541,6 +737,39 @@
         "unitCost": "تكلفة الوحدة",
         "lineTotal": "الإجمالي"
       },
+      "total": "الإجمالي",
+      "notes": "ملاحظات",
+      "whatsappMessage": "بخصوص فاتورة الشراء رقم {number} بإجمالي {total} {currency}.",
+      "receivedAt": "تاريخ الاستلام"
+    },
+    "newInvoice": "فاتورة مشتريات",
+    "editInvoice": "تعديل فاتورة المشتريات",
+    "receive": {
+      "action": "استلام",
+      "confirmButton": "تأكيد الاستلام",
+      "confirm": "سيُضاف محتوى الفاتورة «{number}» ({count} بند) إلى المخزون فعليًا. لا يمكن التراجع، والاستلام يتم مرة واحدة لكل فاتورة.",
+      "alreadyReceived": "هذه الفاتورة مستلَمة سلفًا — لا يُضاف محتواها للمخزون مرتين.",
+      "done": "دخل المخزون: {updated} صنفًا محدَّثًا و{created} صنفًا جديدًا."
+    },
+    "form": {
+      "description": "فاتورة شراء من مورّد مسجّل. الضريبة تُحتسب فقط إذا كان المورّد مسجّلًا ضريبيًا.",
+      "supplierPlaceholder": "اختر المورّد",
+      "requiredSupplier": "اختيار المورّد إلزامي",
+      "requiredInvoiceNumber": "رقم فاتورة المورّد إلزامي",
+      "requiredInvoiceDate": "تاريخ الفاتورة غير صالح",
+      "requiredLine": "أضف بندًا واحدًا على الأقل بوصف",
+      "invalidQty": "كمية غير صالحة في أحد البنود",
+      "invalidCost": "تكلفة غير صالحة في أحد البنود",
+      "lines": "البنود",
+      "addLine": "إضافة بند",
+      "removeLine": "حذف البند",
+      "lineSku": "الرمز",
+      "lineDescription": "الوصف",
+      "lineQty": "الكمية",
+      "lineCost": "التكلفة",
+      "subtotal": "الإجمالي قبل الضريبة",
+      "vat": "ضريبة القيمة المضافة ١٥٪",
+      "vatExempt": "بلا ضريبة (مورّد غير مسجّل)",
       "total": "الإجمالي",
       "notes": "ملاحظات"
     }
@@ -555,6 +784,20 @@
       "all": "كل المركبات",
       "active": "في الورشة",
       "inactive": "بلا أمر مفتوح"
+    },
+    "statusFilterLabel": "تصفية حسب حالة المركبة",
+    "filterAllStatuses": "كل الحالات",
+    "status": {
+      "title": "الحالة",
+      "active": "نشطة",
+      "inactive": "غير نشطة",
+      "sold": "مباعة"
+    },
+    "fuelType": {
+      "gasoline": "بنزين",
+      "diesel": "ديزل",
+      "hybrid": "هجين",
+      "electric": "كهربائية"
     },
     "openVehicle": "فتح المركبة {name}",
     "noActiveOrder": "لا يوجد أمر مفتوح",
@@ -590,21 +833,36 @@
       "year": "سنة الصنع",
       "plate": "اللوحة",
       "vin": "رقم الهيكل",
+      "color": "اللون",
+      "fuelType": "نوع الوقود",
+      "status": "حالة المركبة",
+      "mileage": "العداد المسجَّل",
       "owner": "المالك",
       "workOrders": "سجل أوامر التشغيل"
     },
     "customerKind": {
       "individual": "عميل فرد",
       "company": "عميل شركة"
+    },
+    "newVehicle": "مركبة جديدة",
+    "editVehicle": "تعديل المركبة",
+    "form": {
+      "description": "بيانات المركبة ومالكها. اللوحة ورقم الهيكل يُكتبان بالإنجليزي.",
+      "make": "الماركة",
+      "model": "الموديل",
+      "year": "سنة الصنع",
+      "vin": "رقم الهيكل (VIN)"
     }
   },
   "invoices": {
     "title": "الفواتير",
-    "subtitle": "فواتير العملاء المرتبطة بأوامر التشغيل ومتابعة السداد.",
+    "subtitle": "فواتير العملاء الضريبية والمبسّطة، مرتبطة بأوامر التشغيل ومتابعة السداد.",
     "searchLabel": "البحث في الفواتير",
     "searchPlaceholder": "ابحث برقم الفاتورة أو العميل أو اللوحة…",
     "statusFilterLabel": "فلتر الحالة",
+    "kindFilterLabel": "فلتر النوع",
     "filterAll": "كل الحالات",
+    "filterAllKinds": "كل الأنواع",
     "openInvoice": "فتح الفاتورة {number}",
     "stats": {
       "total": "إجمالي الفواتير",
@@ -614,18 +872,30 @@
     },
     "columns": {
       "number": "رقم الفاتورة",
+      "kind": "النوع",
       "customer": "العميل",
       "vehicle": "المركبة",
       "total": "الإجمالي",
+      "supplyDate": "تاريخ التوريد",
       "dueAt": "تاريخ الاستحقاق",
       "status": "الحالة"
     },
+    "kind": {
+      "standard": "ضريبية (B2B)",
+      "simplified": "مبسّطة (B2C)"
+    },
     "status": {
-      "unpaid": "غير مسدَّدة",
+      "draft": "مسودة",
+      "issued": "مُصدَرة",
       "partiallyPaid": "سداد جزئي",
       "paid": "مسدَّدة",
       "overdue": "متأخرة",
       "cancelled": "ملغاة"
+    },
+    "taxCategory": {
+      "standard": "قياسية 15٪",
+      "zeroRated": "صفرية النسبة",
+      "exempt": "معفاة"
     },
     "customerKind": {
       "individual": "فرد",
@@ -633,22 +903,83 @@
     },
     "detail": {
       "back": "العودة للفواتير",
-      "subtitle": "أُصدرت في {date}",
+      "print": "طباعة",
+      "locked": "مُقفلة",
+      "subtitle": "تاريخ التوريد {date}",
       "notFoundTitle": "الفاتورة غير موجودة",
-      "customer": "العميل",
+      "seller": "بيانات البائع",
+      "buyer": "بيانات المشتري",
+      "legalName": "الاسم القانوني",
+      "vatNumber": "الرقم الضريبي",
+      "commercialRegistration": "السجل التجاري",
+      "address": "العنوان",
       "vehicle": "المركبة",
       "items": "البنود",
       "columns": {
         "description": "الوصف",
         "qty": "الكمية",
         "unitPrice": "سعر الوحدة",
+        "discount": "الخصم",
+        "taxCategory": "فئة الضريبة",
+        "tax": "الضريبة",
         "lineTotal": "الإجمالي"
       },
       "subtotal": "الإجمالي قبل الضريبة",
-      "vat": "ضريبة القيمة المضافة ({rate}٪)",
-      "total": "الإجمالي شامل الضريبة",
+      "taxTotal": "إجمالي ضريبة القيمة المضافة",
+      "grandTotal": "الإجمالي شامل الضريبة",
       "balanceDue": "المتبقي",
-      "linkedWorkOrder": "أمر التشغيل المرتبط"
+      "qrTitle": "رمز الاستجابة السريعة (QR)",
+      "qrSubtitle": "الحقول الخمسة الدنيا للمرحلة الأولى من فاتورة",
+      "links": "روابط",
+      "linkedWorkOrder": "أمر التشغيل المرتبط",
+      "noteInfo": "بيانات الإشعار",
+      "relatedInvoice": "مرتبطة بالفاتورة",
+      "reason": "السبب",
+      "auditLog": "سجل التدقيق",
+      "manualAdjustment": "تسوية يدوية",
+      "whatsappMessage": "فاتورة رقم {number} من ورشة النعماني بإجمالي {total} {currency}. شكرًا لثقتك."
+    },
+    "new": {
+      "title": "فاتورة جديدة",
+      "subtitle": "أنشئ فاتورة مبسطة كمسودة — تُحفظ محليًا على هذا الجهاز.",
+      "basicInfo": "بيانات الفاتورة",
+      "customer": "العميل",
+      "selectCustomer": "اختر العميل…",
+      "vehicle": "المركبة",
+      "vehicleOptional": "بدون مركبة",
+      "lineItems": "البنود",
+      "addLine": "إضافة بند",
+      "lineDescription": "الوصف",
+      "lineQty": "الكمية",
+      "linePrice": "السعر",
+      "removeLine": "حذف البند",
+      "total": "الإجمالي",
+      "save": "حفظ المسودة",
+      "saved": "تم حفظ الفاتورة كمسودة ✅",
+      "requiredCustomer": "اختر العميل",
+      "requiredLine": "أضف بندًا واحدًا على الأقل بسعر",
+      "invalidQty": "الكمية يجب أن تكون رقمًا أكبر من صفر",
+      "invalidPrice": "السعر يجب أن يكون رقمًا موجبًا",
+      "paymentMethod": "طريقة الدفع",
+      "walkInCustomer": "عميل نقدي (بدون تسجيل)",
+      "customerOptional": "العميل (اختياري)",
+      "lineDiscount": "الخصم",
+      "discountTotal": "إجمالي الخصم",
+      "invalidDiscount": "الخصم يجب أن يكون رقمًا موجبًا لا يتجاوز قيمة البند",
+      "print": "طباعة",
+      "saveAndPrint": "حفظ وطباعة"
+    },
+    "paymentMethodOptions": {
+      "cash": "نقدًا",
+      "card": "شبكة",
+      "bankTransfer": "تحويل بنكي",
+      "credit": "آجل"
+    },
+    "edit": {
+      "title": "تعديل المسودة",
+      "subtitle": "المسودة قابلة للتعديل حتى تُصدَر. بعد الإصدار تُقفل نظاميًا.",
+      "locked": "الفاتورة مقفلة",
+      "lockedError": "الفاتورة صدرت ولا يمكن تعديلها. أصدر إشعارًا دائنًا أو مدينًا لتصحيحها."
     }
   },
   "accounting": {
@@ -693,6 +1024,138 @@
       "linkedInvoice": "الفاتورة المرتبطة",
       "linkedPurchaseOrder": "أمر الشراء المرتبط",
       "notes": "ملاحظات"
+    },
+    "ledgers": {
+      "exported": "صُدِّر الملف",
+      "periodTotal": "إجمالي الفترة ({count} سجل)",
+      "purchases": {
+        "title": "سجل المشتريات",
+        "subtitle": "فواتير الشراء خلال فترة محدّدة مع إجمالي الضريبة.",
+        "searchLabel": "البحث في سجل المشتريات",
+        "searchPlaceholder": "ابحث برقم الأمر أو فاتورة المورّد أو اسمه…",
+        "columns": {
+          "date": "التاريخ",
+          "number": "رقم الأمر",
+          "invoiceNumber": "فاتورة المورّد",
+          "supplier": "المورّد",
+          "status": "الحالة",
+          "subtotal": "قبل الضريبة",
+          "vat": "الضريبة",
+          "total": "الإجمالي"
+        }
+      },
+      "workOrders": {
+        "title": "سجل أوامر التشغيل",
+        "subtitle": "أوامر التشغيل خلال فترة محدّدة مع تفصيل الأجور والقطع.",
+        "searchLabel": "البحث في سجل أوامر التشغيل",
+        "searchPlaceholder": "ابحث برقم الأمر أو العميل أو اللوحة…",
+        "columns": {
+          "date": "التاريخ",
+          "number": "رقم الأمر",
+          "customer": "العميل",
+          "vehicle": "المركبة",
+          "status": "الحالة",
+          "labor": "الأجور",
+          "parts": "القطع",
+          "total": "الإجمالي"
+        }
+      }
+    }
+  },
+  "dailyClosing": {
+    "title": "تقفيل اليومية",
+    "subtitle": "المبيعات والقبض والمصروفات والمشتريات اليومية، والرصيد المرحّل.",
+    "searchLabel": "البحث في اليوميات",
+    "searchPlaceholder": "ابحث بالتاريخ (YYYY-MM-DD)…",
+    "statusFilterLabel": "فلتر الحالة",
+    "filterAll": "كل الحالات",
+    "openClosing": "فتح يومية {date}",
+    "entryNumber": "رقم القيد",
+    "branch": "الفرع",
+    "cashAccount": "الصندوق / الحساب",
+    "stats": {
+      "closed": "يوميات مقفلة",
+      "draft": "يوميات مسودة",
+      "latestBalance": "آخر رصيد مرحّل"
+    },
+    "columns": {
+      "date": "التاريخ",
+      "opening": "رصيد ما قبله (مرحّل)",
+      "receipts": "القبض",
+      "expenses": "المصروفات",
+      "purchases": "المشتريات",
+      "closingBalance": "الرصيد الختامي",
+      "status": "الحالة"
+    },
+    "status": {
+      "draft": "مسودة",
+      "closed": "مقفلة"
+    },
+    "sections": {
+      "sales": "المبيعات اليومية",
+      "receipts": "سندات القبض",
+      "expenses": "المصروفات",
+      "purchases": "المشتريات"
+    },
+    "entryColumns": {
+      "reference": "رقم المرجع",
+      "description": "البيان",
+      "paymentMethod": "طريقة الدفع",
+      "responsible": "المسؤول",
+      "amount": "المبلغ"
+    },
+    "paymentMethod": {
+      "cash": "نقدًا",
+      "card": "بطاقة",
+      "bankTransfer": "تحويل بنكي",
+      "credit": "آجل"
+    },
+    "totals": {
+      "opening": "رصيد ما قبله (مرحّل)",
+      "receipts": "القبض",
+      "expenses": "المصروفات",
+      "purchases": "المشتريات",
+      "sales": "المبيعات",
+      "dailyNet": "صافي اليومية",
+      "closingBalance": "الرصيد الختامي"
+    },
+    "detail": {
+      "back": "العودة لتقفيل اليومية",
+      "print": "طباعة",
+      "save": "حفظ",
+      "savedLocally": "تم حفظ التعديلات في هذه الجلسة",
+      "unsavedChanges": "تعديلات غير محفوظة",
+      "locked": "مُقفلة",
+      "subtitle": "تفاصيل حركة اليوم الكاملة",
+      "entrySubtitle": "أدخل بيانات المصروفات والمشتريات — الإجماليات تُحسب تلقائيًا.",
+      "entryHeader": "بيانات القيد",
+      "notFoundTitle": "اليومية غير موجودة",
+      "noEntries": "لا توجد بنود",
+      "addRow": "إضافة بند",
+      "removeRow": "حذف البند",
+      "finalCalculations": "الحسابات النهائية",
+      "totalDailySales": "أوامر التشغيل اليومية",
+      "totalReceipts": "مجموع القبض",
+      "totalExpenses": "مجموع المصروفات",
+      "totalPurchases": "مجموع المشتريات",
+      "weekday": "اليوم",
+      "preliminaryNet": "الصافي الأولي",
+      "deductPurchases": "خصم المشتريات",
+      "deductExpenses": "خصم المصروفات",
+      "grossTotal": "الإجمالي الكلي",
+      "netDaily": "صافي اليومية",
+      "notesTitle": "ملاحظات",
+      "notesPlaceholder": "أي ملاحظات على يومية اليوم…",
+      "autoLinkedTitle": "المبيعات وسندات القبض",
+      "autoLinkedSubtitle": "مرتبطة تلقائيًا بالفواتير الصادرة — للعرض فقط",
+      "closure": "بيانات الإقفال",
+      "closedBy": "أقفل اليومية",
+      "reviewedBy": "راجعها المحاسب",
+      "auditLog": "سجل التدقيق",
+      "manualAdjustment": "تسوية يدوية",
+      "negativeAmount": "المبلغ لا يمكن أن يكون سالبًا — راجع البند: {description}",
+      "emptyDescription": "(بلا وصف)",
+      "whatsappMessage": "تقفيل يومية رقم القيد {entry} — مستند داخلي."
     }
   },
   "employees": {
@@ -714,7 +1177,8 @@
       "department": "القسم",
       "phone": "الجوال",
       "hireDate": "تاريخ التعيين",
-      "status": "الحالة"
+      "status": "الحالة",
+      "nationality": "الجنسية"
     },
     "department": {
       "technicians": "الفنيون",
@@ -736,6 +1200,20 @@
       "phone": "الجوال",
       "email": "البريد الإلكتروني",
       "hireDate": "تاريخ التعيين"
+    },
+    "newEmployee": "موظف جديد",
+    "editEmployee": "تعديل بيانات الموظف",
+    "form": {
+      "description": "بيانات الموظف النظامية كما تُستخدم في كشوف العمالة والتأمينات.",
+      "nameAr": "الاسم بالعربي",
+      "nameEn": "الاسم بالإنجليزي",
+      "email": "البريد الإلكتروني",
+      "residencyNumber": "رقم الإقامة / الهوية",
+      "residencyHint": "عشرة أرقام. يُترك فارغًا إن لم يُسجَّل بعد.",
+      "residencyInvalid": "رقم الإقامة/الهوية يجب أن يكون عشرة أرقام",
+      "startDate": "تاريخ المباشرة",
+      "startDateHint": "تاريخ بدء العمل فعليًا — قد يختلف عن تاريخ التعاقد.",
+      "weeklyHours": "ساعات العمل الأسبوعية"
     }
   },
   "marketing": {
@@ -782,6 +1260,29 @@
       "startDate": "تاريخ البدء",
       "endDate": "تاريخ الانتهاء",
       "notes": "ملاحظات"
+    },
+    "studio": {
+      "title": "استوديو المحتوى",
+      "subtitle": "ثلاث خانات للمنشورات والصور — اكتب، ثم انسخ وانشر.",
+      "slot": "منشور {number}",
+      "statusLabel": "حالة المنشور {number}",
+      "slotTitle": "العنوان",
+      "slotBody": "نص المنشور",
+      "slotBodyPlaceholder": "ابدأ بالمشكلة التي يعرفها العميل…",
+      "slotMedia": "رابط الصورة أو الفيديو",
+      "copyPost": "نسخ المنشور",
+      "copyHook": "نسخ الهوك",
+      "copied": "نُسخ إلى الحافظة",
+      "copyFailed": "تعذّر النسخ — حدّد النص وانسخه يدويًا",
+      "status": {
+        "idea": "فكرة",
+        "ready": "جاهز",
+        "published": "منشور"
+      },
+      "hooks": "هوكات جاهزة",
+      "hooksSubtitle": "جمل افتتاحية مجرَّبة — انسخها وعدّل عليها.",
+      "instructions": "تعليمات الكتابة",
+      "instructionsSubtitle": "قواعد قصيرة تحكم كل منشور قبل نشره."
     }
   },
   "reports": {
@@ -817,6 +1318,60 @@
       "back": "العودة للتقارير",
       "notFoundTitle": "التقرير غير موجود",
       "summary": "ملخّص التقرير"
+    },
+    "builder": {
+      "title": "منشئ التقارير",
+      "subtitle": "اختر المصدر والفترة ثم ولّد التقرير — المصادر المتاحة تتبع صلاحيات دورك.",
+      "source": "مصدر التقرير",
+      "generate": "توليد التقرير",
+      "exported": "صُدِّر الملف",
+      "emptyResult": "لا توجد سجلات ضمن الفترة المحدّدة",
+      "total": "الإجمالي ({count} سجل)",
+      "noSources": "لا مصادر متاحة",
+      "noSourcesBody": "دورك الحالي لا يسمح بقراءة أي مصدر من مصادر التقارير.",
+      "sources": {
+        "workOrders": "أوامر التشغيل",
+        "purchases": "المشتريات",
+        "returns": "المردود",
+        "quotes": "التسعير",
+        "dailyClosing": "تقفيل اليومية"
+      },
+      "noteType": {
+        "creditNote": "إشعار دائن",
+        "debitNote": "إشعار مدين",
+        "invoice": "فاتورة"
+      },
+      "quoteStatus": {
+        "draft": "مسودة",
+        "sent": "مُرسل",
+        "approved": "معتمد",
+        "rejected": "مرفوض",
+        "expired": "منتهٍ"
+      },
+      "columns": {
+        "date": "التاريخ",
+        "number": "الرقم",
+        "customer": "العميل",
+        "vehicle": "المركبة",
+        "supplier": "المورّد",
+        "invoiceNumber": "فاتورة المورّد",
+        "labor": "الأجور",
+        "parts": "القطع",
+        "subtotal": "قبل الضريبة",
+        "vat": "الضريبة",
+        "total": "الإجمالي",
+        "type": "النوع",
+        "relatedInvoice": "الفاتورة الأصلية",
+        "reason": "السبب",
+        "status": "الحالة",
+        "validUntil": "صالح حتى",
+        "entryNumber": "رقم القيد",
+        "opening": "الرصيد المرحّل",
+        "inflow": "الوارد",
+        "outflow": "الصادر",
+        "net": "صافي اليومية",
+        "closing": "الرصيد الختامي"
+      }
     }
   },
   "settings": {
@@ -867,6 +1422,118 @@
         "advisor": "مستشار خدمة",
         "accountant": "محاسب"
       }
+    }
+  },
+  "permissions": {
+    "denied": "لا تملك صلاحية هذا الإجراء",
+    "deniedDescription": "دورك الحالي لا يسمح بهذه العملية. راجع مدير النظام.",
+    "roleLabel": "الدور",
+    "previewTitle": "دور المعاينة",
+    "previewDescription": "وضع البذرة المحلية بلا مصادقة حقيقية. تبديل الدور هنا يغيّر ما تسمح به الواجهة فقط — ليس جلسة ولا يمنح وصولًا لأي بيانات.",
+    "sessionRoleTitle": "الدور من الجلسة",
+    "sessionRoleDescription": "المصادقة مفعّلة — الدور يأتي من الجلسة الحقيقية ولا يمكن تبديله من هنا.",
+    "roles": {
+      "owner": "المالك",
+      "manager": "مدير الورشة",
+      "serviceAdvisor": "مستشار خدمة",
+      "technician": "فني",
+      "storekeeper": "أمين مخزن",
+      "accountant": "محاسب",
+      "receptionist": "موظف استقبال"
+    },
+    "permissionCount": "{count} صلاحية",
+    "switchRole": "تبديل الدور",
+    "switched": "الدور الآن: {role}",
+    "switchFailed": "تعذّر حفظ الدور على هذا الجهاز"
+  },
+  "suppliers": {
+    "title": "الموردون",
+    "subtitle": "سجل موحّد للموردين ببياناتهم الضريبية وشروط السداد.",
+    "newSupplier": "مورّد جديد",
+    "editSupplier": "تعديل المورّد",
+    "searchLabel": "البحث في الموردين",
+    "searchPlaceholder": "ابحث باسم المورّد أو رقمه الضريبي…",
+    "termsFilterLabel": "تصفية حسب شروط السداد",
+    "filterAll": "كل الشروط",
+    "deleteWarning": "سيُحذف المورّد «{name}» نهائيًا. فواتير الشراء السابقة تحتفظ باسمه المسجّل وقت الشراء ولا تتأثر.",
+    "stats": {
+      "total": "إجمالي الموردين",
+      "withVat": "مسجّلون ضريبيًا",
+      "credit": "بالآجل"
+    },
+    "columns": {
+      "name": "المورّد",
+      "vatNumber": "الرقم الضريبي",
+      "phone": "الجوال",
+      "paymentTerms": "شروط السداد",
+      "reference": "المرجع"
+    },
+    "paymentTerms": {
+      "cash": "نقدي",
+      "credit": "آجل",
+      "bankTransfer": "تحويل بنكي"
+    },
+    "form": {
+      "description": "بيانات المورّد كما تظهر في فواتير الشراء وسجل المشتريات.",
+      "nameAr": "الاسم بالعربي",
+      "nameEn": "الاسم بالإنجليزي",
+      "cr": "السجل التجاري",
+      "email": "البريد الإلكتروني",
+      "vatHint": "١٥ رقمًا. اتركه فارغًا للمورّد غير المسجّل ضريبيًا.",
+      "vatInvalid": "الرقم الضريبي غير صالح — ١٥ رقمًا تبدأ وتنتهي بالرقم ٣.",
+      "buildingNo": "رقم المبنى",
+      "street": "الشارع",
+      "district": "الحي",
+      "city": "المدينة",
+      "postalCode": "الرمز البريدي",
+      "notes": "ملاحظات"
+    }
+  },
+  "returns": {
+    "title": "المردود",
+    "subtitle": "الإشعارات الدائنة والمدينة المرتبطة بالفواتير الصادرة.",
+    "newNote": "إشعار جديد",
+    "editNote": "تعديل الإشعار",
+    "searchLabel": "البحث في المردود",
+    "searchPlaceholder": "ابحث برقم الإشعار أو الفاتورة أو العميل…",
+    "typeFilterLabel": "تصفية حسب نوع الإشعار",
+    "filterAll": "كل الأنواع",
+    "type": {
+      "creditNote": "إشعار دائن",
+      "debitNote": "إشعار مدين"
+    },
+    "stats": {
+      "total": "إجمالي الإشعارات",
+      "credit": "دائنة",
+      "debit": "مدينة",
+      "creditValue": "قيمة المردود"
+    },
+    "columns": {
+      "number": "رقم الإشعار",
+      "type": "النوع",
+      "relatedInvoice": "الفاتورة الأصلية",
+      "customer": "العميل",
+      "reason": "السبب",
+      "total": "القيمة",
+      "date": "التاريخ"
+    },
+    "form": {
+      "description": "الإشعار مستند مستقل يشير للفاتورة الأصلية — الفاتورة المُصدَرة لا تُعدَّل.",
+      "invoicePlaceholder": "اختر الفاتورة الأصلية",
+      "reasonPlaceholder": "مثال: إرجاع قطعة غير مطابقة",
+      "requiredInvoice": "اختيار الفاتورة الأصلية إلزامي",
+      "requiredReason": "سبب الإشعار إلزامي",
+      "requiredLine": "أضف بندًا واحدًا على الأقل بوصف",
+      "invalidQty": "كمية غير صالحة في أحد البنود",
+      "invalidPrice": "سعر غير صالح في أحد البنود",
+      "exceedsOriginal": "قيمة الإشعار تتجاوز قيمة الفاتورة الأصلية",
+      "lines": "البنود",
+      "addLine": "إضافة بند",
+      "removeLine": "حذف البند",
+      "lineDescription": "الوصف",
+      "lineQty": "الكمية",
+      "linePrice": "السعر",
+      "total": "الإجمالي شامل الضريبة"
     }
   }
 }

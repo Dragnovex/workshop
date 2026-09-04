@@ -2,7 +2,8 @@ import { cn } from "@/lib/utils";
 import type { InvoiceStatus } from "../types";
 
 const invoiceStatusChip: Record<InvoiceStatus, string> = {
-  unpaid: "bg-secondary text-muted-foreground",
+  draft: "bg-secondary text-muted-foreground",
+  issued: "bg-info-subtle text-info-text",
   partiallyPaid: "bg-warning-subtle text-warning-text",
   paid: "bg-success-subtle text-success-text",
   overdue: "bg-danger-subtle text-danger-text",

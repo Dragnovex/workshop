@@ -36,7 +36,11 @@ export function getDashboardKpis(now = new Date()): DashboardKpis {
   );
 
   const todayInvoices = invoices.filter(
-    (invoice) => invoice.status !== "cancelled" && isSameDay(invoice.issuedAt, now),
+    (invoice) =>
+      invoice.documentType === "invoice" &&
+      invoice.status !== "cancelled" &&
+      invoice.issuedAt !== undefined &&
+      isSameDay(invoice.issuedAt, now),
   );
 
   return {

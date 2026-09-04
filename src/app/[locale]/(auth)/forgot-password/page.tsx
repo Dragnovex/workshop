@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ForgotPasswordForm } from "@/modules/auth/components/forgot-password-form";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

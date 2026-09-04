@@ -1,8 +1,11 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileWarning } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
+import { DocumentActions } from "@/components/patterns/document-actions";
+import { EmptyState } from "@/components/patterns/empty-state";
 import { PageHeader } from "@/components/patterns/page-header";
 import { SectionCard } from "@/components/patterns/section-card";
 import { Button } from "@/components/ui/button";
@@ -16,17 +19,43 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
-import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
+import { formatCurrency, formatDate, formatMoney, formatNumber } from "@/lib/format";
+import { getPurchaseTotals } from "@/lib/services/purchasing-service";
+import type { Supplier } from "@/modules/suppliers/types";
 import { PurchaseOrderStatusBadge } from "./purchase-order-status-badge";
-import { getPurchaseOrderTotal } from "../read-models";
+import { purchaseOrderStore } from "../client-store";
 import type { PurchaseOrder } from "../types";
 
-export function PurchaseOrderDetailView({ order }: { order: PurchaseOrder }) {
+/**
+ * تفاصيل فاتورة/أمر الشراء.
+ *
+ * الفاتورة قد تكون مُنشأة من الواجهة ومحفوظة محليًا فقط — لذلك يستقبل
+ * المكوّن بذرة الخادم ويحلّ المعرّف على العميل بعد الدمج.
+ */
+export function PurchaseOrderDetailView({
+  id,
+  seedOrders,
+  suppliers,
+}: {
+  id: string;
+  seedOrders: PurchaseOrder[];
+  suppliers: Supplier[];
+}) {
   const t = useTranslations("purchasing");
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const lang = locale === "en" ? "en" : "ar";
-  const total = getPurchaseOrderTotal(order);
+
+  const [orders] = useState(() => purchaseOrderStore.load(seedOrders));
+  const order = orders.find((item) => item.id === id);
+
+  if (!order) {
+    return <EmptyState icon={FileWarning} title={t("detail.notFoundTitle")} />;
+  }
+
+  const totals = getPurchaseTotals(order);
+  const total = totals.total;
+  const supplier = suppliers.find((item) => item.id === order.supplierId);
 
   return (
     <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
@@ -39,12 +68,22 @@ export function PurchaseOrderDetailView({ order }: { order: PurchaseOrder }) {
         }
         description={order.supplier[lang]}
         actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/purchasing">
-              <ArrowRight aria-hidden="true" className="size-4 ltr:rotate-180" />
-              {t("detail.back")}
-            </Link>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <DocumentActions
+              phone={supplier?.phone}
+              message={t("detail.whatsappMessage", {
+                number: order.invoiceNumber ?? order.number,
+                total: formatMoney(total, locale),
+                currency: tCommon("currency"),
+              })}
+            />
+            <Button asChild variant="outline" size="sm" className="print:hidden">
+              <Link href="/purchasing">
+                <ArrowRight aria-hidden="true" className="size-4 ltr:rotate-180" />
+                {t("detail.back")}
+              </Link>
+            </Button>
+          </div>
         }
       />
 
@@ -53,6 +92,24 @@ export function PurchaseOrderDetailView({ order }: { order: PurchaseOrder }) {
           <DetailRow label={t("columns.supplier")} value={order.supplier[lang]} />
           <DetailRow label={t("detail.orderedAt")} value={formatDate(order.orderedAt, locale)} numeric />
           <DetailRow label={t("columns.expected")} value={formatDate(order.expectedAt, locale)} numeric />
+          {order.invoiceNumber ? (
+            <DetailRow label={t("columns.invoiceNumber")} value={order.invoiceNumber} />
+          ) : null}
+          {order.invoiceDate ? (
+            <DetailRow label={t("columns.invoiceDate")} value={formatDate(order.invoiceDate, locale)} numeric />
+          ) : null}
+          {order.reference ? (
+            <DetailRow label={t("columns.reference")} value={order.reference} />
+          ) : null}
+          {order.receivedAt ? (
+            <DetailRow label={t("detail.receivedAt")} value={formatDate(order.receivedAt, locale)} numeric />
+          ) : null}
+          <DetailRow label={t("form.subtotal")} value={formatMoney(totals.subtotal, locale)} numeric />
+          <DetailRow
+            label={order.vatRate === 0 ? t("form.vatExempt") : t("form.vat")}
+            value={formatMoney(totals.vat, locale)}
+            numeric
+          />
         </dl>
       </SectionCard>
 

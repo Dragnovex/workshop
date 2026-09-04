@@ -34,7 +34,9 @@ const EVERY_RESOURCE: Resource[] = [
   "vehicles",
   "inventory",
   "purchasing",
+  "suppliers",
   "invoices",
+  "returns",
   "accounting",
   "employees",
   "marketing",
@@ -56,7 +58,9 @@ export const rolePermissions: Record<Role, ReadonlySet<Permission>> = {
     vehicles: ALL,
     inventory: READ_WRITE,
     purchasing: ALL,
+    suppliers: ALL,
     invoices: READ_WRITE,
+    returns: READ_WRITE,
     accounting: READ_ONLY,
     employees: READ_WRITE,
     marketing: READ_WRITE,
@@ -71,6 +75,7 @@ export const rolePermissions: Record<Role, ReadonlySet<Permission>> = {
     vehicles: READ_WRITE,
     inventory: READ_ONLY,
     invoices: READ_ONLY,
+    returns: READ_ONLY,
     reports: READ_ONLY,
   }),
   technician: grant({
@@ -81,13 +86,18 @@ export const rolePermissions: Record<Role, ReadonlySet<Permission>> = {
   storekeeper: grant({
     inventory: ALL,
     purchasing: READ_WRITE,
+    // أمين المخزن يسجّل مورّدًا جديدًا لكن لا يحذفه — الحذف يمسّ سجلًا
+    // محاسبيًا مرتبطًا بفواتير شراء سابقة.
+    suppliers: READ_WRITE,
     workOrders: READ_ONLY,
     reports: READ_ONLY,
   }),
   accountant: grant({
     invoices: ALL,
+    returns: ALL,
     accounting: ALL,
     purchasing: READ_ONLY,
+    suppliers: READ_ONLY,
     customers: READ_ONLY,
     reports: READ_ONLY,
   }),

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { customers } from "@/modules/customers/data";
+import { repositories } from "@/server/repositories";
+
 import { InvoicesView } from "@/modules/invoices/components/invoices-view";
-import { invoices } from "@/modules/invoices/data";
 import { createInvoiceReadModels } from "@/modules/invoices/read-models";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,16 +25,18 @@ export default async function InvoicesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
 
-  const models = createInvoiceReadModels(invoices, customers, vehicles);
-  const stats = {
-    total: models.length,
-    overdue: models.filter(({ invoice }) => invoice.status === "overdue").length,
-    paid: models.filter(({ invoice }) => invoice.status === "paid").length,
-    outstandingValue: models.reduce((sum, { balanceDue, invoice }) => {
-      return invoice.status === "cancelled" ? sum : sum + balanceDue;
-    }, 0),
-  };
-
-  return <InvoicesView invoices={models} stats={stats} />;
+  const invoices = await repositories.invoices.findAll();
+  const models = createInvoiceReadModels(invoices, customers, vehicles, locale).filter(
+    ({ invoice }) => invoice.documentType === "invoice",
+  );
+  return (
+    <InvoicesView
+      invoices={models}
+      customers={customers}
+      vehicles={vehicles}
+    />
+  );
 }

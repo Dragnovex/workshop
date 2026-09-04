@@ -8,7 +8,7 @@ import { SectionCard } from "@/components/patterns/section-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatNumber } from "@/lib/format";
 import { EmployeeStatusBadge } from "./employee-status-badge";
 import type { Employee } from "../types";
 
@@ -71,6 +71,38 @@ export function EmployeeDetailView({ employee }: { employee: Employee }) {
               <dt className="text-xs text-muted-foreground">{t("detail.hireDate")}</dt>
               <dd data-numeric className="text-end text-sm font-medium">{formatDate(employee.hireDate, locale)}</dd>
             </div>
+            {/* الحقول النظامية تظهر فقط إن سُجّلت: صف بـ«—» لكل حقل غائب
+                يملأ البطاقة بفراغ بلا فائدة. */}
+            {employee.nationality ? (
+              <div className="flex items-center justify-between gap-4 px-4 py-3">
+                <dt className="text-xs text-muted-foreground">{t("columns.nationality")}</dt>
+                <dd className="text-end text-sm font-medium">{employee.nationality[lang]}</dd>
+              </div>
+            ) : null}
+            {employee.residencyNumber ? (
+              <div className="flex items-center justify-between gap-4 px-4 py-3">
+                <dt className="text-xs text-muted-foreground">{t("form.residencyNumber")}</dt>
+                <dd data-ltr data-numeric className="text-end text-sm font-medium">
+                  {employee.residencyNumber}
+                </dd>
+              </div>
+            ) : null}
+            {employee.startDate ? (
+              <div className="flex items-center justify-between gap-4 px-4 py-3">
+                <dt className="text-xs text-muted-foreground">{t("form.startDate")}</dt>
+                <dd data-numeric className="text-end text-sm font-medium">
+                  {formatDate(employee.startDate, locale)}
+                </dd>
+              </div>
+            ) : null}
+            {employee.weeklyHours !== undefined ? (
+              <div className="flex items-center justify-between gap-4 px-4 py-3">
+                <dt className="text-xs text-muted-foreground">{t("form.weeklyHours")}</dt>
+                <dd data-numeric className="text-end text-sm font-medium">
+                  {formatNumber(employee.weeklyHours, locale)}
+                </dd>
+              </div>
+            ) : null}
           </dl>
         </SectionCard>
       </div>

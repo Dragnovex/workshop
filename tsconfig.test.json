@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": "tmp/test-build",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "strict": false,
+    "resolveJsonModule": true,
+    "noEmitOnError": false,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/lib/services/invoice-service.ts",
+    "src/lib/services/daily-closing-service.ts",
+    "src/lib/zatca/qr.ts",
+    "src/lib/zatca/compliance.ts",
+    "src/lib/legal/company.ts",
+    "src/lib/domain/address.ts",
+    "src/lib/domain/audit.ts",
+    "src/lib/domain/contracts.ts",
+    "src/lib/domain/payment.ts",
+    "src/lib/validation/saudi.ts",
+    "src/modules/invoices/types.ts",
+    "src/modules/invoices/data.ts",
+    "src/modules/invoices/read-models.ts",
+    "src/modules/daily-closing/types.ts",
+    "src/modules/daily-closing/data.ts",
+    "src/modules/daily-closing/read-models.ts",
+    "src/modules/customers/data.ts",
+    "src/modules/vehicles/data.ts",
+    "src/lib/services/purchasing-service.ts",
+    "src/lib/date-range.ts",
+    "src/modules/inventory/types.ts",
+    "src/modules/purchasing/types.ts",
+    "src/modules/suppliers/types.ts",
+    "src/lib/auth/decide.ts",
+    "src/lib/auth/permissions.ts",
+    "src/lib/auth/types.ts",
+    "src/server/__tests__/calculations.test.ts"
+  ]
+}

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency, formatDate } from "@/lib/format";
+import { getVehicleDisplayName } from "@/modules/vehicles/display";
 import {
   getWorkOrderTotals,
   type WorkOrderReadModel,
@@ -22,8 +23,11 @@ import {
 
 export function RelatedWorkOrdersTable({
   workOrders,
+  showVehicle = false,
 }: {
   workOrders: WorkOrderReadModel[];
+  /** يُفعَّل من صفحة العميل حيث قد ترتبط الأوامر بأكثر من مركبة — غير مطلوب من صفحة المركبة. */
+  showVehicle?: boolean;
 }) {
   const t = useTranslations("workOrders");
   const tStatus = useTranslations("workOrders.status");
@@ -51,6 +55,11 @@ export function RelatedWorkOrdersTable({
             <TableHead className="text-xs whitespace-nowrap">
               {t("columns.status")}
             </TableHead>
+            {showVehicle ? (
+              <TableHead className="text-xs whitespace-nowrap">
+                {t("columns.vehicle")}
+              </TableHead>
+            ) : null}
             <TableHead className="text-end text-xs whitespace-nowrap">
               {t("columns.total")}
             </TableHead>
@@ -60,7 +69,7 @@ export function RelatedWorkOrdersTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {workOrders.map(({ order }) => {
+          {workOrders.map(({ order, vehicle }) => {
             const { total } = getWorkOrderTotals(order);
             return (
               <TableRow key={order.id} className="relative">
@@ -80,6 +89,11 @@ export function RelatedWorkOrdersTable({
                     label={tStatus(order.status)}
                   />
                 </TableCell>
+                {showVehicle ? (
+                  <TableCell data-numeric className="text-sm text-muted-foreground">
+                    {getVehicleDisplayName(vehicle, locale)}
+                  </TableCell>
+                ) : null}
                 <TableCell className="text-end whitespace-nowrap">
                   <span data-numeric className="text-sm font-medium">
                     {formatCurrency(total, locale)}

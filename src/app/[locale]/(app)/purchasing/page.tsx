@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { PurchasingView } from "@/modules/purchasing/components/purchasing-view";
-import { purchaseOrders } from "@/modules/purchasing/data";
-import { getPurchaseOrderTotal } from "@/modules/purchasing/read-models";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -22,16 +24,16 @@ export default async function PurchasingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const purchaseOrders = await repositories.purchasing.findAll();
+  // الموردون لاختيار مورّد الفاتورة، والقطع لأن الاستلام يزيد كمياتها.
+  const suppliers = await repositories.suppliers.findAll();
+  const parts = await repositories.inventory.findAll();
 
-  const pending = purchaseOrders.filter(
-    (order) => order.status === "ordered" || order.status === "partiallyReceived",
+  return (
+    <PurchasingView
+      orders={purchaseOrders}
+      suppliers={suppliers}
+      parts={parts}
+    />
   );
-  const stats = {
-    total: purchaseOrders.length,
-    ordered: purchaseOrders.filter((order) => order.status === "ordered").length,
-    partiallyReceived: purchaseOrders.filter((order) => order.status === "partiallyReceived").length,
-    pendingValue: pending.reduce((sum, order) => sum + getPurchaseOrderTotal(order), 0),
-  };
-
-  return <PurchasingView orders={purchaseOrders} stats={stats} />;
 }

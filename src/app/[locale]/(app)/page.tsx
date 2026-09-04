@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { PageHeader } from "@/components/patterns/page-header";
-import { SectionCard } from "@/components/patterns/section-card";
+import { CollapsibleSectionCard } from "@/components/patterns/collapsible-section-card";
 import { BayGrid } from "@/modules/dashboard/components/bay-grid";
 import { KpiGrid } from "@/modules/dashboard/components/kpi-grid";
 import { PipelineBoard } from "@/modules/dashboard/components/pipeline-board";
@@ -17,6 +17,8 @@ import {
   getRevenueSeries,
   getTechnicianLoad,
 } from "@/modules/dashboard/read-models";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -52,13 +54,15 @@ export default async function DashboardPage({
       <KpiGrid kpis={kpis} />
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <SectionCard
+        <CollapsibleSectionCard
           title={t("revenue.title")}
           subtitle={t("revenue.subtitle")}
           className="xl:col-span-2"
+          expandLabel={t("revenue.expand")}
+          collapseLabel={t("revenue.collapse")}
         >
           <RevenueChart series={revenueSeries} />
-        </SectionCard>
+        </CollapsibleSectionCard>
         <PipelineBoard pipeline={pipeline} />
       </div>
 

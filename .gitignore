@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/tmp
 
 # next.js
 /.next/
@@ -29,6 +30,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+build-*.log
+check.html
+/_backup-*/
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -39,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local seed data written by the server-side seed store (dev only)
+/.data

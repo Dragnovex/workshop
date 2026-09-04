@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SettingsView } from "@/modules/settings/components/settings-view";
 import { notificationSettings, preferences, systemUsers, workshopProfile } from "@/modules/settings/data";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

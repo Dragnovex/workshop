@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { customers } from "@/modules/customers/data";
+import { repositories } from "@/server/repositories";
+
 import { WorkOrdersView } from "@/modules/work-orders/components/work-orders-view";
-import { getWorkOrderStats, workOrders } from "@/modules/work-orders/data";
-import { createWorkOrderReadModels } from "@/modules/work-orders/read-models";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,11 +24,15 @@ export default async function WorkOrdersPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+  const workOrders = await repositories.workOrders.findAll();
 
   return (
     <WorkOrdersView
-      workOrders={createWorkOrderReadModels(workOrders, customers, vehicles)}
-      stats={getWorkOrderStats()}
+      initialOrders={workOrders}
+      customers={customers}
+      vehicles={vehicles}
     />
   );
 }

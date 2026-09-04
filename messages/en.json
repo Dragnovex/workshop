@@ -32,7 +32,33 @@
     "signOut": "Sign out",
     "help": "Help",
     "comingSoon": "Under construction",
-    "comingSoonBody": "This module is scheduled for a later phase. The shell and navigation are ready for it."
+    "comingSoonBody": "This module is scheduled for a later phase. The shell and navigation are ready for it.",
+    "paginationSummary": "{start}–{end} of {total}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "storageSaveFailed": "Could not save changes on this device — storage is full or blocked. Try again or use a different browser.",
+    "actions": "Actions",
+    "rowActions": "Row actions",
+    "deleteConfirmTitle": "Confirm deletion",
+    "deleteConfirmBody": "“{name}” will be permanently removed from this device. This cannot be undone.",
+    "deleted": "Record deleted",
+    "saved": "Changes saved",
+    "print": "Print",
+    "exportPdf": "Export PDF",
+    "exportCsv": "Export CSV",
+    "sendWhatsapp": "Send on WhatsApp",
+    "documentActions": "Document actions",
+    "noPhone": "No mobile number on file",
+    "from": "From date",
+    "to": "To date",
+    "clearFilters": "Clear filters",
+    "total": "Total",
+    "count": "Count",
+    "new": "New",
+    "required": "This field is required",
+    "exportPdfHint": "Choose “Save as PDF” as the print destination to save the document as a file.",
+    "invalidNumber": "Not a valid number",
+    "createdSuccess": "Record added"
   },
   "nav": {
     "groups": {
@@ -45,20 +71,23 @@
     "dashboard": "Dashboard",
     "workOrders": "Work Orders",
     "appointments": "Appointments",
-    "estimates": "Estimates",
+    "estimates": "Pricing",
     "customers": "Customers",
     "vehicles": "Vehicles",
     "inventory": "Inventory",
     "purchasing": "Purchasing",
     "invoices": "Invoices",
     "accounting": "Accounting",
+    "dailyClosing": "Daily Closing",
     "employees": "Employees",
     "marketing": "Marketing",
     "reports": "Reports",
     "settings": "Settings",
     "collapse": "Collapse sidebar",
     "expand": "Expand sidebar",
-    "toggleSidebar": "Toggle sidebar"
+    "toggleSidebar": "Toggle sidebar",
+    "suppliers": "Suppliers",
+    "returns": "Returns"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -111,9 +140,10 @@
       "forgot": "Forgot password?",
       "submit": "Sign in",
       "submitting": "Verifying…",
-      "notReady": "Authentication is wired in Phase 2. The interface is ready; the provider comes later.",
+      "notReady": "Authentication is built but not configured: the system is running on local demo data. Set up Supabase and DATA_SOURCE to enable sign-in.",
       "errorInvalid": "Incorrect email or password.",
-      "errorLocked": "Account temporarily locked after multiple attempts. Try again in 15 minutes."
+      "errorLocked": "Account temporarily locked after multiple attempts. Try again in 15 minutes.",
+      "errorNoProfile": "Your account is not activated in the system. Contact the workshop manager."
     },
     "forgot": {
       "title": "Reset your password",
@@ -179,7 +209,9 @@
       "title": "Revenue",
       "subtitle": "Last 7 days",
       "labor": "Labor",
-      "parts": "Parts"
+      "parts": "Parts",
+      "expand": "Expand",
+      "collapse": "Collapse"
     },
     "recentOrders": {
       "title": "Recent work orders",
@@ -213,7 +245,17 @@
   "errors": {
     "notFoundTitle": "Page not found",
     "notFoundBody": "The link you opened is invalid or the page has moved.",
-    "backHome": "Back to dashboard"
+    "backHome": "Back to dashboard",
+    "errorTitle": "Something went wrong",
+    "errorBody": "This page couldn't be displayed. Try again, and if the problem persists, contact support.",
+    "tryAgain": "Try again",
+    "action": {
+      "UNAUTHENTICATED": "Your session expired — sign in again",
+      "FORBIDDEN": "You do not have permission for this action",
+      "NOT_FOUND": "This record no longer exists — it may have been deleted on another device",
+      "INVALID_INPUT": "Invalid data — check the fields",
+      "STORAGE_FAILED": "Could not save the changes on the server. Please try again."
+    }
   },
   "workOrders": {
     "title": "Work orders",
@@ -223,6 +265,44 @@
     "searchPlaceholder": "Search by order, customer, vehicle or plate…",
     "filterAll": "All statuses",
     "openOrder": "Open order {number}",
+    "create": {
+      "description": "Simple order: customer, vehicle, complaint — the rest comes later.",
+      "customer": "Customer",
+      "customerPlaceholder": "Select customer",
+      "vehicle": "Vehicle",
+      "vehiclePlaceholder": "Select vehicle",
+      "noVehicles": "No vehicles for this customer",
+      "complaint": "Complaint",
+      "request": "Requested work (repair or part)",
+      "requestPlaceholder": "e.g. Replace front shock absorbers + computer diagnostics",
+      "requiredRequest": "Describe the requested work",
+      "complaintPlaceholder": "e.g. engine hesitation and vibration when stopped",
+      "priority": "Priority",
+      "submit": "Save order",
+      "saving": "Saving...",
+      "created": "Work order created",
+      "requiredCustomer": "Select a customer",
+      "requiredVehicle": "Select a vehicle",
+      "requiredComplaint": "Describe the complaint or request",
+      "newCustomer": "New customer",
+      "quickCustomerTitle": "Quick new customer",
+      "quickCustomerDescription": "Create a customer and their vehicle quickly without leaving this screen.",
+      "quickCustomerName": "Customer name",
+      "quickCustomerNamePlaceholder": "e.g. Mohammed Al-Otaibi",
+      "quickCustomerPhone": "Phone number",
+      "quickVehicleType": "Vehicle type",
+      "quickVehicleTypePlaceholder": "e.g. Toyota Camry",
+      "quickVehiclePlate": "Plate number",
+      "quickCustomerSave": "Save and add to order",
+      "quickCustomerRequiredName": "Enter the customer's name",
+      "quickCustomerRequiredVehicleType": "Enter the vehicle type",
+      "quickCustomerRequiredPlate": "Enter the plate number",
+      "quickCustomerCreated": "Customer and vehicle created"
+    },
+    "advance": {
+      "next": "Move to: {status}",
+      "to": "Order moved to: {status}"
+    },
     "stats": {
       "open": "Open orders",
       "awaitingApproval": "Awaiting approval",
@@ -255,6 +335,16 @@
     },
     "detail": {
       "back": "Back to orders",
+      "print": "Print",
+      "quickActions": "Quick actions",
+      "callCustomer": "Call customer",
+      "viewCustomer": "View customer profile",
+      "viewVehicle": "View vehicle profile",
+      "relations": "Related records",
+      "relationAppointment": "Related appointment",
+      "relationEstimate": "Related estimate",
+      "relationInvoice": "Related invoice",
+      "noRelations": "No appointments, estimates, or invoices linked to this order",
       "lifecycle": "Order lifecycle",
       "summary": "Order summary",
       "customer": "Customer",
@@ -294,7 +384,12 @@
       }
     },
     "relatedEmpty": "No work orders",
-    "relatedEmptyDescription": "No related work orders have been recorded."
+    "relatedEmptyDescription": "No related work orders have been recorded.",
+    "edit": {
+      "title": "Edit work order",
+      "description": "Change the status, technician, complaint or requested work. A status change is recorded on the timeline.",
+      "mileage": "Mileage at reception"
+    }
   },
   "appointments": {
     "title": "Appointments",
@@ -348,11 +443,38 @@
       "linkedWorkOrder": "Linked work order",
       "notes": "Notes",
       "notFoundTitle": "Appointment not found"
+    },
+    "new": {
+      "title": "New Appointment",
+      "subtitle": "Book an appointment for a customer — saved locally on this device.",
+      "basicInfo": "Appointment details",
+      "customer": "Customer",
+      "selectCustomer": "Select customer…",
+      "vehicle": "Vehicle",
+      "selectVehicle": "Select vehicle…",
+      "serviceAr": "Service type (Arabic)",
+      "serviceEn": "Service type (English)",
+      "dateTime": "Date & time",
+      "durationMinutes": "Duration (minutes)",
+      "save": "Save appointment",
+      "saved": "Appointment saved ✅",
+      "requiredCustomer": "Select customer and vehicle",
+      "requiredService": "Service type is required",
+      "requiredDate": "Pick a date and time",
+      "requiredVehicle": "Select a vehicle",
+      "invalidDate": "Invalid date or time",
+      "invalidDuration": "Duration must be a whole number greater than zero"
+    },
+    "edit": {
+      "title": "Edit appointment",
+      "description": "Update the appointment details or status.",
+      "duration": "Duration (minutes)",
+      "notes": "Notes"
     }
   },
   "estimates": {
-    "title": "Estimates",
-    "subtitle": "Customer quotes before conversion into work orders.",
+    "title": "Pricing",
+    "subtitle": "Price quotations issued to customers and their approval status.",
     "searchLabel": "Search estimates",
     "searchPlaceholder": "Search by estimate number, customer, or plate…",
     "statusFilterLabel": "Status filter",
@@ -398,7 +520,24 @@
       "total": "Total",
       "linkedWorkOrder": "Linked work order",
       "notes": "Notes",
-      "notFoundTitle": "Estimate not found"
+      "notFoundTitle": "Estimate not found",
+      "whatsappMessage": "Quotation {number} from Al-Numani Workshop. Estimated total {total} {currency}. Get in touch for any questions."
+    },
+    "newQuote": "New quotation",
+    "editQuote": "Edit quotation",
+    "form": {
+      "description": "An estimated quotation for the customer. The reference is assigned once and never changes on edit.",
+      "customerPlaceholder": "Select customer",
+      "vehiclePlaceholder": "Select vehicle",
+      "noVehicles": "No vehicles registered for this customer",
+      "requiredCustomer": "A customer must be selected",
+      "requiredVehicle": "A vehicle must be selected",
+      "requiredLine": "Add at least one line with a description",
+      "invalidValidUntil": "Invalid validity date",
+      "invalidQty": "Invalid quantity on one of the lines",
+      "invalidPrice": "Invalid price on one of the lines",
+      "addLine": "Add line",
+      "removeLine": "Remove line"
     }
   },
   "customers": {
@@ -449,7 +588,53 @@
         "orders": "Orders"
       },
       "openVehicle": "Open vehicle {name}",
-      "notAvailable": "Not available"
+      "notAvailable": "Not available",
+      "billing": {
+        "title": "Billing details",
+        "contactTitle": "Contact details",
+        "legalTitle": "Legal details",
+        "noLegalData": "No legal details registered for this customer",
+        "legalName": "Legal name",
+        "phone": "Phone",
+        "email": "Email",
+        "vatNumber": "VAT number",
+        "commercialRegistration": "Commercial registration",
+        "address": "Address"
+      }
+    },
+    "new": {
+      "title": "New Customer",
+      "subtitle": "Add a new customer — saved locally on this device.",
+      "basicInfo": "Basic information",
+      "kind": "Customer type",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "phone": "Phone number",
+      "email": "Email (optional)",
+      "save": "Save customer",
+      "saved": "Customer saved ✅",
+      "nameRequired": "Name is required",
+      "phoneInvalid": "Invalid Saudi mobile number — use 05xxxxxxxx or +9665xxxxxxxx",
+      "emailInvalid": "Invalid email address",
+      "kindInstitution": "Institution",
+      "legalInfo": "Legal information",
+      "legalName": "Full legal name",
+      "vatNumber": "VAT number",
+      "vatRequired": "VAT number is required for companies and institutions",
+      "vatInvalid": "VAT number must be 15 digits starting and ending with 3",
+      "crNumber": "Commercial registration (optional)",
+      "crInvalid": "Commercial registration must be 10 digits",
+      "nationalAddress": "National address (optional)",
+      "buildingNo": "Building no.",
+      "street": "Street",
+      "district": "District",
+      "city": "City",
+      "postalCode": "Postal code",
+      "whatsapp": "Message on WhatsApp"
+    },
+    "edit": {
+      "title": "Edit customer",
+      "description": "Update the customer’s details. The VAT number stays mandatory for companies and institutions."
     }
   },
   "inventory": {
@@ -498,6 +683,14 @@
         "reorderLevel": "Reorder level",
         "totalValue": "Total value"
       }
+    },
+    "newPart": "New part",
+    "editPart": "Edit part",
+    "form": {
+      "description": "Part details as shown in inventory and on work order lines.",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "reorderLevel": "Reorder level"
     }
   },
   "purchasing": {
@@ -519,7 +712,10 @@
       "supplier": "Supplier",
       "total": "Total",
       "expected": "Expected",
-      "status": "Status"
+      "status": "Status",
+      "invoiceNumber": "Supplier invoice no.",
+      "invoiceDate": "Invoice date",
+      "reference": "Reference"
     },
     "status": {
       "draft": "Draft",
@@ -530,7 +726,7 @@
     },
     "detail": {
       "back": "Back to purchasing",
-      "notFoundTitle": "Purchase order not found",
+      "notFoundTitle": "Purchase invoice not found",
       "summary": "Order summary",
       "orderedAt": "Order date",
       "items": "Line items",
@@ -541,6 +737,39 @@
         "unitCost": "Unit cost",
         "lineTotal": "Total"
       },
+      "total": "Total",
+      "notes": "Notes",
+      "whatsappMessage": "Regarding purchase invoice {number}, total {total} {currency}.",
+      "receivedAt": "Received on"
+    },
+    "newInvoice": "Purchase invoice",
+    "editInvoice": "Edit purchase invoice",
+    "receive": {
+      "action": "Receive",
+      "confirmButton": "Confirm receipt",
+      "confirm": "The contents of invoice “{number}” ({count} lines) will be added to inventory for real. This cannot be undone, and each invoice is received only once.",
+      "alreadyReceived": "This invoice has already been received — its contents are not added to inventory twice.",
+      "done": "Added to inventory: {updated} items updated and {created} new items."
+    },
+    "form": {
+      "description": "A purchase invoice from a registered supplier. VAT applies only if the supplier is VAT registered.",
+      "supplierPlaceholder": "Select supplier",
+      "requiredSupplier": "A supplier must be selected",
+      "requiredInvoiceNumber": "The supplier invoice number is required",
+      "requiredInvoiceDate": "Invalid invoice date",
+      "requiredLine": "Add at least one line with a description",
+      "invalidQty": "Invalid quantity on one of the lines",
+      "invalidCost": "Invalid cost on one of the lines",
+      "lines": "Lines",
+      "addLine": "Add line",
+      "removeLine": "Remove line",
+      "lineSku": "SKU",
+      "lineDescription": "Description",
+      "lineQty": "Qty",
+      "lineCost": "Cost",
+      "subtotal": "Subtotal",
+      "vat": "VAT 15%",
+      "vatExempt": "No VAT (unregistered supplier)",
       "total": "Total",
       "notes": "Notes"
     }
@@ -555,6 +784,20 @@
       "all": "All vehicles",
       "active": "In workshop",
       "inactive": "No open order"
+    },
+    "statusFilterLabel": "Filter by vehicle status",
+    "filterAllStatuses": "All statuses",
+    "status": {
+      "title": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "sold": "Sold"
+    },
+    "fuelType": {
+      "gasoline": "Gasoline",
+      "diesel": "Diesel",
+      "hybrid": "Hybrid",
+      "electric": "Electric"
     },
     "openVehicle": "Open vehicle {name}",
     "noActiveOrder": "No open order",
@@ -590,21 +833,36 @@
       "year": "Model year",
       "plate": "Plate",
       "vin": "VIN",
+      "color": "Color",
+      "fuelType": "Fuel type",
+      "status": "Vehicle status",
+      "mileage": "Recorded mileage",
       "owner": "Owner",
       "workOrders": "Work order history"
     },
     "customerKind": {
       "individual": "Individual customer",
       "company": "Company customer"
+    },
+    "newVehicle": "New vehicle",
+    "editVehicle": "Edit vehicle",
+    "form": {
+      "description": "Vehicle details and its owner. Plate and VIN are entered in Latin characters.",
+      "make": "Make",
+      "model": "Model",
+      "year": "Year",
+      "vin": "VIN"
     }
   },
   "invoices": {
     "title": "Invoices",
-    "subtitle": "Customer invoices linked to work orders and payment status.",
+    "subtitle": "Tax and simplified customer invoices, linked to work orders and payment status.",
     "searchLabel": "Search invoices",
     "searchPlaceholder": "Search by invoice number, customer, or plate…",
     "statusFilterLabel": "Status filter",
+    "kindFilterLabel": "Kind filter",
     "filterAll": "All statuses",
+    "filterAllKinds": "All kinds",
     "openInvoice": "Open invoice {number}",
     "stats": {
       "total": "Total invoices",
@@ -614,18 +872,30 @@
     },
     "columns": {
       "number": "Invoice #",
+      "kind": "Kind",
       "customer": "Customer",
       "vehicle": "Vehicle",
       "total": "Total",
+      "supplyDate": "Supply date",
       "dueAt": "Due date",
       "status": "Status"
     },
+    "kind": {
+      "standard": "Tax (B2B)",
+      "simplified": "Simplified (B2C)"
+    },
     "status": {
-      "unpaid": "Unpaid",
+      "draft": "Draft",
+      "issued": "Issued",
       "partiallyPaid": "Partially paid",
       "paid": "Paid",
       "overdue": "Overdue",
       "cancelled": "Cancelled"
+    },
+    "taxCategory": {
+      "standard": "Standard 15%",
+      "zeroRated": "Zero-rated",
+      "exempt": "Exempt"
     },
     "customerKind": {
       "individual": "Individual",
@@ -633,22 +903,83 @@
     },
     "detail": {
       "back": "Back to invoices",
-      "subtitle": "Issued on {date}",
+      "print": "Print",
+      "locked": "Locked",
+      "subtitle": "Supply date {date}",
       "notFoundTitle": "Invoice not found",
-      "customer": "Customer",
+      "seller": "Seller",
+      "buyer": "Buyer",
+      "legalName": "Legal name",
+      "vatNumber": "VAT number",
+      "commercialRegistration": "Commercial registration",
+      "address": "Address",
       "vehicle": "Vehicle",
       "items": "Line items",
       "columns": {
         "description": "Description",
         "qty": "Qty",
         "unitPrice": "Unit price",
+        "discount": "Discount",
+        "taxCategory": "Tax category",
+        "tax": "Tax",
         "lineTotal": "Total"
       },
       "subtotal": "Subtotal",
-      "vat": "VAT ({rate}%)",
-      "total": "Total incl. VAT",
+      "taxTotal": "Total VAT",
+      "grandTotal": "Total incl. VAT",
       "balanceDue": "Balance due",
-      "linkedWorkOrder": "Linked work order"
+      "qrTitle": "QR Code",
+      "qrSubtitle": "Phase 1 minimum five fields",
+      "links": "Links",
+      "linkedWorkOrder": "Linked work order",
+      "noteInfo": "Note details",
+      "relatedInvoice": "Related to invoice",
+      "reason": "Reason",
+      "auditLog": "Audit log",
+      "manualAdjustment": "Manual adjustment",
+      "whatsappMessage": "Invoice {number} from Al-Numani Workshop, total {total} {currency}. Thank you for your business."
+    },
+    "new": {
+      "title": "New Invoice",
+      "subtitle": "Create a simplified invoice as a draft — saved locally on this device.",
+      "basicInfo": "Invoice details",
+      "customer": "Customer",
+      "selectCustomer": "Select customer…",
+      "vehicle": "Vehicle",
+      "vehicleOptional": "No vehicle",
+      "lineItems": "Line items",
+      "addLine": "Add line",
+      "lineDescription": "Description",
+      "lineQty": "Qty",
+      "linePrice": "Price",
+      "removeLine": "Remove line",
+      "total": "Total",
+      "save": "Save draft",
+      "saved": "Invoice saved as draft ✅",
+      "requiredCustomer": "Select a customer",
+      "requiredLine": "Add at least one line with a price",
+      "invalidQty": "Quantity must be a number greater than zero",
+      "invalidPrice": "Price must be a positive number",
+      "paymentMethod": "Payment method",
+      "walkInCustomer": "Walk-in customer (unregistered)",
+      "customerOptional": "Customer (optional)",
+      "lineDiscount": "Discount",
+      "discountTotal": "Total discount",
+      "invalidDiscount": "Discount must be a positive number not exceeding the line total",
+      "print": "Print",
+      "saveAndPrint": "Save and print"
+    },
+    "paymentMethodOptions": {
+      "cash": "Cash",
+      "card": "Card / POS",
+      "bankTransfer": "Bank transfer",
+      "credit": "Credit"
+    },
+    "edit": {
+      "title": "Edit draft",
+      "subtitle": "A draft stays editable until it is issued. After issuance it is locked by regulation.",
+      "locked": "Invoice locked",
+      "lockedError": "This invoice has been issued and cannot be edited. Issue a credit or debit note to correct it."
     }
   },
   "accounting": {
@@ -693,6 +1024,138 @@
       "linkedInvoice": "Linked invoice",
       "linkedPurchaseOrder": "Linked purchase order",
       "notes": "Notes"
+    },
+    "ledgers": {
+      "exported": "File exported",
+      "periodTotal": "Period total ({count} records)",
+      "purchases": {
+        "title": "Purchases ledger",
+        "subtitle": "Purchase invoices over a selected period with total VAT.",
+        "searchLabel": "Search the purchases ledger",
+        "searchPlaceholder": "Search by order no., supplier invoice or name…",
+        "columns": {
+          "date": "Date",
+          "number": "Order no.",
+          "invoiceNumber": "Supplier invoice",
+          "supplier": "Supplier",
+          "status": "Status",
+          "subtotal": "Net",
+          "vat": "VAT",
+          "total": "Total"
+        }
+      },
+      "workOrders": {
+        "title": "Work orders ledger",
+        "subtitle": "Work orders over a selected period, split into labour and parts.",
+        "searchLabel": "Search the work orders ledger",
+        "searchPlaceholder": "Search by order no., customer or plate…",
+        "columns": {
+          "date": "Date",
+          "number": "Order no.",
+          "customer": "Customer",
+          "vehicle": "Vehicle",
+          "status": "Status",
+          "labor": "Labour",
+          "parts": "Parts",
+          "total": "Total"
+        }
+      }
+    }
+  },
+  "dailyClosing": {
+    "title": "Daily Closing",
+    "subtitle": "Daily sales, receipts, expenses, purchases, and carried balance.",
+    "searchLabel": "Search daily sheets",
+    "searchPlaceholder": "Search by date (YYYY-MM-DD)…",
+    "statusFilterLabel": "Status filter",
+    "filterAll": "All statuses",
+    "openClosing": "Open sheet {date}",
+    "entryNumber": "Entry No.",
+    "branch": "Branch",
+    "cashAccount": "Cash / Account",
+    "stats": {
+      "closed": "Closed sheets",
+      "draft": "Draft sheets",
+      "latestBalance": "Latest carried balance"
+    },
+    "columns": {
+      "date": "Date",
+      "opening": "Carried-forward balance",
+      "receipts": "Receipts",
+      "expenses": "Expenses",
+      "purchases": "Purchases",
+      "closingBalance": "Closing balance",
+      "status": "Status"
+    },
+    "status": {
+      "draft": "Draft",
+      "closed": "Closed"
+    },
+    "sections": {
+      "sales": "Daily Sales",
+      "receipts": "Cash Receipts",
+      "expenses": "Expenses",
+      "purchases": "Purchases"
+    },
+    "entryColumns": {
+      "reference": "Reference",
+      "description": "Description",
+      "paymentMethod": "Payment Method",
+      "responsible": "Responsible",
+      "amount": "Amount"
+    },
+    "paymentMethod": {
+      "cash": "Cash",
+      "card": "Card",
+      "bankTransfer": "Bank Transfer",
+      "credit": "Credit"
+    },
+    "totals": {
+      "opening": "Carried-forward Balance",
+      "receipts": "Receipts",
+      "expenses": "Expenses",
+      "purchases": "Purchases",
+      "sales": "Sales",
+      "dailyNet": "Daily Net",
+      "closingBalance": "Closing Balance"
+    },
+    "detail": {
+      "back": "Back to daily closing",
+      "print": "Print",
+      "save": "Save",
+      "savedLocally": "Changes saved for this session",
+      "unsavedChanges": "Unsaved changes",
+      "locked": "Locked",
+      "subtitle": "Full breakdown of today's activity",
+      "entrySubtitle": "Enter today's expenses and purchases — totals are calculated automatically.",
+      "entryHeader": "Entry Details",
+      "notFoundTitle": "Sheet not found",
+      "noEntries": "No entries",
+      "addRow": "Add row",
+      "removeRow": "Remove row",
+      "finalCalculations": "Final Calculations",
+      "totalDailySales": "Daily Work Orders",
+      "totalReceipts": "Total Receipts",
+      "totalExpenses": "Total Expenses",
+      "totalPurchases": "Total Purchases",
+      "weekday": "Day",
+      "preliminaryNet": "Preliminary Net",
+      "deductPurchases": "Less: Purchases",
+      "deductExpenses": "Less: Expenses",
+      "grossTotal": "Grand Total",
+      "netDaily": "Net Daily",
+      "notesTitle": "Notes",
+      "notesPlaceholder": "Any notes on today's sheet…",
+      "autoLinkedTitle": "Sales & Receipts",
+      "autoLinkedSubtitle": "Automatically linked to issued invoices — read only",
+      "closure": "Closure details",
+      "closedBy": "Closed By",
+      "reviewedBy": "Reviewed By Accountant",
+      "auditLog": "Audit log",
+      "manualAdjustment": "Manual adjustment",
+      "negativeAmount": "Amount cannot be negative — check the line: {description}",
+      "emptyDescription": "(no description)",
+      "whatsappMessage": "Daily closing, entry {entry} — internal document."
     }
   },
   "employees": {
@@ -714,7 +1177,8 @@
       "department": "Department",
       "phone": "Phone",
       "hireDate": "Hire date",
-      "status": "Status"
+      "status": "Status",
+      "nationality": "Nationality"
     },
     "department": {
       "technicians": "Technicians",
@@ -736,6 +1200,20 @@
       "phone": "Phone",
       "email": "Email",
       "hireDate": "Hire date"
+    },
+    "newEmployee": "New employee",
+    "editEmployee": "Edit employee",
+    "form": {
+      "description": "Statutory employee details as used in labour and insurance filings.",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "email": "Email",
+      "residencyNumber": "Iqama / ID number",
+      "residencyHint": "Ten digits. Leave empty if not yet issued.",
+      "residencyInvalid": "The Iqama/ID number must be ten digits",
+      "startDate": "Start date",
+      "startDateHint": "The actual first working day — may differ from the contract date.",
+      "weeklyHours": "Weekly working hours"
     }
   },
   "marketing": {
@@ -782,6 +1260,29 @@
       "startDate": "Start date",
       "endDate": "End date",
       "notes": "Notes"
+    },
+    "studio": {
+      "title": "Content studio",
+      "subtitle": "Three slots for posts and images — write, then copy and publish.",
+      "slot": "Post {number}",
+      "statusLabel": "Status of post {number}",
+      "slotTitle": "Title",
+      "slotBody": "Post text",
+      "slotBodyPlaceholder": "Start with the problem the customer knows…",
+      "slotMedia": "Image or video link",
+      "copyPost": "Copy post",
+      "copyHook": "Copy hook",
+      "copied": "Copied to clipboard",
+      "copyFailed": "Copy failed — select the text and copy it manually",
+      "status": {
+        "idea": "Idea",
+        "ready": "Ready",
+        "published": "Published"
+      },
+      "hooks": "Ready-made hooks",
+      "hooksSubtitle": "Proven opening lines — copy and adapt them.",
+      "instructions": "Writing rules",
+      "instructionsSubtitle": "Short rules that govern every post before it goes out."
     }
   },
   "reports": {
@@ -817,6 +1318,60 @@
       "back": "Back to reports",
       "notFoundTitle": "Report not found",
       "summary": "Report summary"
+    },
+    "builder": {
+      "title": "Report builder",
+      "subtitle": "Pick a source and a period, then generate — available sources follow your role's permissions.",
+      "source": "Report source",
+      "generate": "Generate report",
+      "exported": "File exported",
+      "emptyResult": "No records within the selected period",
+      "total": "Total ({count} records)",
+      "noSources": "No sources available",
+      "noSourcesBody": "Your current role cannot read any of the report sources.",
+      "sources": {
+        "workOrders": "Work orders",
+        "purchases": "Purchases",
+        "returns": "Returns",
+        "quotes": "Pricing",
+        "dailyClosing": "Daily closing"
+      },
+      "noteType": {
+        "creditNote": "Credit note",
+        "debitNote": "Debit note",
+        "invoice": "Invoice"
+      },
+      "quoteStatus": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "expired": "Expired"
+      },
+      "columns": {
+        "date": "Date",
+        "number": "Number",
+        "customer": "Customer",
+        "vehicle": "Vehicle",
+        "supplier": "Supplier",
+        "invoiceNumber": "Supplier invoice",
+        "labor": "Labour",
+        "parts": "Parts",
+        "subtotal": "Net",
+        "vat": "VAT",
+        "total": "Total",
+        "type": "Type",
+        "relatedInvoice": "Original invoice",
+        "reason": "Reason",
+        "status": "Status",
+        "validUntil": "Valid until",
+        "entryNumber": "Entry no.",
+        "opening": "Opening balance",
+        "inflow": "Inflow",
+        "outflow": "Outflow",
+        "net": "Daily net",
+        "closing": "Closing balance"
+      }
     }
   },
   "settings": {
@@ -867,6 +1422,118 @@
         "advisor": "Service advisor",
         "accountant": "Accountant"
       }
+    }
+  },
+  "permissions": {
+    "denied": "You do not have permission for this action",
+    "deniedDescription": "Your current role does not allow this operation. Contact your administrator.",
+    "roleLabel": "Role",
+    "previewTitle": "Preview role",
+    "previewDescription": "Local seed mode with no real authentication. Switching the role here only changes what the UI allows — it is not a session and grants no data access.",
+    "sessionRoleTitle": "Session role",
+    "sessionRoleDescription": "Authentication is enabled — the role comes from the real session and cannot be switched here.",
+    "roles": {
+      "owner": "Owner",
+      "manager": "Workshop manager",
+      "serviceAdvisor": "Service advisor",
+      "technician": "Technician",
+      "storekeeper": "Storekeeper",
+      "accountant": "Accountant",
+      "receptionist": "Receptionist"
+    },
+    "permissionCount": "{count} permissions",
+    "switchRole": "Switch role",
+    "switched": "Role is now: {role}",
+    "switchFailed": "Could not save the role on this device"
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "subtitle": "A single register of suppliers with their tax details and payment terms.",
+    "newSupplier": "New supplier",
+    "editSupplier": "Edit supplier",
+    "searchLabel": "Search suppliers",
+    "searchPlaceholder": "Search by supplier name or VAT number…",
+    "termsFilterLabel": "Filter by payment terms",
+    "filterAll": "All terms",
+    "deleteWarning": "Supplier “{name}” will be permanently removed. Past purchase invoices keep the name recorded at purchase time and are unaffected.",
+    "stats": {
+      "total": "Total suppliers",
+      "withVat": "VAT registered",
+      "credit": "On credit"
+    },
+    "columns": {
+      "name": "Supplier",
+      "vatNumber": "VAT number",
+      "phone": "Mobile",
+      "paymentTerms": "Payment terms",
+      "reference": "Reference"
+    },
+    "paymentTerms": {
+      "cash": "Cash",
+      "credit": "Credit",
+      "bankTransfer": "Bank transfer"
+    },
+    "form": {
+      "description": "Supplier details as shown on purchase invoices and in the purchases ledger.",
+      "nameAr": "Name (Arabic)",
+      "nameEn": "Name (English)",
+      "cr": "Commercial registration",
+      "email": "Email",
+      "vatHint": "15 digits. Leave empty for a supplier that is not VAT registered.",
+      "vatInvalid": "Invalid VAT number — 15 digits starting and ending with 3.",
+      "buildingNo": "Building number",
+      "street": "Street",
+      "district": "District",
+      "city": "City",
+      "postalCode": "Postal code",
+      "notes": "Notes"
+    }
+  },
+  "returns": {
+    "title": "Returns",
+    "subtitle": "Credit and debit notes linked to issued invoices.",
+    "newNote": "New note",
+    "editNote": "Edit note",
+    "searchLabel": "Search returns",
+    "searchPlaceholder": "Search by note, invoice or customer…",
+    "typeFilterLabel": "Filter by note type",
+    "filterAll": "All types",
+    "type": {
+      "creditNote": "Credit note",
+      "debitNote": "Debit note"
+    },
+    "stats": {
+      "total": "Total notes",
+      "credit": "Credit",
+      "debit": "Debit",
+      "creditValue": "Returned value"
+    },
+    "columns": {
+      "number": "Note no.",
+      "type": "Type",
+      "relatedInvoice": "Original invoice",
+      "customer": "Customer",
+      "reason": "Reason",
+      "total": "Amount",
+      "date": "Date"
+    },
+    "form": {
+      "description": "A note is a separate document referring to the original invoice — an issued invoice is never edited.",
+      "invoicePlaceholder": "Select the original invoice",
+      "reasonPlaceholder": "e.g. Returned a non-matching part",
+      "requiredInvoice": "The original invoice must be selected",
+      "requiredReason": "A reason for the note is required",
+      "requiredLine": "Add at least one line with a description",
+      "invalidQty": "Invalid quantity on one of the lines",
+      "invalidPrice": "Invalid price on one of the lines",
+      "exceedsOriginal": "The note amount exceeds the original invoice total",
+      "lines": "Lines",
+      "addLine": "Add line",
+      "removeLine": "Remove line",
+      "lineDescription": "Description",
+      "lineQty": "Qty",
+      "linePrice": "Price",
+      "total": "Total incl. VAT"
     }
   }
 }

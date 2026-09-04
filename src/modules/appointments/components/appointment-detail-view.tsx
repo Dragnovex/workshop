@@ -2,20 +2,73 @@
 
 import { ArrowRight, Car, Clock, UserRound } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/patterns/page-header";
 import { SectionCard } from "@/components/patterns/section-card";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import type { Customer, Vehicle } from "@/lib/domain/contracts";
 import { formatDateTime } from "@/lib/format";
+import { loadStoredCustomers } from "@/modules/customers/client-store";
 import { getVehicleDisplayName } from "@/modules/vehicles/display";
+import { loadStoredAppointments } from "../client-store";
 import { AppointmentStatusBadge } from "./appointment-status-badge";
-import type { AppointmentReadModel } from "../read-models";
+import { createLocalAppointmentReadModel } from "../read-models";
+import type { Appointment } from "../types";
 
-export function AppointmentDetailView({ model }: { model: AppointmentReadModel }) {
+/**
+ * المواعيد المُنشأة من الواجهة (/appointments/new) تعيش في localStorage
+ * فقط — الخادم لا يراها. نمرّر بذرة الخادم كما هي وندمجها مع التخزين
+ * المحلي على العميل، مع حالة "غير موجود" حقيقية بدل notFound() الخادمي
+ * الذي كان يُخفي كل موعد أُنشئ من الواجهة عن صفحته الخاصة.
+ */
+export function AppointmentDetailView({
+  id,
+  initialAppointments,
+  customers,
+  vehicles,
+}: {
+  id: string;
+  initialAppointments: Appointment[];
+  customers: Customer[];
+  vehicles: Vehicle[];
+}) {
   const t = useTranslations("appointments");
   const locale = useLocale();
   const lang = locale === "en" ? "en" : "ar";
+
+  const [appointments] = useState<Appointment[]>(() =>
+    loadStoredAppointments(initialAppointments),
+  );
+  const [storedCustomers] = useState<Customer[]>(() => loadStoredCustomers(customers));
+
+  const model = useMemo(() => {
+    const appointment = appointments.find((item) => item.id === id);
+    if (!appointment) return null;
+    return createLocalAppointmentReadModel(
+      appointment,
+      [...customers, ...storedCustomers],
+      vehicles,
+    );
+  }, [appointments, customers, storedCustomers, vehicles, id]);
+
+  if (!model) {
+    return (
+      <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5 py-20 text-center">
+        <h1 className="text-2xl font-semibold">{t("detail.notFoundTitle")}</h1>
+        <div>
+          <Button asChild variant="outline">
+            <Link href="/appointments">
+              <ArrowRight className="size-4 ltr:rotate-180" />
+              {t("detail.back")}
+            </Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   const { appointment, customer, vehicle } = model;
 
   return (

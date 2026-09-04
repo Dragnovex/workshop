@@ -1,39 +1,81 @@
 import type { Customer, Vehicle } from "@/lib/domain/contracts";
+import {
+  getInvoiceTotals,
+  getSimplifiedQrPayload,
+  isInvoiceLocked,
+  type InvoiceTotals,
+} from "@/lib/services/invoice-service";
 import type { Invoice } from "./types";
+import { isWalkInCustomerId, walkInCustomer } from "./walk-in-customer";
+
+export { getInvoiceTotals, getInvoiceLineTotals } from "@/lib/services/invoice-service";
+export type { InvoiceTotals } from "@/lib/services/invoice-service";
 
 export type InvoiceReadModel = {
   invoice: Invoice;
   customer: Customer;
-  vehicle: Vehicle;
-  subtotal: number;
-  vat: number;
-  total: number;
-  balanceDue: number;
+  vehicle?: Vehicle;
+  totals: InvoiceTotals;
+  locked: boolean;
+  /** محسوبة مسبقًا للّغة الحالية — لا دوال داخل الكائن (يعبر حدود Server/Client Components). */
+  qrPayload: string | null;
 };
 
-export function getInvoiceTotals(invoice: Invoice) {
-  const subtotal = invoice.items.reduce((sum, item) => sum + item.qty * item.unitPrice, 0);
-  const vat = subtotal * invoice.vatRate;
-  const total = subtotal + vat;
-  return { subtotal, vat, total, balanceDue: total - invoice.paidAmount };
-}
-
 export function createInvoiceReadModels(
-  invoices: Invoice[],
+  invoiceList: Invoice[],
   customers: Customer[],
   vehicles: Vehicle[],
+  locale: string,
 ): InvoiceReadModel[] {
   const customersById = new Map(customers.map((customer) => [customer.id, customer]));
   const vehiclesById = new Map(vehicles.map((vehicle) => [vehicle.id, vehicle]));
 
-  return invoices.map((invoice) => {
+  return invoiceList.map((invoice) => {
     const customer = customersById.get(invoice.customerId);
-    const vehicle = vehiclesById.get(invoice.vehicleId);
-
-    if (!customer || !vehicle || vehicle.customerId !== customer.id) {
+    if (!customer) {
       throw new Error(`Invalid mock relationship for invoice ${invoice.id}`);
     }
+    const vehicle = invoice.vehicleId ? vehiclesById.get(invoice.vehicleId) : undefined;
 
-    return { invoice, customer, vehicle, ...getInvoiceTotals(invoice) };
+    return {
+      invoice,
+      customer,
+      vehicle,
+      totals: getInvoiceTotals(invoice),
+      locked: isInvoiceLocked(invoice),
+      qrPayload: getSimplifiedQrPayload(invoice, locale),
+    };
   });
+}
+
+/**
+ * نسخة آمنة للعميل من `createInvoiceReadModels` لفاتورة واحدة — لا تفترض
+ * سلامة بيانات البذرة (`throw`)، بل تتعامل مع فاتورة أُنشئت في المتصفح:
+ * تعرف العميل النقدي (walk-in)، وتعيد `null` بدل الانهيار إن تعذّر الربط
+ * فعليًا (بيانات تالفة)، ليعرض المستدعي حالة "غير موجودة" بدل شاشة بيضاء.
+ */
+export function createLocalInvoiceReadModel(
+  invoice: Invoice,
+  customers: Customer[],
+  vehicles: Vehicle[],
+  locale: string,
+): InvoiceReadModel | null {
+  const customer =
+    customers.find((item) => item.id === invoice.customerId) ??
+    (isWalkInCustomerId(invoice.customerId) ? walkInCustomer : undefined);
+  if (!customer) return null;
+
+  const vehicle = invoice.vehicleId
+    ? vehicles.find((item) => item.id === invoice.vehicleId)
+    : undefined;
+
+  return {
+    invoice,
+    customer,
+    vehicle,
+    totals: getInvoiceTotals(invoice),
+    // الفواتير المخزَّنة محليًا مسودات دائمًا في هذه المرحلة — لا حالة "صادرة" بعد.
+    locked: isInvoiceLocked(invoice),
+    qrPayload: getSimplifiedQrPayload(invoice, locale),
+  };
 }

@@ -475,3 +475,46 @@
   );
   background-size: 28px 28px;
 }
+
+/* --------------------------------------------------------------------------
+   6) طباعة A4 — للفواتير وتقفيل اليومية
+   -------------------------------------------------------------------------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  /*
+   * هيكل التطبيق لا يُطبع.
+   *
+   * بدون هذه القاعدة كانت كل طباعة (فاتورة، تسعير، تقفيل يومية) تخرج
+   * ومعها الشريط الجانبي والشريط العلوي وقائمة التنقّل — وهي ليست جزءًا
+   * من المستند الرسمي، وتلتهم عرض الصفحة فينكمش الجدول.
+   * الإخفاء هنا مركزي لأن العيب كان في التخطيط لا في كل شاشة على حدة.
+   */
+  [data-slot="sidebar-wrapper"] > [data-slot="sidebar"],
+  [data-slot="sidebar-container"],
+  [data-slot="sidebar-gap"],
+  [data-slot="sidebar-rail"],
+  header {
+    display: none !important;
+  }
+
+  /* منطقة المحتوى تأخذ عرض الورقة كاملًا بلا هوامش الشريط الجانبي. */
+  [data-slot="sidebar-inset"] {
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}

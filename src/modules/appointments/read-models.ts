@@ -26,3 +26,18 @@ export function createAppointmentReadModels(
     return { appointment, customer, vehicle };
   });
 }
+
+/**
+ * نسخة آمنة للعميل لموعد واحد — تعيد `null` بدل `throw` عند تعذّر الربط،
+ * لموعد أُنشئ في المتصفح (عميل/مركبة قد يكونان محفوظين محليًا هما أيضًا).
+ */
+export function createLocalAppointmentReadModel(
+  appointment: Appointment,
+  customers: Customer[],
+  vehicles: Vehicle[],
+): AppointmentReadModel | null {
+  const customer = customers.find((item) => item.id === appointment.customerId);
+  const vehicle = vehicles.find((item) => item.id === appointment.vehicleId);
+  if (!customer || !vehicle || vehicle.customerId !== customer.id) return null;
+  return { appointment, customer, vehicle };
+}

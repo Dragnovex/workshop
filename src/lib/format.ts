@@ -24,6 +24,15 @@ export function formatCurrency(value: number, locale: string): string {
   }).format(value);
 }
 
+/** بدقة هللتين — للمستندات المحاسبية (فواتير، تقفيل يومية) حيث التقريب يهم. */
+export function formatMoney(value: number, locale: string): string {
+  return new Intl.NumberFormat(numberLocale(locale), {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export function formatCompact(value: number, locale: string): string {
   return new Intl.NumberFormat(numberLocale(locale), {
     notation: "compact",
@@ -70,4 +79,12 @@ export function shortWeekday(dayOffset: number, locale: string): string {
   return new Intl.DateTimeFormat(numberLocale(locale), {
     weekday: "short",
   }).format(date);
+}
+
+/** اسم اليوم الكامل لتاريخ محدد (بصيغة YYYY-MM-DD) — لحقل «اليوم» في تقفيل اليومية. */
+export function formatWeekdayName(dateOnly: string, locale: string): string {
+  return new Intl.DateTimeFormat(numberLocale(locale), {
+    weekday: "long",
+    timeZone: WORKSHOP_TIME_ZONE,
+  }).format(new Date(`${dateOnly}T12:00:00+03:00`));
 }

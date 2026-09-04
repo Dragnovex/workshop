@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { CustomersView } from "@/modules/customers/components/customers-view";
-import { customers } from "@/modules/customers/data";
 import {
   createCustomerReadModels,
-  getCustomerStats,
 } from "@/modules/customers/read-models";
-import { workOrders } from "@/modules/work-orders/data";
 import { createWorkOrderReadModels } from "@/modules/work-orders/read-models";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -28,6 +28,9 @@ export default async function CustomersPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+  const workOrders = await repositories.workOrders.findAll();
 
   const joinedOrders = createWorkOrderReadModels(
     workOrders,
@@ -36,5 +39,5 @@ export default async function CustomersPage({
   );
   const models = createCustomerReadModels(customers, vehicles, joinedOrders);
 
-  return <CustomersView customers={models} stats={getCustomerStats(models)} />;
+  return <CustomersView customers={models} />;
 }

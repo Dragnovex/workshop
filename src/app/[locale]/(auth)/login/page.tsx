@@ -3,6 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { LoginForm } from "@/modules/auth/components/login-form";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

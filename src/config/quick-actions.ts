@@ -21,9 +21,9 @@ export type QuickAction = {
 };
 
 export const quickActions: QuickAction[] = [
-  { key: "newWorkOrder", href: "/work-orders/new", icon: FilePlus2, shortcut: "W", available: false },
-  { key: "receiveVehicle", href: "/work-orders/receive", icon: CarFront, shortcut: "R", available: false },
-  { key: "newCustomer", href: "/customers/new", icon: UserPlus, shortcut: "C", available: false },
-  { key: "newAppointment", href: "/appointments/new", icon: CalendarPlus, shortcut: "A", available: false },
-  { key: "newInvoice", href: "/invoices/new", icon: Receipt, shortcut: "I", available: false },
+  { key: "newWorkOrder", href: "/work-orders?new=1", icon: FilePlus2, shortcut: "W", available: true },
+  { key: "receiveVehicle", href: "/work-orders?new=1", icon: CarFront, shortcut: "R", available: true },
+  { key: "newCustomer", href: "/customers/new", icon: UserPlus, shortcut: "C", available: true },
+  { key: "newAppointment", href: "/appointments/new", icon: CalendarPlus, shortcut: "A", available: true },
+  { key: "newInvoice", href: "/invoices/new", icon: Receipt, shortcut: "I", available: true },
 ];

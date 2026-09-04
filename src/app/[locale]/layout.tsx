@@ -26,9 +26,9 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
+// كل الصفحات ديناميكية — يعالج خطأ Next.js 16.2.x (workStore invariant) أثناء التوليد الثابت.
+// (أُزيل generateStaticParams: وجوده يجعل Next يولّد كل الصفحات ثابتًا ويصطدم بالخلل.)
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -60,12 +60,12 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  setRequestLocale(locale);
 
   return (
     <html

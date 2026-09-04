@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { customers } from "@/modules/customers/data";
-import { workOrders } from "@/modules/work-orders/data";
+import { repositories } from "@/server/repositories";
+
 import { createWorkOrderReadModels } from "@/modules/work-orders/read-models";
 import { VehiclesView } from "@/modules/vehicles/components/vehicles-view";
-import { vehicles } from "@/modules/vehicles/data";
 import {
   createVehicleReadModels,
-  getVehicleStats,
 } from "@/modules/vehicles/read-models";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -28,6 +28,9 @@ export default async function VehiclesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+  const workOrders = await repositories.workOrders.findAll();
 
   const joinedOrders = createWorkOrderReadModels(
     workOrders,
@@ -36,5 +39,12 @@ export default async function VehiclesPage({
   );
   const models = createVehicleReadModels(vehicles, customers, joinedOrders);
 
-  return <VehiclesView vehicles={models} stats={getVehicleStats(models)} />;
+  // العملاء يُمرَّرون أيضًا: نموذج «مركبة جديدة» يحتاج قائمة المالكين،
+  // ومركبة بلا مالك سجل يتيم لا معنى له في هذا النظام.
+  return (
+    <VehiclesView
+      vehicles={models}
+      customers={customers}
+    />
+  );
 }

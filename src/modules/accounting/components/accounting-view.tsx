@@ -5,7 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/patterns/page-header";
+import { SortableTableHead, nextSortState, type SortDirection } from "@/components/patterns/sortable-table-head";
 import { StatCard } from "@/components/patterns/stat-card";
+import { TablePagination } from "@/components/patterns/table-pagination";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -29,6 +31,9 @@ import { transactionCategories, type AccountingTransaction, type TransactionCate
 
 type TypeFilter = "all" | TransactionType;
 type CategoryFilter = "all" | TransactionCategory;
+type SortKey = "reference" | "account" | "date" | "amount";
+
+const PAGE_SIZE = 10;
 
 export function AccountingView({
   transactions,
@@ -44,22 +49,53 @@ export function AccountingView({
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
+  const [sortKey, setSortKey] = useState<SortKey | null>("date");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return transactions
-      .filter((tx) => {
-        if (typeFilter !== "all" && tx.type !== typeFilter) return false;
-        if (categoryFilter !== "all" && tx.category !== categoryFilter) return false;
-        if (!query) return true;
-        return (
-          tx.reference.toLowerCase().includes(query) ||
-          tx.account.ar.toLowerCase().includes(query) ||
-          tx.account.en.toLowerCase().includes(query)
-        );
-      })
-      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+    return transactions.filter((tx) => {
+      if (typeFilter !== "all" && tx.type !== typeFilter) return false;
+      if (categoryFilter !== "all" && tx.category !== categoryFilter) return false;
+      if (!query) return true;
+      return (
+        tx.reference.toLowerCase().includes(query) ||
+        tx.account.ar.toLowerCase().includes(query) ||
+        tx.account.en.toLowerCase().includes(query)
+      );
+    });
   }, [categoryFilter, search, transactions, typeFilter]);
+
+  const sorted = useMemo(() => {
+    if (!sortKey || !sortDirection) return filtered;
+    const factor = sortDirection === "asc" ? 1 : -1;
+    return [...filtered].sort((a, b) => {
+      switch (sortKey) {
+        case "reference":
+          return factor * a.reference.localeCompare(b.reference);
+        case "account":
+          return factor * a.account[lang].localeCompare(b.account[lang]);
+        case "date":
+          return factor * (Date.parse(a.date) - Date.parse(b.date));
+        case "amount":
+          return factor * (a.amount - b.amount);
+        default:
+          return 0;
+      }
+    });
+  }, [filtered, lang, sortDirection, sortKey]);
+
+  const pageCount = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const paged = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  function handleSort(key: SortKey) {
+    const next = nextSortState(sortKey, sortDirection, key);
+    setSortKey(next.key);
+    setSortDirection(next.direction);
+    setPage(1);
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
@@ -78,12 +114,21 @@ export function AccountingView({
           <Input
             id="tx-search"
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setPage(1);
+            }}
             placeholder={t("searchPlaceholder")}
             className="ps-9"
           />
         </div>
-        <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value as TypeFilter)}>
+        <Select
+          value={typeFilter}
+          onValueChange={(value) => {
+            setTypeFilter(value as TypeFilter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger aria-label={t("typeFilterLabel")} className="w-full sm:w-40">
             <SelectValue />
           </SelectTrigger>
@@ -93,7 +138,13 @@ export function AccountingView({
             <SelectItem value="debit">{t("type.debit")}</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value as CategoryFilter)}>
+        <Select
+          value={categoryFilter}
+          onValueChange={(value) => {
+            setCategoryFilter(value as CategoryFilter);
+            setPage(1);
+          }}
+        >
           <SelectTrigger aria-label={t("categoryFilterLabel")} className="w-full sm:w-52">
             <SelectValue />
           </SelectTrigger>
@@ -113,22 +164,22 @@ export function AccountingView({
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="ps-4 text-xs whitespace-nowrap">{t("columns.reference")}</TableHead>
-                <TableHead className="text-xs whitespace-nowrap">{t("columns.account")}</TableHead>
+                <SortableTableHead label={t("columns.reference")} sortKey="reference" activeKey={sortKey} direction={sortDirection} onSort={handleSort} className="ps-4" />
+                <SortableTableHead label={t("columns.account")} sortKey="account" activeKey={sortKey} direction={sortDirection} onSort={handleSort} />
                 <TableHead className="text-xs whitespace-nowrap">{t("columns.category")}</TableHead>
-                <TableHead className="text-xs whitespace-nowrap">{t("columns.date")}</TableHead>
-                <TableHead className="pe-4 text-end text-xs whitespace-nowrap">{t("columns.amount")}</TableHead>
+                <SortableTableHead label={t("columns.date")} sortKey="date" activeKey={sortKey} direction={sortDirection} onSort={handleSort} />
+                <SortableTableHead label={t("columns.amount")} sortKey="amount" activeKey={sortKey} direction={sortDirection} onSort={handleSort} align="end" className="pe-4" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.length === 0 ? (
+              {paged.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="py-12 text-center text-sm text-muted-foreground">
                     {tCommon("noResults")}
                   </TableCell>
                 </TableRow>
               ) : (
-                filtered.map((tx) => (
+                paged.map((tx) => (
                   <TableRow key={tx.id} className="relative cursor-pointer">
                     <TableCell data-ltr className="ps-4">
                       <Link
@@ -156,6 +207,7 @@ export function AccountingView({
             </TableBody>
           </Table>
         </div>
+        <TablePagination page={currentPage} pageCount={pageCount} totalItems={sorted.length} pageSize={PAGE_SIZE} onPageChange={setPage} />
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { EstimatesView } from "@/modules/estimates/components/estimates-view";
-import { estimates } from "@/modules/estimates/data";
 import { createEstimateReadModels } from "@/modules/estimates/read-models";
-import { customers } from "@/modules/customers/data";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,15 +25,15 @@ export default async function EstimatesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const customers = await repositories.customers.findAll();
+  const estimates = await repositories.estimates.findAll();
+  const vehicles = await repositories.vehicles.findAll();
 
   const models = createEstimateReadModels(estimates, customers, vehicles);
-  const approved = models.filter(({ estimate }) => estimate.status === "approved");
-  const stats = {
-    total: models.length,
-    sent: models.filter(({ estimate }) => estimate.status === "sent").length,
-    approved: approved.length,
-    approvedValue: approved.reduce((sum, { total }) => sum + total, 0),
-  };
 
-  return <EstimatesView estimates={models} stats={stats} />;
+  // العملاء والمركبات تُمرَّر أيضًا: نموذج التسعير يختار منهما، وقائمة
+  // العروض تعيد الربط على العميل لتشمل ما أُنشئ محليًا.
+  return (
+    <EstimatesView estimates={models} customers={customers} vehicles={vehicles} />
+  );
 }

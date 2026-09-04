@@ -2,6 +2,7 @@
 
 import { Bell, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import {
@@ -15,8 +16,9 @@ import { UserMenu } from "@/components/layout/user-menu";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import type { SessionUser } from "@/lib/auth/types";
 
-export function AppHeader() {
+export function AppHeader({ user }: { user: SessionUser | null }) {
   const t = useTranslations("common");
   const tNav = useTranslations("nav");
   const { open, setOpen } = useCommandPalette();
@@ -55,14 +57,20 @@ export function AppHeader() {
             <Search className="size-4" />
           </Button>
 
+          {/*
+            لا يوجد مصدر إشعارات بعد. النقطة الحمراء أُزيلت لأنها كانت تدّعي
+            وجود إشعارات غير مقروءة، والزر يعلن حالته الحقيقية بدل الصمت.
+          */}
           <Button
             variant="ghost"
             size="icon"
+            onClick={() =>
+              toast.info(t("notifications"), { description: t("comingSoonBody") })
+            }
             aria-label={t("notifications")}
             className="relative size-8 text-muted-foreground hover:text-foreground"
           >
             <Bell className="size-4" />
-            <span className="absolute top-1.5 end-1.5 size-1.5 rounded-full bg-primary ring-2 ring-background" />
           </Button>
 
           <ThemeToggle />
@@ -71,7 +79,7 @@ export function AppHeader() {
           <Separator orientation="vertical" className="mx-1 h-5" />
 
           <QuickActionsMenu />
-          <UserMenu />
+          <UserMenu user={user} />
         </div>
       </header>
 

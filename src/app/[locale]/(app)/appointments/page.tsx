@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { AppointmentsView } from "@/modules/appointments/components/appointments-view";
-import { appointments } from "@/modules/appointments/data";
 import { createAppointmentReadModels } from "@/modules/appointments/read-models";
-import { customers } from "@/modules/customers/data";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,22 +25,16 @@ export default async function AppointmentsPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const appointments = await repositories.appointments.findAll();
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
 
   const models = createAppointmentReadModels(appointments, customers, vehicles);
-  const now = new Date();
-  const stats = {
-    total: models.length,
-    today: models.filter(({ appointment }) => {
-      const date = new Date(appointment.scheduledAt);
-      return (
-        date.getFullYear() === now.getFullYear() &&
-        date.getMonth() === now.getMonth() &&
-        date.getDate() === now.getDate()
-      );
-    }).length,
-    requested: models.filter(({ appointment }) => appointment.status === "requested").length,
-    confirmed: models.filter(({ appointment }) => appointment.status === "confirmed").length,
-  };
-
-  return <AppointmentsView appointments={models} stats={stats} />;
+  return (
+    <AppointmentsView
+      appointments={models}
+      customers={customers}
+      vehicles={vehicles}
+    />
+  );
 }

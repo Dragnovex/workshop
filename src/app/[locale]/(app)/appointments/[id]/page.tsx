@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+
+import { repositories } from "@/server/repositories";
 
 import { AppointmentDetailView } from "@/modules/appointments/components/appointment-detail-view";
-import { appointments } from "@/modules/appointments/data";
-import { createAppointmentReadModels } from "@/modules/appointments/read-models";
-import { customers } from "@/modules/customers/data";
-import { vehicles } from "@/modules/vehicles/data";
+
+export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
@@ -14,11 +13,12 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: "appointments" });
-  const appointment = appointments.find((item) => item.id === id);
+  const appointment = await repositories.appointments.findById(id);
   const lang = locale === "en" ? "en" : "ar";
+  // قد يكون الموعد محفوظًا في localStorage فقط — العنوان الحقيقي "غير
+  // موجود" يُقرَّر على العميل بعد الدمج، فلا نستبقه هنا.
   return {
-    title: appointment?.serviceType[lang] ?? t("detail.notFoundTitle"),
+    title: appointment?.serviceType[lang] ?? id,
   };
 }
 
@@ -26,10 +26,19 @@ export default async function AppointmentDetailPage({ params }: PageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const model = createAppointmentReadModels(appointments, customers, vehicles).find(
-    ({ appointment }) => appointment.id === id,
-  );
+  // المواعيد المُنشأة من الواجهة تعيش في localStorage فقط ولا يراها الخادم.
+  // نمرّر بذرة الخادم كما هي؛ الدمج مع التخزين المحلي وحالة "غير موجود"
+  // الحقيقية تتم على العميل (نفس نمط أوامر التشغيل والفواتير والعملاء).
+  const appointments = await repositories.appointments.findAll();
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
 
-  if (!model) notFound();
-  return <AppointmentDetailView model={model} />;
+  return (
+    <AppointmentDetailView
+      id={id}
+      initialAppointments={appointments}
+      customers={customers}
+      vehicles={vehicles}
+    />
+  );
 }

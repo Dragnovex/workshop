@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { EmployeesView } from "@/modules/employees/components/employees-view";
-import { employees } from "@/modules/employees/data";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -21,6 +24,7 @@ export default async function EmployeesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const employees = await repositories.employees.findAll();
 
   return <EmployeesView employees={employees} />;
 }

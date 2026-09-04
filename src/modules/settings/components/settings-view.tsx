@@ -4,6 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { PageHeader } from "@/components/patterns/page-header";
+import { RolePreviewCard } from "./role-preview-card";
 import { SectionCard } from "@/components/patterns/section-card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -36,6 +37,9 @@ export function SettingsView({
   return (
     <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
       <PageHeader title={t("title")} description={t("subtitle")} />
+
+      {/* الدور الفعّال أولًا: كل ما تحته من إعدادات يخضع لصلاحياته. */}
+      <RolePreviewCard />
 
       <SectionCard title={t("profile.title")} subtitle={t("profile.subtitle")} contentClassName="p-0">
         <dl className="divide-y divide-border">

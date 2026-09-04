@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  BookLock,
   Calculator,
   CalendarDays,
   Car,
@@ -9,8 +10,10 @@ import {
   Megaphone,
   Package,
   Receipt,
+  RotateCcw,
   Settings,
   ShoppingCart,
+  Truck,
   UserCog,
   Users,
   type LucideIcon,
@@ -84,16 +87,24 @@ export const navigation: NavGroup[] = [
         icon: ShoppingCart,
         status: "ready",
       },
+      { key: "suppliers", href: "/suppliers", icon: Truck, status: "ready" },
     ],
   },
   {
     key: "finance",
     items: [
       { key: "invoices", href: "/invoices", icon: Receipt, status: "ready" },
+      { key: "returns", href: "/returns", icon: RotateCcw, status: "ready" },
       {
         key: "accounting",
         href: "/accounting",
         icon: Calculator,
+        status: "ready",
+      },
+      {
+        key: "dailyClosing",
+        href: "/daily-closing",
+        icon: BookLock,
         status: "ready",
       },
     ],

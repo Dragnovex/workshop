@@ -1,8 +1,11 @@
 "use client";
 
-import { ArrowRight, Car, UserRound } from "lucide-react";
+import { ArrowRight, Car, FileWarning, UserRound } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 
+import { DocumentActions } from "@/components/patterns/document-actions";
+import { EmptyState } from "@/components/patterns/empty-state";
 import { PageHeader } from "@/components/patterns/page-header";
 import { SectionCard } from "@/components/patterns/section-card";
 import { Button } from "@/components/ui/button";
@@ -17,19 +20,61 @@ import {
 } from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
+import type { Customer, Vehicle } from "@/lib/domain/contracts";
+import { loadStoredCustomers } from "@/modules/customers/client-store";
+import { loadStoredVehicles } from "@/modules/vehicles/client-store";
 import { getVehicleDisplayName } from "@/modules/vehicles/display";
 import { EstimateStatusBadge } from "./estimate-status-badge";
-import type { EstimateReadModel } from "../read-models";
+import { QuotePrint } from "./quote-print";
+import { estimateStore } from "../client-store";
+import type { Estimate } from "../types";
+import { getEstimateTotal, type EstimateReadModel } from "../read-models";
 
-export function EstimateDetailView({ model }: { model: EstimateReadModel }) {
+/**
+ * تفاصيل عرض السعر.
+ *
+ * العرض قد يكون محفوظًا في localStorage فقط ولا يراه الخادم — لذلك
+ * يستقبل المكوّن بذرة الخادم ويحلّ المعرّف على العميل بعد الدمج، بدل
+ * أن تُرجع الصفحة 404 لعرض أنشأه المستخدم قبل دقيقة.
+ */
+export function EstimateDetailView({
+  id,
+  seedEstimates,
+  customers,
+  vehicles,
+}: {
+  id: string;
+  seedEstimates: Estimate[];
+  customers: Customer[];
+  vehicles: Vehicle[];
+}) {
   const t = useTranslations("estimates");
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const lang = locale === "en" ? "en" : "ar";
+
+  const [estimates] = useState(() => estimateStore.load(seedEstimates));
+  const [allCustomers] = useState(() => loadStoredCustomers(customers));
+  const [allVehicles] = useState(() => loadStoredVehicles(vehicles));
+
+  const model = useMemo((): EstimateReadModel | null => {
+    const estimate = estimates.find((item) => item.id === id);
+    if (!estimate) return null;
+    const customer = allCustomers.find((item) => item.id === estimate.customerId);
+    const vehicle = allVehicles.find((item) => item.id === estimate.vehicleId);
+    if (!customer || !vehicle) return null;
+    return { estimate, customer, vehicle, total: getEstimateTotal(estimate) };
+  }, [allCustomers, allVehicles, estimates, id]);
+
+  if (!model) {
+    return <EmptyState icon={FileWarning} title={t("detail.notFoundTitle")} />;
+  }
+
   const { estimate, customer, vehicle, total } = model;
 
   return (
-    <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5">
+    <>
+    <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-5 print:hidden">
       <PageHeader
         title={
           <span className="flex flex-wrap items-center gap-2" data-ltr>
@@ -39,12 +84,23 @@ export function EstimateDetailView({ model }: { model: EstimateReadModel }) {
         }
         description={t("detail.subtitle", { date: formatDate(estimate.createdAt, locale) })}
         actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/estimates">
-              <ArrowRight aria-hidden="true" className="size-4 ltr:rotate-180" />
-              {t("detail.back")}
-            </Link>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            {/* رسالة واتساب تحمل المرجع والإجمالي: العميل يحتاجهما لا رابطًا. */}
+            <DocumentActions
+              phone={customer.phone}
+              message={t("detail.whatsappMessage", {
+                number: estimate.number,
+                total: formatCurrency(total, locale),
+                currency: tCommon("currency"),
+              })}
+            />
+            <Button asChild variant="outline" size="sm" className="print:hidden">
+              <Link href="/estimates">
+                <ArrowRight aria-hidden="true" className="size-4 ltr:rotate-180" />
+                {t("detail.back")}
+              </Link>
+            </Button>
+          </div>
         }
       />
 
@@ -129,5 +185,9 @@ export function EstimateDetailView({ model }: { model: EstimateReadModel }) {
         </SectionCard>
       ) : null}
     </div>
+
+    {/* نسخة الطباعة الرسمية — مخفية على الشاشة، تظهر عند الطباعة فقط. */}
+    <QuotePrint model={model} locale={locale} />
+    </>
   );
 }

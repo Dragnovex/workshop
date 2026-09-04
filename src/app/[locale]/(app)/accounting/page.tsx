@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { repositories } from "@/server/repositories";
+
 import { AccountingView } from "@/modules/accounting/components/accounting-view";
-import { transactions } from "@/modules/accounting/data";
+import { LedgersView } from "@/modules/accounting/components/ledgers-view";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -21,10 +25,28 @@ export default async function AccountingPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const transactions = await repositories.accounting.findAll();
 
   const totalCredit = transactions.filter((tx) => tx.type === "credit").reduce((sum, tx) => sum + tx.amount, 0);
   const totalDebit = transactions.filter((tx) => tx.type === "debit").reduce((sum, tx) => sum + tx.amount, 0);
   const stats = { totalCredit, totalDebit, net: totalCredit - totalDebit };
 
-  return <AccountingView transactions={transactions} stats={stats} />;
+  // السجلات المحاسبية (مشتريات وأوامر تشغيل) تُقرأ من نفس المستودع:
+  // شاشة المحاسبة هي مكان البحث بالتاريخ والتصدير، لا شاشة كل وحدة.
+  const purchaseOrders = await repositories.purchasing.findAll();
+  const workOrders = await repositories.workOrders.findAll();
+  const customers = await repositories.customers.findAll();
+  const vehicles = await repositories.vehicles.findAll();
+
+  return (
+    <div className="mx-auto flex w-full max-w-[100rem] flex-col gap-6">
+      <AccountingView transactions={transactions} stats={stats} />
+      <LedgersView
+        purchaseOrders={purchaseOrders}
+        workOrders={workOrders}
+        customers={customers}
+        vehicles={vehicles}
+      />
+    </div>
+  );
 }
