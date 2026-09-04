@@ -1,6 +1,6 @@
 import "server-only";
 
-import { getSupabaseAdmin } from "@/server/db/supabase";
+import { getSupabaseServerClient } from "@/server/db/supabase-server";
 
 import type { DailyClosing } from "@/modules/daily-closing/types";
 import type { Invoice } from "@/modules/invoices/types";
@@ -87,7 +87,7 @@ function createSupabaseCollection<Row, T>({
 }): CollectionRepository<T> {
   return {
     async findAll() {
-      const result = await getSupabaseAdmin()
+      const result = await (await getSupabaseServerClient())
         .from(table)
         .select(select)
         .order(orderBy, { ascending });
@@ -96,7 +96,7 @@ function createSupabaseCollection<Row, T>({
 
     async findById(id: string) {
       // maybeSingle: عدم وجود صف ليس خطأً — يعيد null ليعرض الاستدعاء 404.
-      const result = await getSupabaseAdmin()
+      const result = await (await getSupabaseServerClient())
         .from(table)
         .select(select)
         .eq("id", id)
@@ -133,7 +133,7 @@ function createWritableSupabaseCollection<Row, T extends { id: string }>(options
     ...reader,
 
     async create(value: T) {
-      const result = await getSupabaseAdmin()
+      const result = await (await getSupabaseServerClient())
         .from(table)
         .insert(toRow(value))
         .select(select)
@@ -142,7 +142,7 @@ function createWritableSupabaseCollection<Row, T extends { id: string }>(options
     },
 
     async update(id: string, patch: Partial<T>) {
-      const result = await getSupabaseAdmin()
+      const result = await (await getSupabaseServerClient())
         .from(table)
         .update(toRow(patch))
         .eq("id", id)
@@ -154,7 +154,7 @@ function createWritableSupabaseCollection<Row, T extends { id: string }>(options
     },
 
     async remove(id: string) {
-      const result = await getSupabaseAdmin().from(table).delete().eq("id", id);
+      const result = await (await getSupabaseServerClient()).from(table).delete().eq("id", id);
       if (result.error) {
         throw new Error(`فشل استعلام ${table}.remove: ${result.error.message}`);
       }
@@ -183,7 +183,7 @@ const invoices: InvoiceRepository = {
   }),
 
   async findByCustomerId(customerId: string) {
-    const result = await getSupabaseAdmin()
+    const result = await (await getSupabaseServerClient())
       .from("invoices")
       .select(INVOICE_SELECT)
       .eq("customer_id", customerId)
@@ -205,7 +205,7 @@ const dailyClosings: DailyClosingRepository = {
   }),
 
   async findByDate(date: string) {
-    const result = await getSupabaseAdmin()
+    const result = await (await getSupabaseServerClient())
       .from("daily_closings")
       .select(DAILY_CLOSING_SELECT)
       .eq("closing_date", date)
