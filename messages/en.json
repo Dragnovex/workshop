@@ -161,6 +161,9 @@
       "confirmPassword": "Confirm password",
       "submit": "Save password",
       "submitting": "Saving…",
+      "success": "Your password was saved. You can now sign in.",
+      "errorExpired": "This reset link has expired or is invalid. Request a new link.",
+      "errorUnavailable": "Authentication is not configured right now.",
       "strength": {
         "label": "Password strength",
         "weak": "Weak",

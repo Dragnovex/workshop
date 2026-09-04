@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { createBrowserClient } from "@supabase/ssr";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -34,6 +35,8 @@ const meterColors = [
 export function ResetPasswordForm() {
   const t = useTranslations("auth.reset");
   const tv = useTranslations("auth.validation");
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
+  const [saved, setSaved] = React.useState(false);
 
   const schema = React.useMemo(
     () =>
@@ -63,8 +66,27 @@ export function ResetPasswordForm() {
   const score = scorePassword(password);
   const strengthKeys = ["weak", "weak", "fair", "good", "strong"] as const;
 
-  async function onSubmit() {
-    await new Promise((resolve) => setTimeout(resolve, 700));
+  async function onSubmit(values: z.infer<typeof schema>) {
+    setSubmitError(null);
+    setSaved(false);
+
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !anonKey) {
+      setSubmitError(t("errorUnavailable"));
+      return;
+    }
+
+    // ينشئ العميل جلسة الاسترداد من access_token الموجود في رابط البريد،
+    // ثم يحدّث كلمة المرور على حساب المستخدم نفسه.
+    const supabase = createBrowserClient(url, anonKey);
+    const { error } = await supabase.auth.updateUser({ password: values.password });
+    if (error) {
+      setSubmitError(t("errorExpired"));
+      return;
+    }
+
+    setSaved(true);
   }
 
   return (
@@ -134,6 +156,20 @@ export function ResetPasswordForm() {
           )}
         </Button>
       </form>
+
+      {saved ? (
+        <div role="status" className="flex items-start gap-2.5 rounded-lg border border-success/30 bg-success/5 px-3 py-2.5">
+          <CheckCircle2 className="mt-px size-4 shrink-0 text-success" />
+          <p className="text-xs leading-5 text-success">{t("success")}</p>
+        </div>
+      ) : null}
+
+      {submitError ? (
+        <div role="alert" className="flex items-start gap-2.5 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5">
+          <AlertCircle className="mt-px size-4 shrink-0 text-destructive" />
+          <p className="text-xs leading-5 text-destructive">{submitError}</p>
+        </div>
+      ) : null}
     </div>
   );
 }
